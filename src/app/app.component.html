@@ -3,7 +3,9 @@
   <p role="alert">
     This is the main page of the game, choose board size and others...
   </p>
-  <button (click)="goToGame()">Start Game!</button>
+  <button (click)="goToGame(3)">Start 8!</button>
+  <button (click)="goToGame(4)">Start 15!</button>
+  <button (click)="goToGame(5)">Start 24!</button>
 
 </div> <!-- end main page of the application. -->
 
@@ -12,6 +14,8 @@
 
   <p role="alert">
     Here will be the board and the game itself.
+    <br>
+    Variant chosen: {{ boardSize }} x {{ boardSize }}.
   </p>
   <button (click)="goToMain()">Go back!</button>
 

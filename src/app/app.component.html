@@ -1,22 +1,44 @@
 <!-- The main page of the application, currSection = 0: -->
-<div *ngIf="currSection == 0">
+<div *ngIf="currSection == 0" class="container">
   <p role="alert">
     This is the main page of the game, choose board size and others...
   </p>
-  <button (click)="goToGame(3)">Start 8!</button>
-  <button (click)="goToGame(4)">Start 15!</button>
-  <button (click)="goToGame(5)">Start 24!</button>
-
-</div> <!-- end main page of the application. -->
+  <button (click)="goToGame(3)" class="btn">Start 8!</button>
+  <button (click)="goToGame(4)" class="btn">Start 15!</button>
+  <button (click)="goToGame(5)" class="btn">Start 24!</button>
+</div>
+<!-- end main page of the application. -->
 
 <!-- The game zone, second page of the application, currSection = 1: -->
-<div *ngIf="currSection == 1">
+<div *ngIf="currSection == 1" class="container">
+  <p role="alert">Variant chosen: {{ boardSize }} x {{ boardSize }}.</p>
 
-  <p role="alert">
-    Here will be the board and the game itself.
-    <br>
-    Variant chosen: {{ boardSize }} x {{ boardSize }}.
-  </p>
-  <button (click)="goToMain()">Go back!</button>
+  <div
+    class="board"
+    [ngClass]="{
+      grid3: boardSize == 3,
+      grid4: boardSize == 4,
+      grid5: boardSize == 5
+    }"
+  >
+    <div
+      *ngFor="let piece of pieces"
+      class="piece"
+      [ngClass]="{ 'invisible-piece': piece.number == 0 }"
+      (click)="move(piece)"
+      [style.transform]="
+        'translateX(' +
+        (this.selectedPiece == piece ? distanceX : 0) +
+        'px) ' +
+        'translateY(' +
+        (this.selectedPiece == piece ? distanceY : 0) +
+        'px)'
+      "
+    >
+      {{ piece.number }}
+    </div>
+  </div>
 
-</div> <!-- end game zone, second page of the application. -->
+  <button (click)="goToMain()" class="btn">Go back!</button>
+</div>
+<!-- end game zone, second page of the application. -->

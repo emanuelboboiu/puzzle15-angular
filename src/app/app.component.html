@@ -1,10 +1,6 @@
 <!-- The main page of the application, currSection = 0: -->
 <div *ngIf="currSection == 0" class="container">
-  <img
-    class="logo"
-    src="../assets/logo.png"
-    alt='logo, a wooden puzzle saying "15 PUZZLE"'
-  />
+  <img class="logo" src="../assets/logo.png" alt='Game Logo - A wooden puzzle saying "15 PUZZLE"' />
   <button (click)="goToGame(3)" class="btn">3X3</button>
   <button (click)="goToGame(4)" class="btn">4X4</button>
   <button (click)="goToGame(5)" class="btn">5X5</button>
@@ -20,45 +16,34 @@
     </p>
   </div>
   <!-- end timer div  -->
-  <p *ngIf="gameWon" class="gameWon">
+  <p *ngIf="gameWon" class="gameWon" role="alert">
     Congratulations! <br />
     You won!
   </p>
   <!-- div for making the board look 3d -->
   <div class="board-sides">
     <!-- board div  -->
-    <div
-      class="board"
-      [ngClass]="{
+    <div class="board" [ngClass]="{
         grid3: boardSize == 3,
         grid4: boardSize == 4,
         grid5: boardSize == 5
-      }"
-    >
+      }">
       <!-- pieces -->
-      <div
-        *ngFor="let piece of pieces"
-        class="piece"
-        [ngClass]="{
+      <div *ngFor="let piece of pieces" class="piece" [ngClass]="{
           'invisible-piece': piece.number == 0
-        }"
-        (click)="move(piece)"
-        [style.transform]="
+        }" (click)="move(piece)" [style.transform]="
           'translateX(' +
           (this.selectedPiece == piece ? distanceX : 0) +
           'px) ' +
           'translateY(' +
           (this.selectedPiece == piece ? distanceY : 0) +
           'px)'
-        "
-      >
-        <p
-          [ngClass]="{
+        ">
+        <p [ngClass]="{
             piece3: boardSize == 3,
             piece4: boardSize == 4,
             piece5: boardSize == 5
-          }"
-        >
+          }">
           {{ piece.number }}
         </p>
       </div>
@@ -71,3 +56,6 @@
   <button (click)="goToMain()" class="btn">Go back!</button>
 </div>
 <!-- end game zone, second page of the application. -->
+
+<!-- Here the sound available in all the pages.-->
+<app-audio-tags></app-audio-tags>

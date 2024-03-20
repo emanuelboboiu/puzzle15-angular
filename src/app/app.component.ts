@@ -1,14 +1,16 @@
 import { Component, HostListener, NgModule } from '@angular/core';
 import { NgClass, NgFor, NgIf } from '@angular/common';
+import { AudioTagsComponent } from './audio-tags/audio-tags.component';
 import { RequestsService } from './requests.service';
 import { piece } from './piece.type';
 import { timer, Subscription } from 'rxjs';
 import party from 'party-js';
+import { PlayerService } from './player.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NgIf, NgFor, NgClass],
+  imports: [NgIf, NgFor, NgClass, AudioTagsComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
@@ -27,7 +29,7 @@ export class AppComponent {
   gameStarted = false;
   gameWon = false;
 
-  constructor() {
+  constructor(private player: PlayerService) {
     this.screenWidth = window.innerWidth;
   } // end constructor.
 
@@ -117,8 +119,9 @@ export class AppComponent {
     }
   } //end of verifyWin() method.
 
-  //method for starting the game.
+  // Method for starting the game.
   startGame(): void {
+    this.player.play("positive");
     this.createBoard();
     this.shuffleArray();
     this.startTimer();
@@ -166,7 +169,7 @@ export class AppComponent {
     });
   } //end of startTimer() method.
 
-  //this method find the index of a piece in array by its number.
+  //this method finds the index of a piece in array by its number.
   findPieceIndexByNumber(number: number) {
     for (let i = 0; i < this.pieces.length; i++) {
       if (this.pieces[i].number === number) {
@@ -180,4 +183,5 @@ export class AppComponent {
   padNumber(value: number): string {
     return String(Math.floor(value)).padStart(2, '0');
   } //end of padNumber() method.
+
 } // end class.

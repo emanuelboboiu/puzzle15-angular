@@ -75,6 +75,8 @@ export class AppComponent {
       let y = this.pieces[zeroIndex].y - piece.y;
       //here I check if the distance on just one of the axis is 1.
       if (Math.abs(x) + Math.abs(y) == 1) {
+        this.player.play("action");
+
         const pieceIndex = this.findPieceIndexByNumber(piece.number);
 
         const boardWidth =
@@ -98,6 +100,8 @@ export class AppComponent {
           this.disable = false;
           this.verifyWin();
         }, 300);
+      } else { // not moved:
+        this.player.play("blocked");
       }
     }
   } //end of move() method.
@@ -114,6 +118,7 @@ export class AppComponent {
       if (ok === true) {
         this.timerSubscription.unsubscribe(); //stop the timer.
         this.gameWon = true;
+        this.player.play("finished");
         party.confetti(document.getElementById('confetti')!); //throw confetti
       }
     }
@@ -131,6 +136,7 @@ export class AppComponent {
 
   // A method used to go to main page.
   goToMain(): void {
+    this.player.play("close");
     this.currSection = 0;
     this.gameWon = false;
     this.gameStarted = false;
@@ -138,6 +144,7 @@ export class AppComponent {
 
   // A method used to go to game board zone.
   goToGame(size: number): void {
+    this.player.play("open");
     this.boardSize = size; // the size comes from the html button clickedf.
     this.currSection = 1;
     this.createBoard();

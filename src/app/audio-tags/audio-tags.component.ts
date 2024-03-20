@@ -14,11 +14,9 @@ export class AudioTagsComponent {
   constructor() {
     this.sounds = [
       "action",
-      "appearance",
-      "beep_sound",
       "blocked",
-      "close_menu",
-      "open_menu",
+      "close",
+      "open",
       "positive"
     ];
   } // end constructor.

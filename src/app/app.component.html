@@ -1,44 +1,73 @@
 <!-- The main page of the application, currSection = 0: -->
 <div *ngIf="currSection == 0" class="container">
-  <p role="alert">
-    This is the main page of the game, choose board size and others...
-  </p>
-  <button (click)="goToGame(3)" class="btn">Start 8!</button>
-  <button (click)="goToGame(4)" class="btn">Start 15!</button>
-  <button (click)="goToGame(5)" class="btn">Start 24!</button>
+  <img
+    class="logo"
+    src="../assets/logo.png"
+    alt='logo, a wooden puzzle saying "15 PUZZLE"'
+  />
+  <button (click)="goToGame(3)" class="btn">3X3</button>
+  <button (click)="goToGame(4)" class="btn">4X4</button>
+  <button (click)="goToGame(5)" class="btn">5X5</button>
 </div>
 <!-- end main page of the application. -->
 
 <!-- The game zone, second page of the application, currSection = 1: -->
-<div *ngIf="currSection == 1" class="container">
-  <p role="alert">Variant chosen: {{ boardSize }} x {{ boardSize }}.</p>
-
-  <div
-    class="board"
-    [ngClass]="{
-      grid3: boardSize == 3,
-      grid4: boardSize == 4,
-      grid5: boardSize == 5
-    }"
-  >
-    <div
-      *ngFor="let piece of pieces"
-      class="piece"
-      [ngClass]="{ 'invisible-piece': piece.number == 0 }"
-      (click)="move(piece)"
-      [style.transform]="
-        'translateX(' +
-        (this.selectedPiece == piece ? distanceX : 0) +
-        'px) ' +
-        'translateY(' +
-        (this.selectedPiece == piece ? distanceY : 0) +
-        'px)'
-      "
-    >
-      {{ piece.number }}
-    </div>
+<div *ngIf="currSection == 1" class="container" id="confetti">
+  <!-- timer div  -->
+  <div class="timer">
+    <p>
+      {{ padNumber(timerValueSec / 60) }}:{{ padNumber(timerValueSec % 60) }}
+    </p>
   </div>
-
+  <!-- end timer div  -->
+  <p *ngIf="gameWon" class="gameWon">
+    Congratulations! <br />
+    You won!
+  </p>
+  <!-- div for making the board look 3d -->
+  <div class="board-sides">
+    <!-- board div  -->
+    <div
+      class="board"
+      [ngClass]="{
+        grid3: boardSize == 3,
+        grid4: boardSize == 4,
+        grid5: boardSize == 5
+      }"
+    >
+      <!-- pieces -->
+      <div
+        *ngFor="let piece of pieces"
+        class="piece"
+        [ngClass]="{
+          'invisible-piece': piece.number == 0
+        }"
+        (click)="move(piece)"
+        [style.transform]="
+          'translateX(' +
+          (this.selectedPiece == piece ? distanceX : 0) +
+          'px) ' +
+          'translateY(' +
+          (this.selectedPiece == piece ? distanceY : 0) +
+          'px)'
+        "
+      >
+        <p
+          [ngClass]="{
+            piece3: boardSize == 3,
+            piece4: boardSize == 4,
+            piece5: boardSize == 5
+          }"
+        >
+          {{ piece.number }}
+        </p>
+      </div>
+      <!-- end of pieces div -->
+    </div>
+    <!-- end of board div -->
+  </div>
+  <!-- end of board sides div -->
+  <button (click)="startGame()" class="btn">Start!</button>
   <button (click)="goToMain()" class="btn">Go back!</button>
 </div>
 <!-- end game zone, second page of the application. -->

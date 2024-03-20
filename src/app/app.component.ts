@@ -1,7 +1,9 @@
-import { Component, NgModule } from '@angular/core';
+import { Component, HostListener, NgModule } from '@angular/core';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { RequestsService } from './requests.service';
 import { piece } from './piece.type';
+import { timer, Subscription } from 'rxjs';
+import party from 'party-js';
 
 @Component({
   selector: 'app-root',
@@ -19,17 +21,31 @@ export class AppComponent {
   distanceY = 0; //the distance the moving piece should go on y axis
   selectedPiece!: piece;
   disable = false; //this is for disableing the click function while the pieces are moving.
+  screenWidth!: number;
+  timerValueSec = 0;
+  timerSubscription: Subscription = new Subscription();
+  gameStarted = false;
+  gameWon = false;
 
-  constructor() {} // end constructor.
+  constructor() {
+    this.screenWidth = window.innerWidth;
+  } // end constructor.
+
+  //hook for finding window size.
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.screenWidth = window.innerWidth;
+  } //end of @HostListener() hook.
+
   // this method creates the pieces.
   createBoard(): void {
     this.pieces = []; //here I initialize the array with an empty one.
 
-    for (let i = 0; i < this.boardSize * this.boardSize; i++) {
+    for (let i = 1; i < this.boardSize * this.boardSize; i++) {
       this.pieces.push({ number: i, x: 0, y: 0 }); //here I create new pieces with no x and y.
     }
 
-    this.shuffleArray();
+    this.pieces.push({ number: 0, x: 0, y: 0 }); //here I create the 0 piece to make it the last one.
 
     let k = 0; //counter for pieces array index.
     //here i give the pieces x and y values to be organized like a matrix.
@@ -42,20 +58,10 @@ export class AppComponent {
     }
   } //end of createBoard() method.
 
-  //this method find the index of a piece in array by its number.
-  findPieceIndexByNumber(number: number) {
-    for (let i = 0; i < this.pieces.length; i++) {
-      if (this.pieces[i].number === number) {
-        return i;
-      }
-    }
-    return -1;
-  } //end of findPieceIndexByNumber() method.
-
   //this method tries and move the pieces.
   move(piece: piece) {
-    //verify if the pieces are moving.
-    if (this.disable == false) {
+    //verify if the pieces are moving and game started.
+    if (this.disable == false && this.gameStarted) {
       this.selectedPiece = piece;
       //index of the 0 piece.
       const zeroIndex = this.findPieceIndexByNumber(0);
@@ -68,16 +74,19 @@ export class AppComponent {
       //here I check if the distance on just one of the axis is 1.
       if (Math.abs(x) + Math.abs(y) == 1) {
         const pieceIndex = this.findPieceIndexByNumber(piece.number);
+
+        const boardWidth =
+          this.screenWidth >= 750 ? 520 : (70 / 100) * this.screenWidth;
+
         //some formulas to calculate the distance given the size of the board.
         this.distanceX =
-          ((600 - (this.boardSize + 1) * 10) / this.boardSize + 10) * y;
+          ((boardWidth - (this.boardSize + 1) * 10) / this.boardSize + 10) * y;
         this.distanceY =
-          ((600 - (this.boardSize + 1) * 10) / this.boardSize + 10) * x;
+          ((boardWidth - (this.boardSize + 1) * 10) / this.boardSize + 10) * x;
         this.distanceX = Math.round(this.distanceX);
         this.distanceY = Math.round(this.distanceY);
 
-        console.log(this.distanceX, this.distanceY);
-        //disable the buttons
+        //disable the buttons.
         this.disable = true;
         //we actually move the pieces after 0.3s to wait for the transition to be done.
         setTimeout(() => {
@@ -85,14 +94,43 @@ export class AppComponent {
           this.pieces[pieceIndex].number = this.pieces[zeroIndex].number;
           this.pieces[zeroIndex].number = aux;
           this.disable = false;
+          this.verifyWin();
         }, 300);
       }
     }
   } //end of move() method.
 
+  //a method to verify if the game is won.
+  verifyWin(): void {
+    if (this.gameStarted) {
+      let ok = true; //variable to verify if the pieces are placed correctly.
+      for (let i = 0; i < this.boardSize * this.boardSize - 1; i++) {
+        if (this.pieces[i].number !== i + 1) {
+          ok = false;
+        }
+      }
+      if (ok === true) {
+        this.timerSubscription.unsubscribe(); //stop the timer.
+        this.gameWon = true;
+        party.confetti(document.getElementById('confetti')!); //throw confetti
+      }
+    }
+  } //end of verifyWin() method.
+
+  //method for starting the game.
+  startGame(): void {
+    this.createBoard();
+    this.shuffleArray();
+    this.startTimer();
+    this.gameStarted = true;
+    this.gameWon = false;
+  } // end of startGame() method.
+
   // A method used to go to main page.
   goToMain(): void {
     this.currSection = 0;
+    this.gameWon = false;
+    this.gameStarted = false;
   } // end goToMain() method.
 
   // A method used to go to game board zone.
@@ -100,13 +138,46 @@ export class AppComponent {
     this.boardSize = size; // the size comes from the html button clickedf.
     this.currSection = 1;
     this.createBoard();
+    this.timerValueSec = 0;
+    this.timerSubscription.unsubscribe();
   } // end goToGame() method.
 
   //a method to put pieces in a random order.
-  private shuffleArray() {
+  shuffleArray() {
     for (let i = this.pieces.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [this.pieces[i], this.pieces[j]] = [this.pieces[j], this.pieces[i]];
+      [this.pieces[i].number, this.pieces[j].number] = [
+        this.pieces[j].number,
+        this.pieces[i].number,
+      ];
     }
   } //end of shuffleArray() method.
+
+  //method for starting the timer
+  startTimer() {
+    //unsubscribe to any existing timer to avoid multiple timers running.
+    this.timerSubscription.unsubscribe();
+
+    //start a new timer.
+    this.timerValueSec = 0; //reset timer value.
+    const source = timer(1000, 1000); //start after 1 second, emit every 1 second.
+    this.timerSubscription = source.subscribe((val) => {
+      this.timerValueSec = val + 1; //update timer value.
+    });
+  } //end of startTimer() method.
+
+  //this method find the index of a piece in array by its number.
+  findPieceIndexByNumber(number: number) {
+    for (let i = 0; i < this.pieces.length; i++) {
+      if (this.pieces[i].number === number) {
+        return i;
+      }
+    }
+    return -1;
+  } //end of findPieceIndexByNumber() method.
+
+  //method for showing timer numbers with 2 digits.
+  padNumber(value: number): string {
+    return String(Math.floor(value)).padStart(2, '0');
+  } //end of padNumber() method.
 } // end class.

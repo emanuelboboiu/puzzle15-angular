@@ -5,39 +5,121 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background: url("../assets/background.webp");
+  /* background-color: #c4b29f; */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .btn {
-  width: 7rem;
-  height: 2rem;
+  width: 80vw;
+  max-width: 600px;
+  height: 3rem;
   border-radius: 0.5rem;
   border: none;
-  color: white;
-  background-color: darkolivegreen;
+  color: #d9c8b4;
+  background: url("../assets/btn.webp");
+  /* background-color: #6c55ff; */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.2);
   margin-bottom: 1rem;
   margin-top: 1rem;
+  font-size: 30px;
+}
+
+.logo {
+  margin-bottom: 3rem;
+}
+
+.board-sides {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 1;
+  width: calc(70vw + 40px);
+  max-width: 600px;
+  background: url("../assets/board.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
 }
 
 .board {
   aspect-ratio: 1;
-  width: 80vw;
-  max-width: 600px;
-  background-color: bisque;
-  border: 1px solid black;
+  width: 70vw;
+  max-width: 520px;
   display: grid;
   grid-gap: 10px;
   padding: 10px;
+  background: url("../assets/board.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: inset 0 0 10px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
 }
 
 .piece {
   aspect-ratio: 1;
   text-align: center;
-  font-size: 30px;
-  background-color: #f0f0f0;
+  font-weight: 500;
+  color: #4a2a16;
+  background: url("../assets/piece.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: center;
   align-items: center;
   transition: transform 0.3s;
+  border-radius: 10px;
+}
+
+.piece3 {
+  font-size: 36px;
+}
+
+.piece4 {
+  font-size: 30px;
+}
+
+.piece5 {
+  font-size: 24px;
+}
+
+p {
+  margin: 0;
+}
+
+.timer {
+  width: 200px;
+  height: 3rem;
+  background: url("../assets/btn.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  color: #d9c8b4;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.5);
+  margin-bottom: 1rem;
+}
+
+.gameWon {
+  margin: 1rem 0;
+  font-size: 25px;
+  font-weight: 600;
+  color: #4a2a16;
+  text-align: center;
 }
 
 .grid3 {

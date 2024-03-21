@@ -1,9 +1,12 @@
 <!-- The main page of the application, currSection = 0: -->
 <div *ngIf="currSection == 0" class="container">
-  <img class="logo" src="../assets/logo.png" alt='Game Logo - A wooden puzzle saying "15 PUZZLE"' />
+  <img class="logo" src="../assets/logo.png" alt='Game Logo – A wooden puzzle saying "15 PUZZLE"' />
   <button (click)="goToGame(3)" class="btn">3X3</button>
   <button (click)="goToGame(4)" class="btn">4X4</button>
   <button (click)="goToGame(5)" class="btn">5X5</button>
+
+  <button (click)="goToSettings()" class="btn">Settings</button>
+  <button (click)="goToAbout()" class="btn">About</button>
 </div>
 <!-- end main page of the application. -->
 
@@ -52,10 +55,34 @@
     <!-- end of board div -->
   </div>
   <!-- end of board sides div -->
-  <button (click)="startGame()" class="btn">Start!</button>
-  <button (click)="goToMain()" class="btn">Go back!</button>
-</div>
-<!-- end game zone, second page of the application. -->
 
-<!-- Here the sound available in all the pages.-->
+  <!-- This div appears when abandon is clicked, to ask if sure: -->
+  <div *ngIf="askIfAbandon">
+    <span role="alert">Are you sure?</span>
+    <button (click)="abandonEffectively()" class="btn">Yes</button>
+    <button (click)="dontAbandon()" class="btn">No</button>
+  </div>
+
+  <!-- The bottom buttons: -->
+  <div>
+    <button (click)="startGame()" class="btn" [disabled]="gameStarted">Start!</button>
+    <button (click)="askForAbandon()" class="btn" [disabled]="!gameStarted || askIfAbandon">Abandon!</button>
+    <button (click)="goBackToMain()" class="btn" [disabled]="gameStarted">Back!</button>
+  </div>
+
+</div> <!-- end game zone, second page of the application. -->
+
+<!-- The settings zone, third page of the application, currSection = 2: -->
+<div *ngIf="currSection == 2" class="container">
+  <app-settings></app-settings>
+  <button (click)="goBackToMain()" class="btn">Back!</button>
+</div> <!-- end settings zone, third page of the application. -->
+
+<!-- The about zone, fourth page of the application, currSection = 3: -->
+<div *ngIf="currSection == 3" class="container">
+  <app-about></app-about>
+  <button (click)="goBackToMain()" class="btn">Back!</button>
+</div> <!-- end about zone, third page of the application. -->
+
+<!-- Here the sound available in all the pages: -->
 <app-audio-tags></app-audio-tags>

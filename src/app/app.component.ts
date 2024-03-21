@@ -1,5 +1,7 @@
 import { Component, HostListener, NgModule } from '@angular/core';
 import { NgClass, NgFor, NgIf } from '@angular/common';
+import { SettingsComponent } from './settings/settings.component';
+import { AboutComponent } from './about/about.component';
 import { AudioTagsComponent } from './audio-tags/audio-tags.component';
 import { RequestsService } from './requests.service';
 import { piece } from './piece.type';
@@ -10,7 +12,7 @@ import { PlayerService } from './player.service';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NgIf, NgFor, NgClass, AudioTagsComponent],
+  imports: [NgIf, NgFor, NgClass, AudioTagsComponent, SettingsComponent, AboutComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
@@ -28,6 +30,7 @@ export class AppComponent {
   timerSubscription: Subscription = new Subscription();
   gameStarted = false;
   gameWon = false;
+  askIfAbandon = false;
 
   constructor(private player: PlayerService) {
     this.screenWidth = window.innerWidth;
@@ -75,7 +78,7 @@ export class AppComponent {
       let y = this.pieces[zeroIndex].y - piece.y;
       //here I check if the distance on just one of the axis is 1.
       if (Math.abs(x) + Math.abs(y) == 1) {
-        this.player.play("action");
+        this.player.play("move");
 
         const pieceIndex = this.findPieceIndexByNumber(piece.number);
 
@@ -118,7 +121,7 @@ export class AppComponent {
       if (ok === true) {
         this.timerSubscription.unsubscribe(); //stop the timer.
         this.gameWon = true;
-        this.player.play("finished");
+        this.player.play("winner");
         party.confetti(document.getElementById('confetti')!); //throw confetti
       }
     }
@@ -126,7 +129,7 @@ export class AppComponent {
 
   // Method for starting the game.
   startGame(): void {
-    this.player.play("positive");
+    this.player.play("start");
     this.createBoard();
     this.shuffleArray();
     this.startTimer();
@@ -136,21 +139,55 @@ export class AppComponent {
 
   // A method used to go to main page.
   goToMain(): void {
-    this.player.play("close");
     this.currSection = 0;
-    this.gameWon = false;
-    this.gameStarted = false;
   } // end goToMain() method.
+
+  // A method used to go back to main page from settings or other sections excluding game zone:
+  goBackToMain(): void {
+    this.player.play("action");
+    this.currSection = 0;
+  } // end of goBackToMain() method.
 
   // A method used to go to game board zone.
   goToGame(size: number): void {
-    this.player.play("open");
+    this.player.play("action");
     this.boardSize = size; // the size comes from the html button clickedf.
     this.currSection = 1;
     this.createBoard();
     this.timerValueSec = 0;
     this.timerSubscription.unsubscribe();
-  } // end goToGame() method.
+  } // end of goToGame() method.
+
+  // Here 3 methods for abandon the game:
+  askForAbandon(): void { // this is called clicking the Abandon button:
+    this.player.play("action");
+    this.askIfAbandon = true;
+  } // end of askForAbandon() method.
+
+  abandonEffectively(): void { // this is called when pressing yes for abandon:
+    this.player.play("abandon");
+    this.askIfAbandon = false;
+    this.gameWon = false;
+    this.gameStarted = false;
+    this.goToMain();
+  } // end of abandonEffectively() method.
+
+  dontAbandon(): void { // this is called when clicking No for abandon:
+    this.player.play("action");
+    this.askIfAbandon = false;
+  } // end of dontAbandon() method.
+
+  // The method to go to settings:
+  goToSettings(): void {
+    this.player.play("action");
+    this.currSection = 2;
+  } // end of goToSettings() method.
+
+  // The method to go to about:
+  goToAbout(): void {
+    this.player.play("action");
+    this.currSection = 3;
+  } // end of goToAbout() method.
 
   //a method to put pieces in a random order.
   shuffleArray() {

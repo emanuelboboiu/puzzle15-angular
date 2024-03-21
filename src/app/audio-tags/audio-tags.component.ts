@@ -1,25 +1,33 @@
-import { Component } from '@angular/core';
-import { NgFor } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-audio-tags',
   standalone: true,
-  imports: [NgFor],
+  imports: [NgIf, NgFor],
   templateUrl: './audio-tags.component.html',
   styleUrl: './audio-tags.component.css'
 })
-export class AudioTagsComponent {
+export class AudioTagsComponent implements OnInit {
+  showAudioTags: boolean = false;
+
   sounds: string[];
 
   constructor() {
     this.sounds = [
-      "action",
+      "move",
       "blocked",
-      "close",
-      "open",
-      "positive"
+      "action",
+      "winner",
+      "abandon",
+      "start"
     ];
   } // end constructor.
 
+  ngOnInit(): void {
+    setTimeout(() => {
+      this.showAudioTags = true;
+    }, 2000);
+  }
 
 } // end audio-tags component class.

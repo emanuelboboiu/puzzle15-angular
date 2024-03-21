@@ -1,0 +1,18 @@
+<!-- In the app html there is also a button for back which is in the same section - Settings. -->
+<div>
+    <div>
+        <h1>General Settings</h1>
+        <label>
+            <input type="checkbox" [(ngModel)]="isSound" (change)="saveSoundsChoice()" />
+            Enable Sounds
+        </label>
+    </div>
+    <div>
+        <h1>Accessibility Settings</h1>
+        <label>
+            <input type="checkbox" [(ngModel)]="isAccessibility" (change)="saveAccessibilityChoice()" />
+            Enable Cell Coordinates Labeling
+        </label>
+
+    </div>
+</div>

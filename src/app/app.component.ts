@@ -8,6 +8,7 @@ import { piece } from './piece.type';
 import { timer, Subscription } from 'rxjs';
 import party from 'party-js';
 import { PlayerService } from './player.service';
+import { SettingsService } from './settings.service';
 
 @Component({
   selector: 'app-root',
@@ -32,8 +33,10 @@ export class AppComponent {
   gameWon = false;
   askIfAbandon = false;
   alphabet: string[] = 'ABCDE'.split('');
+  ariaLabels: string[] = [];
 
-  constructor(private player: PlayerService) {
+  constructor(private player: PlayerService,
+    public settings: SettingsService) {
     this.screenWidth = window.innerWidth;
   } // end constructor.
 
@@ -102,6 +105,7 @@ export class AppComponent {
           this.pieces[pieceIndex].number = this.pieces[zeroIndex].number;
           this.pieces[zeroIndex].number = aux;
           this.disable = false;
+          this.refillAriaLabels();
           this.verifyWin();
         }, 300);
       } else { // not moved:
@@ -136,6 +140,7 @@ export class AppComponent {
     this.startTimer();
     this.gameStarted = true;
     this.gameWon = false;
+    this.refillAriaLabels();
   } // end of startGame() method.
 
   // A method used to go to main page.
@@ -154,6 +159,7 @@ export class AppComponent {
     this.player.play("action");
     this.boardSize = size; // the size comes from the html button clickedf.
     this.currSection = 1;
+    this.fillAriaLabels();
     this.createBoard();
     this.timerValueSec = 0;
     this.timerSubscription.unsubscribe();
@@ -236,5 +242,22 @@ export class AppComponent {
     return rowLabel + (column + 1);
   } // end getAriaLabel() method.
 
+  fillAriaLabels(): void {
+    for (let i = 0; i < this.boardSize * this.boardSize; i++) {
+      let currNum = (i < (this.boardSize * this.boardSize - 1)) ? '' + (i + 1) : '0';
+      this.ariaLabels.push("" + currNum + ", " + this.getAriaLabel(i));
+    } // end for.
+  } // end fillAriaLabels() method.
+
+  refillAriaLabels(): void {
+    // We need the delay of 350 to have the move done:
+    setTimeout(() => {
+      this.ariaLabels = [];
+      for (let i = 0; i < this.boardSize * this.boardSize; i++) {
+        let currNum = document.getElementById('pos' + i)?.innerHTML;
+        this.ariaLabels.push("" + currNum + ", " + this.getAriaLabel(i));
+      } // end for.
+    }, 350);
+  } // end refillAriaLabels() method.
 
 } // end class.

@@ -41,8 +41,8 @@
           'translateY(' +
           (this.selectedPiece == piece ? distanceY : 0) +
           'px)'
-        " [attr.id]="'position' + (i + 1)">
-        <p [ngClass]="{
+        ">
+        <p [attr.id]="'pos'+i" [attr.aria-labelledby]="settings.isAccessibility ? 'label'+i : null" [ngClass]="{
             piece3: boardSize == 3,
             piece4: boardSize == 4,
             piece5: boardSize == 5
@@ -69,6 +69,12 @@
     <button (click)="askForAbandon()" class="btn" [disabled]="!gameStarted || askIfAbandon">Abandon!</button>
     <button (click)="goBackToMain()" class="btn" [disabled]="gameStarted">Back!</button>
   </div>
+  <!-- Here a div for aria labels, only if is enabled in settings: -->
+  <div *ngIf="settings.isAccessibility" style="display: none;">
+    <p *ngFor="let label of ariaLabels; let i = index" [attr.id]="'label' + i">
+      {{ label }}
+    </p>
+  </div> <!-- end aria labels div. -->
 
 </div> <!-- end game zone, second page of the application. -->
 

@@ -5,6 +5,7 @@ import { timeout } from 'rxjs';
   providedIn: 'root'
 })
 export class SettingsService {
+  os: number = 0; // 0 means web, 1 means iOS, 2 means Android.
   isSound: boolean = true;
   lsIsSoundKey: string = "lsSettingsSound";
   isAccessibility: boolean = false;

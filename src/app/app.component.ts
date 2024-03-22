@@ -31,6 +31,7 @@ export class AppComponent {
   gameStarted = false;
   gameWon = false;
   askIfAbandon = false;
+  alphabet: string[] = 'ABCDE'.split('');
 
   constructor(private player: PlayerService) {
     this.screenWidth = window.innerWidth;
@@ -227,5 +228,13 @@ export class AppComponent {
   padNumber(value: number): string {
     return String(Math.floor(value)).padStart(2, '0');
   } //end of padNumber() method.
+
+  getAriaLabel(index: number): string {
+    const row = Math.floor(index / this.boardSize) + 1;
+    const column = index % this.boardSize;
+    const rowLabel = this.alphabet[row - 1];
+    return rowLabel + (column + 1);
+  } // end getAriaLabel() method.
+
 
 } // end class.

@@ -5,8 +5,8 @@
   <button (click)="goToGame(4)" class="btn">4X4</button>
   <button (click)="goToGame(5)" class="btn">5X5</button>
 
-  <button (click)="goToSettings()" class="btn">Settings</button>
-  <button (click)="goToAbout()" class="btn">About</button>
+  <button (click)="goToSettings()">Settings</button>
+  <button (click)="goToAbout()">About</button>
 </div>
 <!-- end main page of the application. -->
 
@@ -32,7 +32,7 @@
         grid5: boardSize == 5
       }">
       <!-- pieces -->
-      <div *ngFor="let piece of pieces" class="piece" [ngClass]="{
+      <div *ngFor="let piece of pieces; let i = index" class="piece" [ngClass]="{
           'invisible-piece': piece.number == 0
         }" (click)="move(piece)" [style.transform]="
           'translateX(' +
@@ -41,7 +41,7 @@
           'translateY(' +
           (this.selectedPiece == piece ? distanceY : 0) +
           'px)'
-        ">
+        " [attr.id]="'position' + (i + 1)">
         <p [ngClass]="{
             piece3: boardSize == 3,
             piece4: boardSize == 4,
@@ -81,7 +81,7 @@
 <!-- The about zone, fourth page of the application, currSection = 3: -->
 <div *ngIf="currSection == 3" class="container">
   <app-about></app-about>
-  <button (click)="goBackToMain()" class="btn">Back!</button>
+  <button (click)="goBackToMain()">Back!</button>
 </div> <!-- end about zone, third page of the application. -->
 
 <!-- Here the sound available in all the pages: -->

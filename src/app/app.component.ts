@@ -134,6 +134,7 @@ export class AppComponent {
         this.timerSubscription.unsubscribe(); //stop the timer.
         this.gameWon = true;
         this.player.play('winner');
+        this.gameStarted = false;
         party.confetti(document.getElementById('confetti')!); //throw confetti
       }
     }

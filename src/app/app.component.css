@@ -134,6 +134,11 @@ p {
 }
 
 .invisible-piece {
+  aspect-ratio: 1;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   opacity: 0;
 }
 

@@ -13,7 +13,14 @@ import { SettingsService } from './settings.service';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NgIf, NgFor, NgClass, AudioTagsComponent, SettingsComponent, AboutComponent],
+  imports: [
+    NgIf,
+    NgFor,
+    NgClass,
+    AudioTagsComponent,
+    SettingsComponent,
+    AboutComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
@@ -35,8 +42,7 @@ export class AppComponent {
   alphabet: string[] = 'ABCDE'.split('');
   ariaLabels: string[] = [];
 
-  constructor(private player: PlayerService,
-    public settings: SettingsService) {
+  constructor(private player: PlayerService, public settings: SettingsService) {
     this.screenWidth = window.innerWidth;
   } // end constructor.
 
@@ -82,7 +88,7 @@ export class AppComponent {
       let y = this.pieces[zeroIndex].y - piece.y;
       //here I check if the distance on just one of the axis is 1.
       if (Math.abs(x) + Math.abs(y) == 1) {
-        this.player.play("move");
+        this.player.play('move');
 
         const pieceIndex = this.findPieceIndexByNumber(piece.number);
 
@@ -108,8 +114,9 @@ export class AppComponent {
           this.refillAriaLabels();
           this.verifyWin();
         }, 300);
-      } else { // not moved:
-        this.player.play("blocked");
+      } else {
+        // not moved:
+        this.player.play('blocked');
       }
     }
   } //end of move() method.
@@ -126,7 +133,7 @@ export class AppComponent {
       if (ok === true) {
         this.timerSubscription.unsubscribe(); //stop the timer.
         this.gameWon = true;
-        this.player.play("winner");
+        this.player.play('winner');
         party.confetti(document.getElementById('confetti')!); //throw confetti
       }
     }
@@ -134,7 +141,7 @@ export class AppComponent {
 
   // Method for starting the game.
   startGame(): void {
-    this.player.play("start");
+    this.player.play('start');
     this.createBoard();
     this.shuffleArray();
     this.startTimer();
@@ -148,17 +155,22 @@ export class AppComponent {
     this.currSection = 0;
   } // end goToMain() method.
 
+  // A method used to go to a page where you select the board size.
+  goToSelectBoardSize(): void {
+    this.currSection = 1;
+  } // end goToSelectBoardSize() method.
+
   // A method used to go back to main page from settings or other sections excluding game zone:
   goBackToMain(): void {
-    this.player.play("action");
+    this.player.play('action');
     this.currSection = 0;
   } // end of goBackToMain() method.
 
   // A method used to go to game board zone.
   goToGame(size: number): void {
-    this.player.play("action");
+    this.player.play('action');
     this.boardSize = size; // the size comes from the html button clickedf.
-    this.currSection = 1;
+    this.currSection = 2;
     this.fillAriaLabels();
     this.createBoard();
     this.timerValueSec = 0;
@@ -166,34 +178,37 @@ export class AppComponent {
   } // end of goToGame() method.
 
   // Here 3 methods for abandon the game:
-  askForAbandon(): void { // this is called clicking the Abandon button:
-    this.player.play("action");
+  askForAbandon(): void {
+    // this is called clicking the Abandon button:
+    this.player.play('action');
     this.askIfAbandon = true;
   } // end of askForAbandon() method.
 
-  abandonEffectively(): void { // this is called when pressing yes for abandon:
-    this.player.play("abandon");
+  abandonEffectively(): void {
+    // this is called when pressing yes for abandon:
+    this.player.play('abandon');
     this.askIfAbandon = false;
     this.gameWon = false;
     this.gameStarted = false;
     this.goToMain();
   } // end of abandonEffectively() method.
 
-  dontAbandon(): void { // this is called when clicking No for abandon:
-    this.player.play("action");
+  dontAbandon(): void {
+    // this is called when clicking No for abandon:
+    this.player.play('action');
     this.askIfAbandon = false;
   } // end of dontAbandon() method.
 
   // The method to go to settings:
   goToSettings(): void {
-    this.player.play("action");
-    this.currSection = 2;
+    this.player.play('action');
+    this.currSection = 3;
   } // end of goToSettings() method.
 
   // The method to go to about:
   goToAbout(): void {
-    this.player.play("action");
-    this.currSection = 3;
+    this.player.play('action');
+    this.currSection = 4;
   } // end of goToAbout() method.
 
   //a method to put pieces in a random order.
@@ -244,8 +259,9 @@ export class AppComponent {
 
   fillAriaLabels(): void {
     for (let i = 0; i < this.boardSize * this.boardSize; i++) {
-      let currNum = (i < (this.boardSize * this.boardSize - 1)) ? '' + (i + 1) : '0';
-      this.ariaLabels.push("" + currNum + ", " + this.getAriaLabel(i));
+      let currNum =
+        i < this.boardSize * this.boardSize - 1 ? '' + (i + 1) : '0';
+      this.ariaLabels.push('' + currNum + ', ' + this.getAriaLabel(i));
     } // end for.
   } // end fillAriaLabels() method.
 
@@ -255,9 +271,8 @@ export class AppComponent {
       this.ariaLabels = [];
       for (let i = 0; i < this.boardSize * this.boardSize; i++) {
         let currNum = document.getElementById('pos' + i)?.innerHTML;
-        this.ariaLabels.push("" + currNum + ", " + this.getAriaLabel(i));
+        this.ariaLabels.push('' + currNum + ', ' + this.getAriaLabel(i));
       } // end for.
     }, 350);
   } // end refillAriaLabels() method.
-
 } // end class.

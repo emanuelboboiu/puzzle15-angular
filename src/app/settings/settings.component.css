@@ -1,0 +1,19 @@
+h1 {
+  color: #4a2a16;
+}
+
+.custom-checkbox {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid brown;
+}
+
+.custom-checkbox:hover {
+  background-color: lightgray;
+}
+
+label {
+  color: #4a2a16;
+  font-size: 20px;
+  font-weight: 500;
+}

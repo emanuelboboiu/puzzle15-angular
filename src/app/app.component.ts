@@ -26,6 +26,7 @@ import { SettingsService } from './settings.service';
 })
 export class AppComponent {
   title = '15 Puzzle';
+  apiFileName: string = "insert_stats.php";
   currSection: number = 0; // 0 means main page, 1 means the game zone etc.
   boardSize: number = 4;
   pieces: piece[] = []; //array of puzzle pieces.
@@ -42,7 +43,9 @@ export class AppComponent {
   alphabet: string[] = 'ABCDE'.split('');
   ariaLabels: string[] = [];
 
-  constructor(private player: PlayerService, public settings: SettingsService) {
+  constructor(private player: PlayerService,
+    public settings: SettingsService,
+    private rqs: RequestsService) {
     this.screenWidth = window.innerWidth;
   } // end constructor.
 
@@ -127,14 +130,17 @@ export class AppComponent {
       let ok = true; //variable to verify if the pieces are placed correctly.
       for (let i = 0; i < this.boardSize * this.boardSize - 1; i++) {
         if (this.pieces[i].number !== i + 1) {
-          ok = false;
+          ok = true; // Eliza
         }
       }
       if (ok === true) {
+        this.insertStats('2'); // 1 means a start, 2 means finish/won, 3 means abandon. 
         this.timerSubscription.unsubscribe(); //stop the timer.
         this.gameWon = true;
         this.player.play('winner');
         this.gameStarted = false;
+        this.askIfAbandon = false;
+
         party.confetti(document.getElementById('confetti')!); //throw confetti
       }
     }
@@ -146,6 +152,7 @@ export class AppComponent {
     this.createBoard();
     this.shuffleArray();
     this.startTimer();
+    this.insertStats('1'); // 1 means a start, 2 means finish/won, 3 means abandon. 
     this.gameStarted = true;
     this.gameWon = false;
     this.refillAriaLabels();
@@ -158,6 +165,7 @@ export class AppComponent {
 
   // A method used to go to a page where you select the board size.
   goToSelectBoardSize(): void {
+    this.player.play('action');
     this.currSection = 1;
   } // end goToSelectBoardSize() method.
 
@@ -165,6 +173,7 @@ export class AppComponent {
   goBackToMain(): void {
     this.player.play('action');
     this.currSection = 0;
+    this.gameWon = false; // after a game is won, to disappear for the next time the congrats message.
   } // end of goBackToMain() method.
 
   // A method used to go to game board zone.
@@ -191,6 +200,7 @@ export class AppComponent {
     this.askIfAbandon = false;
     this.gameWon = false;
     this.gameStarted = false;
+    this.insertStats('3'); // 1 means a start, 2 means finish/won, 3 means abandon. 
     this.goToMain();
   } // end of abandonEffectively() method.
 
@@ -259,21 +269,50 @@ export class AppComponent {
   } // end getAriaLabel() method.
 
   fillAriaLabels(): void {
-    for (let i = 0; i < this.boardSize * this.boardSize; i++) {
-      let currNum =
-        i < this.boardSize * this.boardSize - 1 ? '' + (i + 1) : '0';
-      this.ariaLabels.push('' + currNum + ', ' + this.getAriaLabel(i));
-    } // end for.
+    if (this.settings.isAccessibility) {
+      this.ariaLabels = [];
+      for (let i = 0; i < this.boardSize * this.boardSize; i++) {
+        let currNum =
+          i < this.boardSize * this.boardSize - 1 ? '' + (i + 1) : 'empty';
+        this.ariaLabels.push('' + currNum + ', ' + this.getAriaLabel(i));
+      } // end for.
+    } // end if isAccessibility enabled.
   } // end fillAriaLabels() method.
 
   refillAriaLabels(): void {
-    // We need the delay of 350 to have the move done:
-    setTimeout(() => {
-      this.ariaLabels = [];
-      for (let i = 0; i < this.boardSize * this.boardSize; i++) {
-        let currNum = document.getElementById('pos' + i)?.innerHTML;
-        this.ariaLabels.push('' + currNum + ', ' + this.getAriaLabel(i));
-      } // end for.
-    }, 350);
+    if (this.settings.isAccessibility) {
+      // We need the delay of 350 to have the move done:
+      setTimeout(() => {
+        this.ariaLabels = [];
+        for (let i = 0; i < this.boardSize * this.boardSize; i++) {
+          let currNum = document.getElementById('pos' + i)?.innerHTML;
+          if (Number(currNum) == 0) { currNum = 'empty' }
+          this.ariaLabels.push('' + currNum + ', ' + this.getAriaLabel(i));
+        } // end for.
+      }, 350);
+    } // end if isAccessibility enabled.
   } // end refillAriaLabels() method.
+
+  insertStats(status: string): void { // status 1 means started, 2 finished, 3 abandoned.
+    // We insert efectivelly in the DB only if it is not development mode:
+    if (!this.settings.isDev) {
+      this.rqs
+        .getDataGet(
+          this.apiFileName,
+          '?act=insStats&status=' +
+          status +
+          '&boardSize=' +
+          this.boardSize +
+          '&duration=' +
+          this.timerValueSec +
+          '&os=' +
+          this.settings.os +
+          '&language=' +
+          this.settings.language
+        ).subscribe((json) => {
+          // do nothing in lambda yet.
+        });
+    } // end if it is not development mode.
+  } // end insertStats() method.
+
 } // end class.

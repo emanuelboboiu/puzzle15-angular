@@ -1,19 +1,15 @@
 <!-- The main page of the application, currSection = 0: -->
 <div *ngIf="currSection == 0" class="container">
-  <img
-    class="logo"
-    src="../assets/logo.png"
-    alt='Game Logo – A wooden puzzle saying "15 PUZZLE"'
-  />
+  <img class="logo" src="../assets/logo.png" alt='Game Logo – A wooden puzzle saying "15 PUZZLE"' />
   <button (click)="goToSelectBoardSize()" class="btn">Play</button>
-  <button (click)="goToAbout()" class="btn">About</button>
   <button (click)="goToSettings()" class="settings-btn btn">Settings</button>
+  <button (click)="goToAbout()" class="btn">About</button>
 </div>
 <!-- end main page of the application. -->
 
 <div class="container" *ngIf="currSection == 1">
-  <button (click)="goBackToMain()" class="back-btn">
-    <img src="../assets/arrow-left-solid.svg" alt="An arrow pointing left" />
+  <button (click)="goBackToMain()" class="back-btn" [attr.aria-label]="'Go back!'">
+    <img src="../assets/arrow-left-solid.svg" alt="" />
   </button>
 
   <button (click)="goToGame(3)" class="btn">3X3</button>
@@ -23,8 +19,8 @@
 
 <!-- The game zone, second page of the application, currSection = 1: -->
 <div *ngIf="currSection == 2" class="container" id="confetti">
-  <button (click)="goBackToMain()" class="back-btn">
-    <img src="../assets/arrow-left-solid.svg" alt="An arrow pointing left" />
+  <button (click)="goBackToMain()" class="back-btn" [disabled]="gameStarted" [attr.aria-label]="'Go back!'">
+    <img src="../assets/arrow-left-solid.svg" alt="" />
   </button>
   <!-- timer div  -->
   <div class="timer">
@@ -40,40 +36,27 @@
   <!-- div for making the board look 3d -->
   <div class="board-sides">
     <!-- board div  -->
-    <div
-      class="board"
-      [ngClass]="{
+    <div class="board" [ngClass]="{
         grid3: boardSize == 3,
         grid4: boardSize == 4,
         grid5: boardSize == 5
-      }"
-    >
+      }">
       <!-- pieces -->
-      <div
-        *ngFor="let piece of pieces; let i = index"
-        class="piece"
-        [ngClass]="{
+      <div *ngFor="let piece of pieces; let i = index" class="piece" [ngClass]="{
           'invisible-piece': piece.number == 0
-        }"
-        (click)="move(piece)"
-        [style.transform]="
+        }" (click)="move(piece)" [style.transform]="
           'translateX(' +
           (this.selectedPiece == piece ? distanceX : 0) +
           'px) ' +
           'translateY(' +
           (this.selectedPiece == piece ? distanceY : 0) +
           'px)'
-        "
-      >
-        <p
-          [attr.id]="'pos' + i"
-          [attr.aria-labelledby]="settings.isAccessibility ? 'label' + i : null"
-          [ngClass]="{
+        ">
+        <p [attr.id]="'pos' + i" [attr.aria-labelledby]="settings.isAccessibility ? 'label' + i : null" [ngClass]="{
             piece3: boardSize == 3,
             piece4: boardSize == 4,
             piece5: boardSize == 5
-          }"
-        >
+          }">
           {{ piece.number }}
         </p>
       </div>
@@ -91,14 +74,11 @@
   </div>
 
   <!-- The bottom buttons: -->
-  <button (click)="startGame()" class="btn" [disabled]="gameStarted">
+  <button *ngIf="!gameStarted" (click)="startGame()" class="btn" [disabled]="gameStarted">
     Start!
   </button>
-  <button
-    (click)="askForAbandon()"
-    class="btn"
-    [disabled]="!gameStarted || askIfAbandon"
-  >
+  <button *ngIf="!(!gameStarted || askIfAbandon)" (click)="askForAbandon()" class="btn"
+    [disabled]="!gameStarted || askIfAbandon">
     Abandon!
   </button>
 
@@ -114,8 +94,8 @@
 
 <!-- The settings zone, third page of the application, currSection = 2: -->
 <div *ngIf="currSection == 3" class="container">
-  <button (click)="goBackToMain()" class="back-btn">
-    <img src="../assets/arrow-left-solid.svg" alt="An arrow pointing left" />
+  <button (click)="goBackToMain()" class="back-btn" [attr.aria-label]="'Go back!'">
+    <img src="../assets/arrow-left-solid.svg" alt="" />
   </button>
   <app-settings></app-settings>
 </div>
@@ -123,8 +103,8 @@
 
 <!-- The about zone, fourth page of the application, currSection = 3: -->
 <div *ngIf="currSection == 4" class="container about-container">
-  <button (click)="goBackToMain()" class="back-btn">
-    <img src="../assets/arrow-left-solid.svg" alt="An arrow pointing left" />
+  <button (click)="goBackToMain()" class="back-btn" [attr.aria-label]="'Go back!'">
+    <img src="../assets/arrow-left-solid.svg" alt="" />
   </button>
   <app-about></app-about>
 </div>

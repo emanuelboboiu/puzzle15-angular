@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-  <string name="app_name">Puzzle 15</string>
-  <string name="title_activity_main">Puzzle 15</string>
+  <string name="app_name">15 Puzzle</string>
+  <string name="title_activity_main">15 Puzzle</string>
   <string name="package_name">ro.pontes.puzzlex</string>
   <string name="custom_url_scheme">ro.pontes.puzzlex</string>
 </resources>

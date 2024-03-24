@@ -1,14 +1,14 @@
 <!-- The main page of the application, currSection = 0: -->
 <div *ngIf="currSection == 0" class="container">
-  <img class="logo" src="../assets/logo.png" alt='Game Logo – A wooden puzzle saying "15 PUZZLE"' />
-  <button (click)="goToSelectBoardSize()" class="btn">Play</button>
-  <button (click)="goToSettings()" class="settings-btn btn">Settings</button>
-  <button (click)="goToAbout()" class="btn">About</button>
+  <img class="logo" src="../assets/logo.png" alt='{{ settings.getString("IMG_LOGO_ALT") }}' />
+  <button (click)="goToSelectBoardSize()" class="btn">{{ settings.getString('BT_PLAY') }}</button>
+  <button (click)="goToSettings()" class="settings-btn btn">{{ settings.getString('BT_SETTINGS') }}</button>
+  <button (click)="goToAbout()" class="btn">{{ settings.getString('BT_ABOUT') }}</button>
 </div>
 <!-- end main page of the application. -->
 
 <div class="container" *ngIf="currSection == 1">
-  <button (click)="goBackToMain()" class="back-btn" [attr.aria-label]="'Go back!'">
+  <button (click)="goBackToMain()" class="back-btn" [attr.aria-label]="settings.getString('BT_BACK')">
     <img src="../assets/arrow-left-solid.svg" alt="" />
   </button>
 
@@ -17,9 +17,10 @@
   <button (click)="goToGame(5)" class="btn">5X5</button>
 </div>
 
-<!-- The game zone, second page of the application, currSection = 1: -->
+<!-- The game zone, third page of the application, currSection = 2: -->
 <div *ngIf="currSection == 2" class="container" id="confetti">
-  <button (click)="goBackToMain()" class="back-btn" [disabled]="gameStarted" [attr.aria-label]="'Go back!'">
+  <button (click)="goBackToMain()" class="back-btn" [disabled]="gameStarted"
+    [attr.aria-label]="settings.getString('BT_BACK')">
     <img src="../assets/arrow-left-solid.svg" alt="" />
   </button>
   <!-- timer div  -->
@@ -30,8 +31,9 @@
   </div>
   <!-- end timer div  -->
   <p *ngIf="gameWon" class="gameWon" role="alert">
-    Congratulations! <br />
-    You won!
+    {{ settings.getString('MSG_CONGRATS') }}
+    <br>
+    {{ settings.getString('MSG_YOU_WON') }}
   </p>
   <!-- div for making the board look 3d -->
   <div class="board-sides">
@@ -68,18 +70,24 @@
 
   <!-- This div appears when abandon is clicked, to ask if sure: -->
   <div *ngIf="askIfAbandon" class="askIfAbandon">
-    <span role="alert">Are you sure?</span>
-    <button (click)="abandonEffectively()" class="btn">Yes</button>
-    <button (click)="dontAbandon()" class="btn">No</button>
+    <span role="alert">
+      {{ settings.getString("MSG_ARE_SURE") }}
+    </span>
+    <button (click)="abandonEffectively()" class="btn">
+      {{ settings.getString('BT_YES') }}
+    </button>
+    <button (click)="dontAbandon()" class="btn">
+      {{ settings.getString('BT_NO') }}
+    </button>
   </div>
 
   <!-- The bottom buttons: -->
   <button *ngIf="!gameStarted" (click)="startGame()" class="btn" [disabled]="gameStarted">
-    Start!
+    {{ settings.getString('BT_START') }}
   </button>
   <button *ngIf="!(!gameStarted || askIfAbandon)" (click)="askForAbandon()" class="btn"
     [disabled]="!gameStarted || askIfAbandon">
-    Abandon!
+    {{ settings.getString('BT_ABANDON') }}
   </button>
 
   <!-- Here a div for aria labels, only if is enabled in settings: -->
@@ -92,23 +100,23 @@
 </div>
 <!-- end game zone, second page of the application. -->
 
-<!-- The settings zone, third page of the application, currSection = 2: -->
+<!-- The settings zone, fourth page of the application, currSection = 3: -->
 <div *ngIf="currSection == 3" class="container">
-  <button (click)="goBackToMain()" class="back-btn" [attr.aria-label]="'Go back!'">
+  <button (click)="goBackToMain()" class="back-btn" [attr.aria-label]="settings.getString('BT_BACK')">
     <img src="../assets/arrow-left-solid.svg" alt="" />
   </button>
   <app-settings></app-settings>
 </div>
-<!-- end settings zone, third page of the application. -->
+<!-- end settings zone, fourth page of the application. -->
 
-<!-- The about zone, fourth page of the application, currSection = 3: -->
+<!-- The about zone, fifth page of the application, currSection = 4: -->
 <div *ngIf="currSection == 4" class="container about-container">
-  <button (click)="goBackToMain()" class="back-btn" [attr.aria-label]="'Go back!'">
+  <button (click)="goBackToMain()" class="back-btn" [attr.aria-label]="settings.getString('BT_BACK')">
     <img src="../assets/arrow-left-solid.svg" alt="" />
   </button>
   <app-about></app-about>
 </div>
-<!-- end about zone, third page of the application. -->
+<!-- end about zone, fifth page of the application. -->
 
 <!-- Here the sound available in all the pages: -->
 <app-audio-tags></app-audio-tags>

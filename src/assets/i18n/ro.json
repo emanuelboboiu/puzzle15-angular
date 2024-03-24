@@ -1,5 +1,14 @@
 {
+    "IMG_LOGO_ALT": "Logo Joc – Un puzzle din lemn pe care scrie \"15 PUZZLE\"",
     "BT_PLAY": "Joacă",
     "BT_SETTINGS": "Setări",
-    "BT_ABOUT": "Despre"
+    "BT_ABOUT": "Despre",
+    "BT_BACK": "Înapoi",
+    "MSG_CONGRATS": "Felicitări!",
+    "MSG_YOU_WON": "Ai câștigat!",
+    "MSG_ARE_SURE": "Ești sigur?",
+    "BT_START": "Start!",
+    "BT_ABANDON": "Abandon!",
+    "BT_YES": "Da",
+    "BT_NO": "Nu"
 }

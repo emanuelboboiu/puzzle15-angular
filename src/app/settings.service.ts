@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { timeout } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root'
@@ -7,13 +10,15 @@ import { timeout } from 'rxjs';
 export class SettingsService {
   isDev = false; // not to have many stats in development mode.
   os: number = 0; // 0 means web, 1 means iOS, 2 means Android.
-  language: string = "en";
+  language: string = "ro";
+  languageData: any;
   isSound: boolean = true;
   lsIsSoundKey: string = "lsSettingsSound";
   isAccessibility: boolean = false;
   lsIsAccessibilityKey: string = "lsSettingsAccessibility";
 
-  constructor() {
+  constructor(private http: HttpClient,
+    private sanitizer: DomSanitizer) {
     this.loadSettingsFromLocalStorage();
   } // end constructor.
 
@@ -29,6 +34,11 @@ export class SettingsService {
     } else {
       this.isAccessibility = false;
     }
+    // Load language data (e.g., English)
+    this.loadLanguage(this.language).subscribe(data => {
+      this.languageData = data;
+    });
+    //end load language file.
   } // end of loadSettingsFromLocalStorage() method.
 
   // A method to check wether a key exists in the localStorage or not:
@@ -52,5 +62,28 @@ export class SettingsService {
   convertStringToBoolean(value: string): boolean {
     return value == "1" ? true : false;
   } // end convertStringToBoolean() method.
+
+  // Methods for translation:
+  loadLanguage(lang: string): Observable<any> {
+    return this.http.get<any>(`/assets/i18n/${lang}.json`);
+  } // end loadLanguage() method.
+
+  getString(key: string): string {
+    if (this.languageData && this.languageData[key]) {
+      return this.languageData[key];
+    } else {
+      // Handle missing translation
+      return 'Translation not found';
+    }
+  } // end getString() method.
+
+  formatString(key: string, ...params: string[]): string {
+    let str = this.getString(key);
+    for (let i = 0; i < params.length; i++) {
+      const regex = new RegExp('%' + (i + 1), 'g');
+      str = str.replace(regex, params[i]);
+    }
+    return str;
+  } // end formatString() method.
 
 } // end of settings service class.

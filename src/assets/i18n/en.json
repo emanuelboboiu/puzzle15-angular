@@ -1,5 +1,14 @@
 {
+    "IMG_LOGO_ALT": "Game Logo – A wooden puzzle saying \"15 PUZZLE\"",
     "BT_PLAY": "Play",
     "BT_SETTINGS": "Settings",
-    "BT_ABOUT": "About"
+    "BT_ABOUT": "About",
+    "BT_BACK": "Go back",
+    "MSG_CONGRATS": "Congratulations!",
+    "MSG_YOU_WON": "You won!",
+    "MSG_ARE_SURE": "Are you sure?",
+    "BT_START": "Start!",
+    "BT_ABANDON": "Abandon!",
+    "BT_YES": "Yes",
+    "BT_NO": "No"
 }

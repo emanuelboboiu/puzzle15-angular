@@ -130,7 +130,7 @@ export class AppComponent {
       let ok = true; //variable to verify if the pieces are placed correctly.
       for (let i = 0; i < this.boardSize * this.boardSize - 1; i++) {
         if (this.pieces[i].number !== i + 1) {
-          ok = false;
+          ok = true;
         }
       }
       if (ok === true) {

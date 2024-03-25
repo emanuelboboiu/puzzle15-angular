@@ -35,6 +35,7 @@ export class AppComponent {
   selectedPiece!: piece;
   disable = false; //this is for disableing the click function while the pieces are moving.
   screenWidth!: number;
+  nrMoves: number = 0; // how many moves were in an abandoned or solved game.
   timerValueSec = 0;
   timerSubscription: Subscription = new Subscription();
   gameStarted = false;
@@ -92,6 +93,7 @@ export class AppComponent {
       //here I check if the distance on just one of the axis is 1.
       if (Math.abs(x) + Math.abs(y) == 1) {
         this.player.play('move');
+        this.nrMoves++; // we increment the number of moves.
 
         const pieceIndex = this.findPieceIndexByNumber(piece.number);
 
@@ -224,6 +226,7 @@ export class AppComponent {
 
   // A method to set the numbers on the board, new or saved:
   setPuzzleNumbers() {
+    this.nrMoves = 0; // we reset th enumber of moves for stats to 0.
     let boardNumbers = [];
 
     // If is a new board:
@@ -242,7 +245,6 @@ export class AppComponent {
       tempBoardNumbers = this.shuffleArray(tempBoardNumbers);
       tempI++;
     } while (!this.isSolvable(tempBoardNumbers));
-    console.log("Eliza's size is: " + tempI);
     // Fill now the board effectively:
     for (let i = 0; i < this.pieces.length; i++) {
       this.pieces[i].number = tempBoardNumbers[i]; // t fill correctly.
@@ -330,6 +332,8 @@ export class AppComponent {
           this.boardSize +
           '&duration=' +
           this.timerValueSec +
+          '&moves=' +
+          this.nrMoves +
           '&os=' +
           this.settings.os +
           '&language=' +

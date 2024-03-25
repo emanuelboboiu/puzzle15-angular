@@ -236,10 +236,13 @@ export class AppComponent {
     // Now shuffle it in a do while, until it is solvable::
     // Create another array for work, if it is not solvable to begin att the start with the shuffle:
     let tempBoardNumbers = [];
+    let tempI = 0;
     do {
       tempBoardNumbers = boardNumbers;
       tempBoardNumbers = this.shuffleArray(tempBoardNumbers);
-    } while (this.isSolvable(tempBoardNumbers));
+      tempI++;
+    } while (!this.isSolvable(tempBoardNumbers));
+    console.log("Eliza's size is: " + tempI);
     // Fill now the board effectively:
     for (let i = 0; i < this.pieces.length; i++) {
       this.pieces[i].number = tempBoardNumbers[i]; // t fill correctly.
@@ -339,7 +342,7 @@ export class AppComponent {
 
   // A method that calculates if the puzzle is solvable:
   isSolvable(puzzle: number[]): boolean {
-    const size = Math.sqrt(puzzle.length); // Assuming the puzzle size is a perfect square + 1 (e.g., 16 for 4x4 puzzle)
+    const size = Math.sqrt(puzzle.length); // Assuming the puzzle size is a perfect square + 1 (e.g., 16 for 4x4 puzzle).
     let inversions = 0;
     let rowWithBlank = 0;
 

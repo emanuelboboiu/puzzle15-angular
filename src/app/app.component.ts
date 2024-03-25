@@ -150,7 +150,7 @@ export class AppComponent {
   startGame(): void {
     this.player.play('start');
     this.createBoard();
-    this.shuffleArray();
+    this.setPuzzleNumbers(); // this generate a new array of number if not saved, or charges the saved one.
     this.startTimer();
     this.insertStats('1'); // 1 means a start, 2 means finish/won, 3 means abandon. 
     this.gameStarted = true;
@@ -222,15 +222,37 @@ export class AppComponent {
     this.currSection = 4;
   } // end of goToAbout() method.
 
-  //a method to put pieces in a random order.
-  shuffleArray() {
-    for (let i = this.pieces.length - 1; i > 0; i--) {
+  // A method to set the numbers on the board, new or saved:
+  setPuzzleNumbers() {
+    let boardNumbers = [];
+
+    // If is a new board:
+    // We need an array of arranged numbers:
+    for (let i = 1; i < this.boardSize * this.boardSize; i++) {
+      boardNumbers.push(i);
+    } // end for.
+    boardNumbers.push(0); // we also add the 0 value at the end.
+
+    // Now shuffle it in a do while, until it is solvable::
+    // Create another array for work, if it is not solvable to begin att the start with the shuffle:
+    let tempBoardNumbers = [];
+    do {
+      tempBoardNumbers = boardNumbers;
+      tempBoardNumbers = this.shuffleArray(tempBoardNumbers);
+    } while (this.isSolvable(tempBoardNumbers));
+    // Fill now the board effectively:
+    for (let i = 0; i < this.pieces.length; i++) {
+      this.pieces[i].number = tempBoardNumbers[i]; // t fill correctly.
+    } // end for.
+  } // end setPuzzleNumbers() method.
+
+  // A method to shuffle the array of numbers..
+  shuffleArray(arr: number[]): number[] {
+    for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [this.pieces[i].number, this.pieces[j].number] = [
-        this.pieces[j].number,
-        this.pieces[i].number,
-      ];
-    }
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    } // end for.
+    return arr;
   } //end of shuffleArray() method.
 
   //method for starting the timer
@@ -314,5 +336,33 @@ export class AppComponent {
         });
     } // end if it is not development mode.
   } // end insertStats() method.
+
+  // A method that calculates if the puzzle is solvable:
+  isSolvable(puzzle: number[]): boolean {
+    const size = Math.sqrt(puzzle.length); // Assuming the puzzle size is a perfect square + 1 (e.g., 16 for 4x4 puzzle)
+    let inversions = 0;
+    let rowWithBlank = 0;
+
+    for (let i = 0; i < puzzle.length; i++) {
+      if (puzzle[i] === 0) { // Find the row number containing the blank space
+        rowWithBlank = Math.floor(i / size) + 1;
+        continue;
+      }
+      for (let j = i + 1; j < puzzle.length; j++) {
+        if (puzzle[i] > puzzle[j] && puzzle[j] !== 0) {
+          inversions++;
+        }
+      }
+    }
+
+    // If the grid size is odd, the number of inversions must be even
+    if (size % 2 === 1) {
+      return inversions % 2 === 0;
+    } else { // If the grid size is even
+      // If the blank is on an even row counting from the bottom (zero-indexed), then the number of inversions must be odd
+      // If the blank is on an odd row counting from the bottom (zero-indexed), then the number of inversions must be even
+      return (inversions + rowWithBlank) % 2 === 0;
+    }
+  } // end isSolvablePuzzle() method.
 
 } // end class.

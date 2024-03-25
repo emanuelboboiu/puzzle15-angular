@@ -1,5 +1,5 @@
 import { Component, NgModule } from '@angular/core';
-
+import { SettingsService } from '../settings.service';
 
 @Component({
   selector: 'app-about',
@@ -9,5 +9,9 @@ import { Component, NgModule } from '@angular/core';
   styleUrl: './about.component.css'
 })
 export class AboutComponent {
+
+  constructor(public settings: SettingsService) {
+
+  } // end constructor.
 
 }

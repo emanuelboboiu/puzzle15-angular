@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, LOCALE_ID, Inject } from '@angular/core';
 import { timeout } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root'
@@ -10,20 +9,23 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 export class SettingsService {
   isDev = false; // not to have many stats in development mode.
   os: number = 0; // 0 means web, 1 means iOS, 2 means Android.
-  language: string = "ro";
+  language: string = "en"; // this is only to have something declared, never used this value.
+  acceptedLanguages: string[] = ['en', 'ro']; // Array of accepted languages
   languageData: any;
+  preferredLangKey: string = 'preferredLang';
   isSound: boolean = true;
   lsIsSoundKey: string = "lsSettingsSound";
   isAccessibility: boolean = false;
   lsIsAccessibilityKey: string = "lsSettingsAccessibility";
 
   constructor(private http: HttpClient,
-    private sanitizer: DomSanitizer) {
+    @Inject(LOCALE_ID) private localeId: string) {
     this.loadSettingsFromLocalStorage();
   } // end constructor.
 
   // A method to load the settings from local storage:
   loadSettingsFromLocalStorage(): void {
+    this.detectChosenLanguage();
     if (this.lsExists(this.lsIsSoundKey)) {
       this.isSound = this.getBooleanSetting(this.lsIsSoundKey);
     } else {
@@ -34,7 +36,8 @@ export class SettingsService {
     } else {
       this.isAccessibility = false;
     }
-    // Load language data (e.g., English)
+    // Load language data from xx.json files found in assets/i18n:
+    this.languageData = null;
     this.loadLanguage(this.language).subscribe(data => {
       this.languageData = data;
     });
@@ -54,6 +57,14 @@ export class SettingsService {
     return this.convertStringToBoolean(String(localStorage.getItem(key)));
   } // end getBooleanSetting() method.
 
+  saveStringSetting(key: string, value: string): void {
+    localStorage.setItem(key, value);
+  } // end saveBooleanSetting() method.
+
+  getStringSetting(key: string): string {
+    return String(localStorage.getItem(key));
+  } // end getBooleanSetting() method.
+
   // Some methods to convert values and save and get them from localStorage:
   convertBooleanToString(value: boolean): string {
     return value == true ? "1" : "0";
@@ -67,6 +78,23 @@ export class SettingsService {
   loadLanguage(lang: string): Observable<any> {
     return this.http.get<any>(`/assets/i18n/${lang}.json`);
   } // end loadLanguage() method.
+
+  // A method to charge the chosen language:
+  detectChosenLanguage(): void {
+    // Check if user's preferred language is saved in local settings
+    let preferredLang = localStorage.getItem(this.preferredLangKey);
+    if (!preferredLang) {
+      // If not saved, use browser's default language
+      preferredLang = this.localeId.substring(0, 2);
+      // Now this default language must exists in the accepted languages:
+      if (!this.acceptedLanguages.includes(preferredLang)) {
+        preferredLang = 'en'; // this is by default if not in localStorage and the browsers language isn't accepted.
+      }
+      // Save this language preference:
+      localStorage.setItem(this.preferredLangKey, preferredLang);
+    } // end if language was not saved.
+    this.language = preferredLang;
+  }//  // end detectChosenLanguage() method.
 
   getString(key: string): string {
     if (this.languageData && this.languageData[key]) {

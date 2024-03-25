@@ -130,7 +130,7 @@ export class AppComponent {
       let ok = true; //variable to verify if the pieces are placed correctly.
       for (let i = 0; i < this.boardSize * this.boardSize - 1; i++) {
         if (this.pieces[i].number !== i + 1) {
-          ok = true;
+          ok = false;
         }
       }
       if (ok === true) {
@@ -273,7 +273,7 @@ export class AppComponent {
       this.ariaLabels = [];
       for (let i = 0; i < this.boardSize * this.boardSize; i++) {
         let currNum =
-          i < this.boardSize * this.boardSize - 1 ? '' + (i + 1) : 'empty';
+          i < this.boardSize * this.boardSize - 1 ? '' + (i + 1) : this.settings.getString('LABEL_EMPTY');
         this.ariaLabels.push('' + currNum + ', ' + this.getAriaLabel(i));
       } // end for.
     } // end if isAccessibility enabled.
@@ -286,7 +286,7 @@ export class AppComponent {
         this.ariaLabels = [];
         for (let i = 0; i < this.boardSize * this.boardSize; i++) {
           let currNum = document.getElementById('pos' + i)?.innerHTML;
-          if (Number(currNum) == 0) { currNum = 'empty' }
+          if (Number(currNum) == 0) { currNum = this.settings.getString('LABEL_EMPTY') }
           this.ariaLabels.push('' + currNum + ', ' + this.getAriaLabel(i));
         } // end for.
       }, 350);

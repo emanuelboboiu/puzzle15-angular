@@ -41,6 +41,7 @@ export class AppComponent implements OnInit, OnDestroy {
   gameStarted = false;
   gameWon = false;
   askIfAbandon = false;
+  showMessageSavedGame: boolean = false;
   alphabet: string[] = 'ABCDE'.split('');
   ariaLabels: string[] = [];
   isSavedGame: boolean = false;
@@ -176,6 +177,12 @@ export class AppComponent implements OnInit, OnDestroy {
   // This method save a game if it is not fnished or abandoned:
   saveCurrentGame(): void {
     if (this.gameStarted) {
+      // We show the message for some seconds:
+      this.showMessageSavedGame = true;
+      setTimeout(() => {
+        this.showMessageSavedGame = false;
+      }, 5000);
+
       // We save the value of the game during playing:
       this.settings.saveBooleanSetting(this.settings.isSavedGameKey, true);
       this.settings.saveStringSetting(this.settings.savedBoardSizeKey, String(this.boardSize));

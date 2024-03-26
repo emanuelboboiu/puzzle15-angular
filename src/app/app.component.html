@@ -81,6 +81,15 @@
     </button>
   </div>
 
+  <!-- This div appears when the game is saved, as a notification: -->
+  <div *ngIf="showMessageSavedGame" class="savedMessageDiv">
+    <span role="alert">
+      {{ settings.getString("MSG_GAME_SAVED1") }}
+      <br>
+      {{ settings.getString("MSG_GAME_SAVED2") }}
+    </span>
+  </div>
+
   <!-- The bottom buttons: -->
   <button *ngIf="!gameStarted" (click)="startGame()" class="btn" [disabled]="gameStarted">
     {{ settings.getString('BT_START') }}

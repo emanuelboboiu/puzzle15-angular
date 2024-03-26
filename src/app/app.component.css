@@ -126,9 +126,11 @@ p {
 .grid3 {
   grid-template-columns: repeat(3, 1fr);
 }
+
 .grid4 {
   grid-template-columns: repeat(4, 1fr);
 }
+
 .grid5 {
   grid-template-columns: repeat(5, 1fr);
 }
@@ -160,7 +162,7 @@ p {
   background-repeat: no-repeat;
 }
 
-.askIfAbandon > span {
+.askIfAbandon>span {
   margin-bottom: 5rem;
   color: #4a2a16;
   font-weight: 600;
@@ -177,4 +179,10 @@ p {
   position: fixed;
   top: 2rem;
   left: 1rem;
+}
+
+.savedMessageDiv>span {
+  margin-bottom: 5rem;
+  color: #4a2a16;
+  font-weight: 600;
 }

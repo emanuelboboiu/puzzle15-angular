@@ -1,4 +1,4 @@
-import { Component, HostListener, NgModule } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, NgModule } from '@angular/core';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { SettingsComponent } from './settings/settings.component';
 import { AboutComponent } from './about/about.component';
@@ -24,7 +24,7 @@ import { SettingsService } from './settings.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   title = '15 Puzzle';
   apiFileName: string = "insert_stats.php";
   currSection: number = 0; // 0 means main page, 1 means the game zone etc.
@@ -43,12 +43,22 @@ export class AppComponent {
   askIfAbandon = false;
   alphabet: string[] = 'ABCDE'.split('');
   ariaLabels: string[] = [];
+  isSavedGame: boolean = false;
 
   constructor(private player: PlayerService,
     public settings: SettingsService,
     private rqs: RequestsService) {
     this.screenWidth = window.innerWidth;
   } // end constructor.
+
+  ngOnInit(): void {
+    // We check if there is a saved game - a not finished one or not abandoned:
+    this.checkIfThereIsSavedGame();
+  } // end ngOnInit() method.
+
+  ngOnDestroy(): void {
+    this.timerSubscription.unsubscribe();
+  } // end ngOnDestroy() method.
 
   //hook for finding window size.
   @HostListener('window:resize', ['$event'])
@@ -137,6 +147,7 @@ export class AppComponent {
       }
       if (ok === true) {
         this.insertStats('2'); // 1 means a start, 2 means finish/won, 3 means abandon. 
+        this.settings.saveBooleanSetting(this.settings.isSavedGameKey, false);
         this.timerSubscription.unsubscribe(); //stop the timer.
         this.gameWon = true;
         this.player.play('winner');
@@ -148,13 +159,43 @@ export class AppComponent {
     }
   } //end of verifyWin() method.
 
+  // A method to check if there is a saved game:
+  checkIfThereIsSavedGame(): void {
+    if (this.settings.lsExists(this.settings.isSavedGameKey) && this.settings.getBooleanSetting(this.settings.isSavedGameKey)) {
+      this.isSavedGame = true;
+      // It is sure that we also have the size of the board saved:
+      this.boardSize = Number(this.settings.getStringSetting(this.settings.savedBoardSizeKey));
+      this.nrMoves = Number(this.settings.getStringSetting(this.settings.savedMovesKey));
+      this.timerValueSec = Number(this.settings.getStringSetting(this.settings.savedSecondsKey));
+      this.currSection = 2;
+      this.startGame();
+    } else {
+    }
+  } // end checkIfThereIsSavedGame() method.
+
+  // This method save a game if it is not fnished or abandoned:
+  saveCurrentGame(): void {
+    if (this.gameStarted) {
+      // We save the value of the game during playing:
+      this.settings.saveBooleanSetting(this.settings.isSavedGameKey, true);
+      this.settings.saveStringSetting(this.settings.savedBoardSizeKey, String(this.boardSize));
+      this.settings.saveStringSetting(this.settings.savedMovesKey, String(this.nrMoves));
+      this.settings.saveStringSetting(this.settings.savedSecondsKey, String(this.timerValueSec));
+      let tempBoardNumbers: string[] = [];
+      for (let i = 0; i < this.pieces.length; i++) {
+        tempBoardNumbers.push(this.pieces[i].number.toString());
+      } // end for.
+      let temp = tempBoardNumbers.join('');
+      this.settings.saveStringSetting(this.settings.savedBoardNumbersKey, temp);
+      this.player.play('save');
+    } // end if the game is started.
+  } // end saveCurrentGame() method.
+
   // Method for starting the game.
   startGame(): void {
-    this.player.play('start');
     this.createBoard();
     this.setPuzzleNumbers(); // this generate a new array of number if not saved, or charges the saved one.
     this.startTimer();
-    this.insertStats('1'); // 1 means a start, 2 means finish/won, 3 means abandon. 
     this.gameStarted = true;
     this.gameWon = false;
     this.refillAriaLabels();
@@ -202,6 +243,8 @@ export class AppComponent {
     this.askIfAbandon = false;
     this.gameWon = false;
     this.gameStarted = false;
+    // We set in the localStorage that there is no started game:
+    this.settings.saveBooleanSetting(this.settings.isSavedGameKey, false);
     this.insertStats('3'); // 1 means a start, 2 means finish/won, 3 means abandon. 
     this.goToMain();
   } // end of abandonEffectively() method.
@@ -226,29 +269,40 @@ export class AppComponent {
 
   // A method to set the numbers on the board, new or saved:
   setPuzzleNumbers() {
-    this.nrMoves = 0; // we reset th enumber of moves for stats to 0.
-    let boardNumbers = [];
-
-    // If is a new board:
-    // We need an array of arranged numbers:
-    for (let i = 1; i < this.boardSize * this.boardSize; i++) {
-      boardNumbers.push(i);
-    } // end for.
-    boardNumbers.push(0); // we also add the 0 value at the end.
-
-    // Now shuffle it in a do while, until it is solvable::
-    // Create another array for work, if it is not solvable to begin att the start with the shuffle:
-    let tempBoardNumbers = [];
-    let tempI = 0;
-    do {
-      tempBoardNumbers = boardNumbers;
-      tempBoardNumbers = this.shuffleArray(tempBoardNumbers);
-      tempI++;
-    } while (!this.isSolvable(tempBoardNumbers));
-    // Fill now the board effectively:
+    let boardNumbers: number[] = [];
+    if (this.isSavedGame) {
+      // We already have the board size, the number of moves and the timer seconds are charged in checkIfThereIsSavedGame() method..
+      // We get here only the numbers of the pieces:
+      let tempB = this.settings.getStringSetting(this.settings.savedBoardNumbersKey);
+      let tempArrB = tempB.split('');
+      for (let i = 0; i < tempArrB.length; i++) {
+        boardNumbers.push(parseInt(tempArrB[i]));
+      } // end for.
+      this.insertStats('4'); // 4 means restart (saved game).
+    } else { // there is a new game, not a saved one:
+      // If is a new board:
+      this.player.play('start');
+      this.nrMoves = 0; // we reset the number of moves for stats to 0.
+      // We need an array of arranged numbers:
+      for (let i = 1; i < this.boardSize * this.boardSize; i++) {
+        boardNumbers.push(i);
+      } // end for.
+      boardNumbers.push(0); // we also add the 0 value at the end.
+      // Now shuffle it in a do while, until it is solvable::
+      // Create another array for work, if it is not solvable to begin att the start with the shuffle:
+      let tempBoardNumbers = [];
+      do {
+        tempBoardNumbers = boardNumbers;
+        tempBoardNumbers = this.shuffleArray(tempBoardNumbers);
+      } while (!this.isSolvable(tempBoardNumbers));
+      boardNumbers = tempBoardNumbers;
+      this.insertStats('1'); // 1 means a start, 2 means finish/won, 3 means abandon. 
+    } // end if is not a saved started game.
+    // Fill now the board effectively, no matter if saved or new:
     for (let i = 0; i < this.pieces.length; i++) {
-      this.pieces[i].number = tempBoardNumbers[i]; // t fill correctly.
+      this.pieces[i].number = boardNumbers[i]; // t fill correctly.
     } // end for.
+
   } // end setPuzzleNumbers() method.
 
   // A method to shuffle the array of numbers..
@@ -266,7 +320,9 @@ export class AppComponent {
     this.timerSubscription.unsubscribe();
 
     //start a new timer.
-    this.timerValueSec = 0; //reset timer value.
+    if (!this.isSavedGame) {
+      this.timerValueSec = 0; // reset timer value.
+    }
     const source = timer(1000, 1000); //start after 1 second, emit every 1 second.
     this.timerSubscription = source.subscribe((val) => {
       this.timerValueSec = val + 1; //update timer value.
@@ -290,9 +346,9 @@ export class AppComponent {
 
   getAriaLabel(index: number): string {
     const row = Math.floor(index / this.boardSize) + 1;
-    const column = index % this.boardSize;
-    const rowLabel = this.alphabet[row - 1];
-    return rowLabel + (column + 1);
+    const column = (index % this.boardSize) + 1;
+    const columnLabel = this.alphabet[column - 1];
+    return columnLabel + row;
   } // end getAriaLabel() method.
 
   fillAriaLabels(): void {

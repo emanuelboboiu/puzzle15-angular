@@ -20,7 +20,8 @@ export class AudioTagsComponent implements OnInit {
       "action",
       "winner",
       "abandon",
-      "start"
+      "start",
+      "save"
     ];
   } // end constructor.
 

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class SettingsService {
   isDev = false; // not to have many stats in development mode.
-  os: number = 2; // 0 means web, 1 means iOS, 2 means Android.
+  os: number = 1; // 0 means web, 1 means iOS, 2 means Android.
   language: string = "en"; // this is only to have something declared, never used this value.
   acceptedLanguages: string[] = ['en', 'ro']; // Array of accepted languages
   languageData: any;
@@ -17,6 +17,14 @@ export class SettingsService {
   lsIsSoundKey: string = "lsSettingsSound";
   isAccessibility: boolean = false;
   lsIsAccessibilityKey: string = "lsSettingsAccessibility";
+  // For autosaving a not abandoned game:
+  isSavedGameKey: string = "isSavedGame";
+  savedBoardSizeKey: string = "savedBoardSize";
+  savedMovesKey: string = "savedMoves"; // for the number of moves.
+  savedSecondsKey: string = "savedSeconds"; // for duration in seconds.
+  savedBoardNumbersKey: string = "savedBoardNumbers"; // for the array of number stringiffied.
+
+
 
   constructor(private http: HttpClient,
     @Inject(LOCALE_ID) private localeId: string) {

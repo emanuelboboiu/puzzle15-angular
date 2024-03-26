@@ -89,6 +89,10 @@
     [disabled]="!gameStarted || askIfAbandon">
     {{ settings.getString('BT_ABANDON') }}
   </button>
+  <button *ngIf="!(!gameStarted || askIfAbandon)" (click)="saveCurrentGame()" class="btn"
+    [disabled]="!gameStarted || askIfAbandon">
+    {{ settings.getString('BT_SAVE') }}
+  </button>
 
   <!-- Here a div for aria labels, only if is enabled in settings: -->
   <div *ngIf="settings.isAccessibility" style="display: none">

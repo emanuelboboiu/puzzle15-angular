@@ -36,6 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
   disable = false; //this is for disableing the click function while the pieces are moving.
   screenWidth!: number;
   nrMoves: number = 0; // how many moves were in an abandoned or solved game.
+  initialNrMoves: number = 0; // to know what number of moves we have at the start of a new or saved session.
   timerValueSec = 0;
   timerSubscription: Subscription = new Subscription();
   gameStarted = false;
@@ -149,6 +150,7 @@ export class AppComponent implements OnInit, OnDestroy {
       if (ok === true) {
         this.insertStats('2'); // 1 means a start, 2 means finish/won, 3 means abandon. 
         this.settings.saveBooleanSetting(this.settings.isSavedGameKey, false);
+        this.isSavedGame = false;
         this.timerSubscription.unsubscribe(); //stop the timer.
         this.gameWon = true;
         this.player.play('winner');
@@ -167,6 +169,7 @@ export class AppComponent implements OnInit, OnDestroy {
       // It is sure that we also have the size of the board saved:
       this.boardSize = Number(this.settings.getStringSetting(this.settings.savedBoardSizeKey));
       this.nrMoves = Number(this.settings.getStringSetting(this.settings.savedMovesKey));
+      this.initialNrMoves = this.nrMoves;
       this.timerValueSec = Number(this.settings.getStringSetting(this.settings.savedSecondsKey));
       this.currSection = 2;
       this.startGame();
@@ -187,12 +190,13 @@ export class AppComponent implements OnInit, OnDestroy {
       this.settings.saveBooleanSetting(this.settings.isSavedGameKey, true);
       this.settings.saveStringSetting(this.settings.savedBoardSizeKey, String(this.boardSize));
       this.settings.saveStringSetting(this.settings.savedMovesKey, String(this.nrMoves));
+      this.initialNrMoves = this.nrMoves;
       this.settings.saveStringSetting(this.settings.savedSecondsKey, String(this.timerValueSec));
       let tempBoardNumbers: string[] = [];
       for (let i = 0; i < this.pieces.length; i++) {
         tempBoardNumbers.push(this.pieces[i].number.toString());
       } // end for.
-      let temp = tempBoardNumbers.join('');
+      let temp = tempBoardNumbers.join('|');
       this.settings.saveStringSetting(this.settings.savedBoardNumbersKey, temp);
       this.player.play('save');
     } // end if the game is started.
@@ -252,6 +256,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.gameStarted = false;
     // We set in the localStorage that there is no started game:
     this.settings.saveBooleanSetting(this.settings.isSavedGameKey, false);
+    this.isSavedGame = false;
     this.insertStats('3'); // 1 means a start, 2 means finish/won, 3 means abandon. 
     this.goToMain();
   } // end of abandonEffectively() method.
@@ -281,15 +286,17 @@ export class AppComponent implements OnInit, OnDestroy {
       // We already have the board size, the number of moves and the timer seconds are charged in checkIfThereIsSavedGame() method..
       // We get here only the numbers of the pieces:
       let tempB = this.settings.getStringSetting(this.settings.savedBoardNumbersKey);
-      let tempArrB = tempB.split('');
+      let tempArrB = tempB.split('|');
       for (let i = 0; i < tempArrB.length; i++) {
         boardNumbers.push(parseInt(tempArrB[i]));
       } // end for.
       this.insertStats('4'); // 4 means restart (saved game).
+
     } else { // there is a new game, not a saved one:
       // If is a new board:
       this.player.play('start');
       this.nrMoves = 0; // we reset the number of moves for stats to 0.
+      this.initialNrMoves = 0;
       // We need an array of arranged numbers:
       for (let i = 1; i < this.boardSize * this.boardSize; i++) {
         boardNumbers.push(i);
@@ -297,7 +304,7 @@ export class AppComponent implements OnInit, OnDestroy {
       boardNumbers.push(0); // we also add the 0 value at the end.
       // Now shuffle it in a do while, until it is solvable::
       // Create another array for work, if it is not solvable to begin att the start with the shuffle:
-      let tempBoardNumbers = [];
+      let tempBoardNumbers: number[] = [];
       do {
         tempBoardNumbers = boardNumbers;
         tempBoardNumbers = this.shuffleArray(tempBoardNumbers);

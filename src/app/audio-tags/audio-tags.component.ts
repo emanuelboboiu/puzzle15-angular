@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
+import { SettingsService } from '../settings.service';
 
 @Component({
   selector: 'app-audio-tags',
@@ -13,7 +14,7 @@ export class AudioTagsComponent implements OnInit {
 
   sounds: string[];
 
-  constructor() {
+  constructor(public settings: SettingsService) {
     this.sounds = [
       "move",
       "blocked",
@@ -21,14 +22,15 @@ export class AudioTagsComponent implements OnInit {
       "winner",
       "abandon",
       "start",
-      "save"
+      "save",
+      "click"
     ];
   } // end constructor.
 
   ngOnInit(): void {
     setTimeout(() => {
       this.showAudioTags = true;
-    }, 2000);
+    }, 100);
   }
 
 } // end audio-tags component class.

@@ -5,18 +5,20 @@ import { SettingsService } from './settings.service';
   providedIn: 'root'
 })
 export class PlayerService {
+  private audioPlayer: HTMLAudioElement;
 
   constructor(private settings: SettingsService) {
-
+    this.audioPlayer = new Audio();
   } // end constructor.
 
   // This method plays the sounds in general:
-  public play(soundName: string): void {
+  play(soundFileName: string): void {
     if (this.settings.isSound) {
-      let p = <HTMLAudioElement>document.getElementById(soundName);
-      p.currentTime = 0;
-      p?.play();
-    } // end if sounds are enabled in settings.
+      const soundFilePath = `assets/sounds/${soundFileName}.mp3`;
+      this.audioPlayer.src = soundFilePath;
+      this.audioPlayer.load();
+      this.audioPlayer.play();
+    } // end if sound are enabled in settings.
   } // end play() method.
 
 } // end of player service class.

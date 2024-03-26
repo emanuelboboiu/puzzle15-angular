@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy, HostListener, NgModule } from '@angular/c
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { SettingsComponent } from './settings/settings.component';
 import { AboutComponent } from './about/about.component';
-import { AudioTagsComponent } from './audio-tags/audio-tags.component';
 import { RequestsService } from './requests.service';
 import { piece } from './piece.type';
 import { timer, Subscription } from 'rxjs';
@@ -17,7 +16,6 @@ import { SettingsService } from './settings.service';
     NgIf,
     NgFor,
     NgClass,
-    AudioTagsComponent,
     SettingsComponent,
     AboutComponent,
   ],

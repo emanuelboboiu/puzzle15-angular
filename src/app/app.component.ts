@@ -376,7 +376,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   refillAriaLabels(): void {
     if (this.settings.isAccessibility) {
-      // We need the delay of 350 to have the move done:
       setTimeout(() => {
         this.ariaLabels = [];
         for (let i = 0; i < this.boardSize * this.boardSize; i++) {

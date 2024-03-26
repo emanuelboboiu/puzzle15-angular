@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SettingsService {
-  isDev = false; // not to have many stats in development mode.
+  isDev = false; // not to have many stats when developing.
   os: number = 1; // 0 means web, 1 means iOS, 2 means Android.
   language: string = "en"; // this is only to have something declared, never used this value.
   acceptedLanguages: string[] = ['en', 'ro']; // Array of accepted languages
@@ -23,7 +23,6 @@ export class SettingsService {
   savedMovesKey: string = "savedMoves"; // for the number of moves.
   savedSecondsKey: string = "savedSeconds"; // for duration in seconds.
   savedBoardNumbersKey: string = "savedBoardNumbers"; // for the array of number stringiffied.
-
 
 
   constructor(private http: HttpClient,

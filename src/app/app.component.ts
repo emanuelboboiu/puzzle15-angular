@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy, HostListener, NgModule } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  HostListener,
+  NgModule,
+} from '@angular/core';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { SettingsComponent } from './settings/settings.component';
 import { AboutComponent } from './about/about.component';
@@ -12,19 +18,13 @@ import { SettingsService } from './settings.service';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    NgIf,
-    NgFor,
-    NgClass,
-    SettingsComponent,
-    AboutComponent,
-  ],
+  imports: [NgIf, NgFor, NgClass, SettingsComponent, AboutComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = '15 Puzzle';
-  apiFileName: string = "insert_stats.php";
+  apiFileName: string = 'insert_stats.php';
   currSection: number = 0; // 0 means main page, 1 means the game zone etc.
   boardSize: number = 4;
   pieces: piece[] = []; //array of puzzle pieces.
@@ -45,9 +45,11 @@ export class AppComponent implements OnInit, OnDestroy {
   ariaLabels: string[] = [];
   isSavedGame: boolean = false;
 
-  constructor(private player: PlayerService,
+  constructor(
+    private player: PlayerService,
     public settings: SettingsService,
-    private rqs: RequestsService) {
+    private rqs: RequestsService
+  ) {
     this.screenWidth = window.innerWidth;
   } // end constructor.
 
@@ -129,6 +131,11 @@ export class AppComponent implements OnInit, OnDestroy {
           this.refillAriaLabels();
           this.verifyWin();
         }, 300);
+        setTimeout(() => {
+          var element: any =
+            document.getElementsByClassName('invisible-piece')[0];
+          element.style.transform = 'none';
+        }, 301);
       } else {
         // not moved:
         this.player.play('blocked');
@@ -146,7 +153,7 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       }
       if (ok === true) {
-        this.insertStats('2'); // 1 means a start, 2 means finish/won, 3 means abandon. 
+        this.insertStats('2'); // 1 means a start, 2 means finish/won, 3 means abandon.
         this.settings.saveBooleanSetting(this.settings.isSavedGameKey, false);
         this.isSavedGame = false;
         this.timerSubscription.unsubscribe(); //stop the timer.
@@ -162,13 +169,22 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // A method to check if there is a saved game:
   checkIfThereIsSavedGame(): void {
-    if (this.settings.lsExists(this.settings.isSavedGameKey) && this.settings.getBooleanSetting(this.settings.isSavedGameKey)) {
+    if (
+      this.settings.lsExists(this.settings.isSavedGameKey) &&
+      this.settings.getBooleanSetting(this.settings.isSavedGameKey)
+    ) {
       this.isSavedGame = true;
       // It is sure that we also have the size of the board saved:
-      this.boardSize = Number(this.settings.getStringSetting(this.settings.savedBoardSizeKey));
-      this.nrMoves = Number(this.settings.getStringSetting(this.settings.savedMovesKey));
+      this.boardSize = Number(
+        this.settings.getStringSetting(this.settings.savedBoardSizeKey)
+      );
+      this.nrMoves = Number(
+        this.settings.getStringSetting(this.settings.savedMovesKey)
+      );
       this.initialNrMoves = this.nrMoves;
-      this.timerValueSec = Number(this.settings.getStringSetting(this.settings.savedSecondsKey));
+      this.timerValueSec = Number(
+        this.settings.getStringSetting(this.settings.savedSecondsKey)
+      );
       this.currSection = 2;
       this.startGame();
     } else {
@@ -186,10 +202,19 @@ export class AppComponent implements OnInit, OnDestroy {
 
       // We save the value of the game during playing:
       this.settings.saveBooleanSetting(this.settings.isSavedGameKey, true);
-      this.settings.saveStringSetting(this.settings.savedBoardSizeKey, String(this.boardSize));
-      this.settings.saveStringSetting(this.settings.savedMovesKey, String(this.nrMoves));
+      this.settings.saveStringSetting(
+        this.settings.savedBoardSizeKey,
+        String(this.boardSize)
+      );
+      this.settings.saveStringSetting(
+        this.settings.savedMovesKey,
+        String(this.nrMoves)
+      );
       this.initialNrMoves = this.nrMoves;
-      this.settings.saveStringSetting(this.settings.savedSecondsKey, String(this.timerValueSec));
+      this.settings.saveStringSetting(
+        this.settings.savedSecondsKey,
+        String(this.timerValueSec)
+      );
       let tempBoardNumbers: string[] = [];
       for (let i = 0; i < this.pieces.length; i++) {
         tempBoardNumbers.push(this.pieces[i].number.toString());
@@ -255,7 +280,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // We set in the localStorage that there is no started game:
     this.settings.saveBooleanSetting(this.settings.isSavedGameKey, false);
     this.isSavedGame = false;
-    this.insertStats('3'); // 1 means a start, 2 means finish/won, 3 means abandon. 
+    this.insertStats('3'); // 1 means a start, 2 means finish/won, 3 means abandon.
     this.goToMain();
   } // end of abandonEffectively() method.
 
@@ -283,14 +308,16 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.isSavedGame) {
       // We already have the board size, the number of moves and the timer seconds are charged in checkIfThereIsSavedGame() method..
       // We get here only the numbers of the pieces:
-      let tempB = this.settings.getStringSetting(this.settings.savedBoardNumbersKey);
+      let tempB = this.settings.getStringSetting(
+        this.settings.savedBoardNumbersKey
+      );
       let tempArrB = tempB.split('|');
       for (let i = 0; i < tempArrB.length; i++) {
         boardNumbers.push(parseInt(tempArrB[i]));
       } // end for.
       this.insertStats('4'); // 4 means restart (saved game).
-
-    } else { // there is a new game, not a saved one:
+    } else {
+      // there is a new game, not a saved one:
       // If is a new board:
       this.player.play('start');
       this.nrMoves = 0; // we reset the number of moves for stats to 0.
@@ -308,13 +335,12 @@ export class AppComponent implements OnInit, OnDestroy {
         tempBoardNumbers = this.shuffleArray(tempBoardNumbers);
       } while (!this.isSolvable(tempBoardNumbers));
       boardNumbers = tempBoardNumbers;
-      this.insertStats('1'); // 1 means a start, 2 means finish/won, 3 means abandon. 
+      this.insertStats('1'); // 1 means a start, 2 means finish/won, 3 means abandon.
     } // end if is not a saved started game.
     // Fill now the board effectively, no matter if saved or new:
     for (let i = 0; i < this.pieces.length; i++) {
       this.pieces[i].number = boardNumbers[i]; // t fill correctly.
     } // end for.
-
   } // end setPuzzleNumbers() method.
 
   // A method to shuffle the array of numbers..
@@ -368,7 +394,9 @@ export class AppComponent implements OnInit, OnDestroy {
       this.ariaLabels = [];
       for (let i = 0; i < this.boardSize * this.boardSize; i++) {
         let currNum =
-          i < this.boardSize * this.boardSize - 1 ? '' + (i + 1) : this.settings.getString('LABEL_EMPTY');
+          i < this.boardSize * this.boardSize - 1
+            ? '' + (i + 1)
+            : this.settings.getString('LABEL_EMPTY');
         this.ariaLabels.push('' + currNum + ', ' + this.getAriaLabel(i));
       } // end for.
     } // end if isAccessibility enabled.
@@ -380,32 +408,36 @@ export class AppComponent implements OnInit, OnDestroy {
         this.ariaLabels = [];
         for (let i = 0; i < this.boardSize * this.boardSize; i++) {
           let currNum = document.getElementById('pos' + i)?.innerHTML;
-          if (Number(currNum) == 0) { currNum = this.settings.getString('LABEL_EMPTY') }
+          if (Number(currNum) == 0) {
+            currNum = this.settings.getString('LABEL_EMPTY');
+          }
           this.ariaLabels.push('' + currNum + ', ' + this.getAriaLabel(i));
         } // end for.
       }, 350);
     } // end if isAccessibility enabled.
   } // end refillAriaLabels() method.
 
-  insertStats(status: string): void { // status 1 means started, 2 finished, 3 abandoned.
+  insertStats(status: string): void {
+    // status 1 means started, 2 finished, 3 abandoned.
     // We insert efectivelly in the DB only if it is not development mode:
     if (!this.settings.isDev) {
       this.rqs
         .getDataGet(
           this.apiFileName,
           '?act=insStats&status=' +
-          status +
-          '&boardSize=' +
-          this.boardSize +
-          '&duration=' +
-          this.timerValueSec +
-          '&moves=' +
-          this.nrMoves +
-          '&os=' +
-          this.settings.os +
-          '&language=' +
-          this.settings.language
-        ).subscribe((json) => {
+            status +
+            '&boardSize=' +
+            this.boardSize +
+            '&duration=' +
+            this.timerValueSec +
+            '&moves=' +
+            this.nrMoves +
+            '&os=' +
+            this.settings.os +
+            '&language=' +
+            this.settings.language
+        )
+        .subscribe((json) => {
           // do nothing in lambda yet.
         });
     } // end if it is not development mode.
@@ -418,7 +450,8 @@ export class AppComponent implements OnInit, OnDestroy {
     let rowWithBlank = 0;
 
     for (let i = 0; i < puzzle.length; i++) {
-      if (puzzle[i] === 0) { // Find the row number containing the blank space
+      if (puzzle[i] === 0) {
+        // Find the row number containing the blank space
         rowWithBlank = Math.floor(i / size) + 1;
         continue;
       }
@@ -432,11 +465,11 @@ export class AppComponent implements OnInit, OnDestroy {
     // If the grid size is odd, the number of inversions must be even
     if (size % 2 === 1) {
       return inversions % 2 === 0;
-    } else { // If the grid size is even
+    } else {
+      // If the grid size is even
       // If the blank is on an even row counting from the bottom (zero-indexed), then the number of inversions must be odd
       // If the blank is on an odd row counting from the bottom (zero-indexed), then the number of inversions must be even
       return (inversions + rowWithBlank) % 2 === 0;
     }
   } // end isSolvablePuzzle() method.
-
 } // end class.

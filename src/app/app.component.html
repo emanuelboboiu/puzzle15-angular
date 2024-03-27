@@ -130,7 +130,7 @@
     {{ settings.getString("BT_ABANDON") }}
   </button>
   <button
-    *ngIf="!(!gameStarted || askIfAbandon) && nrMoves > initialNrMoves"
+    *ngIf="!(!gameStarted || askIfAbandon)"
     (click)="saveCurrentGame()"
     class="btn"
     [disabled]="!gameStarted || askIfAbandon || initialNrMoves == nrMoves"

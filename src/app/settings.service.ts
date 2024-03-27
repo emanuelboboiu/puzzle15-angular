@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class SettingsService {
   isDev = false; // not to have many stats when developing.
-  os: number = 1; // 0 means web, 1 means iOS, 2 means Android.
+  os: number = 2; // 0 means web, 1 means iOS, 2 means Android.
   language: string = "en"; // this is only to have something declared, never used this value.
   acceptedLanguages: string[] = ['en', 'ro']; // Array of accepted languages
   languageData: any;

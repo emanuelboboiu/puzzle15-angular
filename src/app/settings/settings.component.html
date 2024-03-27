@@ -1,25 +1,34 @@
 <!-- In the app html there is also a button for back which is in the same section - Settings. -->
-<div>
-  <div>
-    <h1>{{ settings.getString('TITLE_GENERAL_SETTINGS') }}</h1>
+<div class="page-content">
+  <h1>{{ settings.getString("TITLE_GENERAL_SETTINGS") }}</h1>
 
-    <label for="language">{{ settings.getString('LABEL_LANGUAGE') }}</label>
-    <select id="language" [(ngModel)]="tempSelectedLanguage">
-      <option *ngFor="let lang of settings.acceptedLanguages" [value]="lang">{{ lang.toUpperCase() }}</option>
-    </select>
-    <button (click)="saveLanguage()">{{ settings.getString('BT_CHANGE') }}</button>
-    <br>
-    <label>
-      <input type="checkbox" [(ngModel)]="isSound" (change)="saveSoundsChoice()" class="custom-checkbox" />
-      {{ settings.getString('LABEL_ENABLE_SOUNDS') }}
-    </label>
-  </div>
-  <div>
-    <h1>{{ settings.getString('TITLE_ACCESSIBILITY_SETTINGS') }}</h1>
-    <label>
-      <input type="checkbox" [(ngModel)]="isAccessibility" (change)="saveAccessibilityChoice()"
-        class="custom-checkbox" />
-      {{ settings.getString('LABEL_ENABLE_LABELLING') }}
-    </label>
-  </div>
+  <label for="language">{{ settings.getString("LABEL_LANGUAGE") }}</label>
+  <select id="language" [(ngModel)]="tempSelectedLanguage">
+    <option *ngFor="let lang of settings.acceptedLanguages" [value]="lang">
+      {{ lang.toUpperCase() }}
+    </option>
+  </select>
+  <button class="btn" (click)="saveLanguage()">
+    {{ settings.getString("BT_CHANGE") }}
+  </button>
+  <br />
+  <label>
+    <input
+      type="checkbox"
+      [(ngModel)]="isSound"
+      (change)="saveSoundsChoice()"
+      class="custom-checkbox"
+    />
+    {{ settings.getString("LABEL_ENABLE_SOUNDS") }}
+  </label>
+  <h1>{{ settings.getString("TITLE_ACCESSIBILITY_SETTINGS") }}</h1>
+  <label>
+    <input
+      type="checkbox"
+      [(ngModel)]="isAccessibility"
+      (change)="saveAccessibilityChoice()"
+      class="custom-checkbox"
+    />
+    {{ settings.getString("LABEL_ENABLE_LABELLING") }}
+  </label>
 </div>

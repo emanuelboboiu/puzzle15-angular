@@ -13,22 +13,12 @@
   </button>
   <br />
   <label>
-    <input
-      type="checkbox"
-      [(ngModel)]="isSound"
-      (change)="saveSoundsChoice()"
-      class="custom-checkbox"
-    />
+    <input type="checkbox" [(ngModel)]="isSound" (change)="saveSoundsChoice()" class="custom-checkbox" />
     {{ settings.getString("LABEL_ENABLE_SOUNDS") }}
   </label>
   <h1>{{ settings.getString("TITLE_ACCESSIBILITY_SETTINGS") }}</h1>
   <label>
-    <input
-      type="checkbox"
-      [(ngModel)]="isAccessibility"
-      (change)="saveAccessibilityChoice()"
-      class="custom-checkbox"
-    />
+    <input type="checkbox" [(ngModel)]="isAccessibility" (change)="saveAccessibilityChoice()" class="custom-checkbox" />
     {{ settings.getString("LABEL_ENABLE_LABELLING") }}
   </label>
 </div>

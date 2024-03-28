@@ -163,7 +163,7 @@ p {
   background-repeat: no-repeat;
 }
 
-.askIfAbandon > span {
+.askIfAbandon>span {
   margin-bottom: 5rem;
   color: #4a2a16;
   font-weight: 600;
@@ -182,7 +182,7 @@ p {
   left: 1rem;
 }
 
-.savedMessageDiv > span {
+.savedMessageDiv>span {
   margin-bottom: 5rem;
   color: #4a2a16;
   font-weight: 600;

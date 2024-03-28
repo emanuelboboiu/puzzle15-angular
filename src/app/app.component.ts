@@ -150,10 +150,11 @@ export class AppComponent implements OnInit, OnDestroy {
       for (let i = 0; i < this.boardSize * this.boardSize - 1; i++) {
         if (this.pieces[i].number !== i + 1) {
           ok = false;
-        }
-      }
+          break;
+        }  // end if no number in succession.
+      } // end for.
       if (ok === true) {
-        this.insertStats('2'); // 1 means a start, 2 means finish/won, 3 means abandon.
+        this.insertStats('2'); // 1 means a start, 2 means finish/won, 3 means abandon, 4 means saved.
         this.settings.saveBooleanSetting(this.settings.isSavedGameKey, false);
         this.isSavedGame = false;
         this.timerSubscription.unsubscribe(); //stop the timer.
@@ -162,7 +163,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.gameStarted = false;
         this.askIfAbandon = false;
 
-        party.confetti(document.getElementById('confetti')!); //throw confetti
+        party.confetti(document.getElementById('confetti')!); // throw confetti
       }
     }
   } //end of verifyWin() method.
@@ -425,17 +426,17 @@ export class AppComponent implements OnInit, OnDestroy {
         .getDataGet(
           this.apiFileName,
           '?act=insStats&status=' +
-            status +
-            '&boardSize=' +
-            this.boardSize +
-            '&duration=' +
-            this.timerValueSec +
-            '&moves=' +
-            this.nrMoves +
-            '&os=' +
-            this.settings.os +
-            '&language=' +
-            this.settings.language
+          status +
+          '&boardSize=' +
+          this.boardSize +
+          '&duration=' +
+          this.timerValueSec +
+          '&moves=' +
+          this.nrMoves +
+          '&os=' +
+          this.settings.os +
+          '&language=' +
+          this.settings.language
         )
         .subscribe((json) => {
           // do nothing in lambda yet.

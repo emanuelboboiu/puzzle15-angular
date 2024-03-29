@@ -38,6 +38,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "allowedCommonJsDependencies": [
+              "party-js"
+            ],
             "outputPath": "dist/puzzle15",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -64,7 +67,7 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
+                  "maximumWarning": "3kb",
                   "maximumError": "4kb"
                 }
               ],

@@ -153,7 +153,7 @@ export class AppComponent implements OnInit, OnDestroy {
       let ok = true; //variable to verify if the pieces are placed correctly.
       for (let i = 0; i < this.boardSize * this.boardSize - 1; i++) {
         if (this.pieces[i].number !== i + 1) {
-          ok = true;
+          ok = false;
           break;
         }  // end if no number in succession.
       } // end for.

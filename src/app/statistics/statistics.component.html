@@ -1,12 +1,76 @@
 <div class="statistics-page">
-    <h1>{{ settings.getString('TITLE_PERSONAL_STATISTICS') }}</h1>
-    <p role="alert">
-        {{ settings.formatString("MSG_BEST_SCORE", recordScore, recordDate) }}
-    </p>
 
     <h1>{{ settings.getString('TITLE_GENERAL_STATISTICS') }}</h1>
+
+    <!-- The general record: -->
     <p>
-        Here are general stats.
+        {{ settings.formatString("MSG_BEST_SCORE", generalRecord, generalRecordDate) }}
     </p>
+
+    <!-- Next paragraph is for started puzzles: -->
+    <p>
+        {{ settings.formatString("STARTED_PUZZLES", generalTotalStarted) }}
+        <br> -
+        <ng-container *ngFor="let s of generalStartedGames | keyvalue">
+            {{ s.key }}X{{ s.key }} – {{ s.value }};
+        </ng-container>
+    </p>
+
+    <!-- Next paragraph is for solved puzzles: -->
+    <p>
+        {{ settings.formatString("SOLVED_PUZZLES", generalTotalSolved) }}
+        <br> -
+        <ng-container *ngFor="let f of generalFinishedGames | keyvalue">
+            {{ f.key }}X{{ f.key }} – {{ f.value }};
+        </ng-container>
+    </p>
+
+    <!-- Now the average duration and moves: -->
+    <p>
+        {{ settings.formatString("AVERAGE_DURATION", generalAverageDuration) }}
+    </p>
+    <p>
+        {{ settings.formatString("AVERAGE_MOVES", generalAverageMoves) }}
+    </p>
+
+    <!-- Here personal statistics: -->
+    <h1>{{ settings.getString('TITLE_PERSONAL_STATISTICS') }}</h1>
+    <ng-container *ngIf="showPersonalStatistics">
+        <p role="alert">
+            {{ settings.formatString("MSG_BEST_SCORE", recordScore, recordDate) }}
+        </p>
+
+        <!-- Next paragraph is for started puzzles on this device: -->
+        <p>
+            {{ settings.formatString("STARTED_PUZZLES", personalTotalStarted) }}
+            <br> -
+            <ng-container *ngFor="let s of personalStartedGames | keyvalue">
+                {{ s.key }}X{{ s.key }} – {{ s.value }};
+            </ng-container>
+        </p>
+
+        <!-- Next paragraph is for solved puzzles on this device: -->
+        <p>
+            {{ settings.formatString("SOLVED_PUZZLES", personalTotalSolved) }}
+            <br> -
+            <ng-container *ngFor="let f of personalFinishedGames | keyvalue">
+                {{ f.key }}X{{ f.key }} – {{ f.value }};
+            </ng-container>
+        </p>
+
+        <!-- Now the average duration and moves on this device: -->
+        <p>
+            {{ settings.formatString("AVERAGE_DURATION", personalAverageDuration) }}
+        </p>
+        <p>
+            {{ settings.formatString("AVERAGE_MOVES", personalAverageMoves) }}
+        </p>
+    </ng-container> <!-- end if show personal stats. -->
+
+    <ng-container *ngIf="!showPersonalStatistics">
+        <p>
+            {{ settings.getString('MSG_PERSONAL_STATS_NOT_AVAILABLE') }}
+        </p>
+    </ng-container>
 
 </div>

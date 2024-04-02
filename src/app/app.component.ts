@@ -153,7 +153,7 @@ export class AppComponent implements OnInit, OnDestroy {
       let ok = true; //variable to verify if the pieces are placed correctly.
       for (let i = 0; i < this.boardSize * this.boardSize - 1; i++) {
         if (this.pieces[i].number !== i + 1) {
-          ok = false;
+          ok = true;
           break;
         }  // end if no number in succession.
       } // end for.
@@ -348,6 +348,7 @@ export class AppComponent implements OnInit, OnDestroy {
         tempBoardNumbers = this.shuffleArray(tempBoardNumbers);
       } while (!this.isSolvable(tempBoardNumbers));
       boardNumbers = tempBoardNumbers;
+      this.statistics.insertLocalStatsStartedGames(this.boardSize);
       this.insertStats('1'); // 1 means a start, 2 means finish/won, 3 means abandon.
     } // end if is not a saved started game.
     // Fill now the board effectively, no matter if saved or new:

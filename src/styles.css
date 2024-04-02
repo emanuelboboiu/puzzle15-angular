@@ -169,6 +169,10 @@ p {
   font-weight: 600;
 }
 
+.stats-container {
+  justify-content: flex-start;
+}
+
 .about-container {
   justify-content: flex-start;
 }

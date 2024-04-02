@@ -1,5 +1,4 @@
 import { Injectable, LOCALE_ID, Inject } from '@angular/core';
-import { timeout } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -7,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SettingsService {
-  isDev = false; // not to have many stats when developing.
+  isDev = true; // not to have many stats when developing.
   os: number = 1; // 0 means web, 1 means iOS, 2 means Android.
   language: string = "en"; // this is only to have something declared, never used this value.
   acceptedLanguages: string[] = ['en', 'ro']; // Array of accepted languages
@@ -72,6 +71,14 @@ export class SettingsService {
     return String(localStorage.getItem(key));
   } // end getBooleanSetting() method.
 
+  saveNumberSetting(key: string, value: number): void {
+    localStorage.setItem(key, String(value));
+  } // end saveNumberSetting() method.
+
+  getNumberSetting(key: string): number {
+    return Number(localStorage.getItem(key));
+  } // end getNumberSetting() method.
+
   // Some methods to convert values and save and get them from localStorage:
   convertBooleanToString(value: boolean): string {
     return value == true ? "1" : "0";
@@ -126,5 +133,22 @@ export class SettingsService {
     }
     return str;
   } // end formatString() method.
+
+  getFriendlyDate(currentDate: Date): string {
+    // Define the options for formatting the date
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      weekday: 'long',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: false
+    };
+
+    // Format the date into a friendly string
+    let friendlyDateString = currentDate.toLocaleDateString(this.language, options);
+    return friendlyDateString;
+  } // end getFriendlyDate() method.
 
 } // end of settings service class.

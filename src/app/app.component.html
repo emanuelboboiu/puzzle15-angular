@@ -4,6 +4,9 @@
   <button (click)="goToSelectBoardSize()" class="btn">
     {{ settings.getString("BT_PLAY") }}
   </button>
+  <button (click)="goToStatistics()" class="btn">
+    {{ settings.getString("BT_STATISTICS") }}
+  </button>
   <button (click)="goToSettings()" class="settings-btn btn">
     {{ settings.getString("BT_SETTINGS") }}
   </button>
@@ -33,13 +36,14 @@
   <div class="timer">
     <p>
       {{ padNumber(timerValueSec / 60) }}:{{ padNumber(timerValueSec % 60) }}
+      {{ nrMoves }}
     </p>
   </div>
   <!-- end timer div  -->
   <p *ngIf="gameWon" class="gameWon" role="alert">
     {{ settings.getString("MSG_CONGRATS") }}
     <br />
-    {{ settings.getString("MSG_YOU_WON") }}
+    {{ settings.formatString("MSG_YOU_WON", ""+finalScore) }}
   </p>
   <!-- div for making the board look 3d -->
   <div class="board-sides">
@@ -135,3 +139,12 @@
   <app-about></app-about>
 </div>
 <!-- end about zone, fifth page of the application. -->
+
+<!-- The about zone, sixth page of the application, currSection = 5: -->
+<div *ngIf="currSection == 5" class="container stats-container">
+  <button (click)="goBackToMain()" class="back-btn" [attr.aria-label]="settings.getString('BT_BACK')">
+    <img src="../assets/arrow-left-solid.svg" alt="" />
+  </button>
+  <app-statistics></app-statistics>
+</div>
+<!-- end statistics zone, sixth page of the application. -->

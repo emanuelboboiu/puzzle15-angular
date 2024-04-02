@@ -1,0 +1,22 @@
+h1 {
+    color: #4a2a16;
+}
+
+.page-content {
+    width: min-content;
+}
+
+.statistics-page {
+    margin-top: 5rem;
+    margin-left: 1rem;
+    color: #4a2a16;
+    margin-bottom: 1rem;
+}
+
+.space {
+    width: 1rem;
+}
+
+p {
+    text-indent: 1rem;
+}

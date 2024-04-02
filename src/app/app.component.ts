@@ -7,6 +7,8 @@ import {
 } from '@angular/core';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { SettingsComponent } from './settings/settings.component';
+import { StatisticsComponent } from './statistics/statistics.component';
+import { StatisticsService } from './statistics.service';
 import { AboutComponent } from './about/about.component';
 import { RequestsService } from './requests.service';
 import { piece } from './piece.type';
@@ -18,7 +20,7 @@ import { SettingsService } from './settings.service';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NgIf, NgFor, NgClass, SettingsComponent, AboutComponent],
+  imports: [NgIf, NgFor, NgClass, SettingsComponent, StatisticsComponent, AboutComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
@@ -44,10 +46,12 @@ export class AppComponent implements OnInit, OnDestroy {
   alphabet: string[] = 'ABCDE'.split('');
   ariaLabels: string[] = [];
   isSavedGame: boolean = false;
+  finalScore: number = 0;
 
   constructor(
     private player: PlayerService,
     public settings: SettingsService,
+    private statistics: StatisticsService,
     private rqs: RequestsService
   ) {
     this.screenWidth = window.innerWidth;
@@ -154,6 +158,7 @@ export class AppComponent implements OnInit, OnDestroy {
         }  // end if no number in succession.
       } // end for.
       if (ok === true) {
+        this.finalScore = this.statistics.calculateFinalScore(this.boardSize, this.nrMoves, this.timerValueSec);
         this.insertStats('2'); // 1 means a start, 2 means finish/won, 3 means abandon, 4 means saved.
         this.settings.saveBooleanSetting(this.settings.isSavedGameKey, false);
         this.isSavedGame = false;
@@ -183,13 +188,13 @@ export class AppComponent implements OnInit, OnDestroy {
         this.settings.getStringSetting(this.settings.savedMovesKey)
       );
       this.initialNrMoves = this.nrMoves;
-      this.timerValueSec = Number(
+      this.timerValueSec = parseInt(
         this.settings.getStringSetting(this.settings.savedSecondsKey)
       );
+      // alert("" + this.timerValueSec);
       this.currSection = 2;
       this.startGame();
-    } else {
-    }
+    } // end if a saved game exists.
   } // end checkIfThereIsSavedGame() method.
 
   // This method save a game if it is not fnished or abandoned:
@@ -258,6 +263,7 @@ export class AppComponent implements OnInit, OnDestroy {
   goToGame(size: number): void {
     this.player.play('action');
     this.boardSize = size; // the size comes from the html button clickedf.
+    this.nrMoves = 0;
     this.currSection = 2;
     this.fillAriaLabels();
     this.createBoard();
@@ -302,6 +308,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.player.play('action');
     this.currSection = 4;
   } // end of goToAbout() method.
+
+  // The method to go to statistics:
+  goToStatistics(): void {
+    this.player.play('action');
+    this.currSection = 5;
+  } // end of goToStatistics() method.
 
   // A method to set the numbers on the board, new or saved:
   setPuzzleNumbers() {
@@ -362,9 +374,13 @@ export class AppComponent implements OnInit, OnDestroy {
     if (!this.isSavedGame) {
       this.timerValueSec = 0; // reset timer value.
     }
-    const source = timer(1000, 1000); //start after 1 second, emit every 1 second.
+
+    const initialValue = this.timerValueSec || 0; // Set initial value to timerValueSec if available, otherwise 0
+    // Calculate the initial delay based on the difference between the initial value and 0
+    const initialDelay = initialValue > 0 ? (1000 - (initialValue * 1000) % 1000) : 1000;
+    const source = timer(initialDelay, 1000); // Start after calculated initial delay, emit every 1 second.
     this.timerSubscription = source.subscribe((val) => {
-      this.timerValueSec = val + 1; //update timer value.
+      this.timerValueSec = initialValue + val; // Update timer value
     });
   } //end of startTimer() method.
 
@@ -429,6 +445,8 @@ export class AppComponent implements OnInit, OnDestroy {
           status +
           '&boardSize=' +
           this.boardSize +
+          '&score=' +
+          this.finalScore +
           '&duration=' +
           this.timerValueSec +
           '&moves=' +
@@ -473,4 +491,5 @@ export class AppComponent implements OnInit, OnDestroy {
       return (inversions + rowWithBlank) % 2 === 0;
     }
   } // end isSolvablePuzzle() method.
+
 } // end class.

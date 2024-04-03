@@ -4,7 +4,7 @@
   <!-- The general record: -->
   <p>
     {{
-      settings.formatString("MSG_BEST_SCORE", generalRecord, generalRecordDate)
+    settings.formatString("MSG_BEST_SCORE", generalRecord, generalRecordDate)
     }}
   </p>
 
@@ -13,7 +13,7 @@
     {{ settings.formatString("STARTED_PUZZLES", generalTotalStarted) }}
     <br />
     <ng-container *ngFor="let s of generalStartedGames | keyvalue">
-      {{ s.key }}X{{ s.key }} : {{ s.value }};<br />
+      {{ s.key }}X{{ s.key }} – {{ s.value }};<br />
     </ng-container>
   </p>
 
@@ -22,7 +22,7 @@
     {{ settings.formatString("SOLVED_PUZZLES", generalTotalSolved) }}
     <br />
     <ng-container *ngFor="let f of generalFinishedGames | keyvalue">
-      {{ f.key }}X{{ f.key }} : {{ f.value }}; <br />
+      {{ f.key }}X{{ f.key }} – {{ f.value }}; <br />
     </ng-container>
   </p>
 

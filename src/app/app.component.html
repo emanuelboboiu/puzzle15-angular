@@ -32,7 +32,7 @@
     [attr.aria-label]="settings.getString('BT_BACK')">
     <img src="../assets/arrow-left-solid.svg" alt="" />
   </button>
-  <!-- timer and moves div  -->
+  <!-- Timer and moves div: -->
   <div class="timer-moves">
     <div class="timer">
       <p>
@@ -45,7 +45,7 @@
       </p>
     </div>
   </div>
-  <!-- end timer div  -->
+  <!-- end timer div. -->
   <p *ngIf="gameWon" class="gameWon" role="alert">
     {{ settings.getString("MSG_CONGRATS") }}
     <br />
@@ -70,7 +70,7 @@
           (this.selectedPiece == piece ? distanceY : 0) +
           'px)'
         ">
-        <p [attr.role]="(settings.os !== 2 && settings.isAccessibility) ? 'button' : null" [attr.id]="'pos' + i"
+        <p [attr.role]="(settings.isAccessibility && settings.os !== 2) ? 'button' : null" [attr.id]="'pos' + i"
           [attr.aria-labelledby]="settings.isAccessibility ? 'label' + i : null" [ngClass]="{
             piece3: boardSize == 3,
             piece4: boardSize == 4,

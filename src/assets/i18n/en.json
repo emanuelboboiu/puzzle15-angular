@@ -32,7 +32,7 @@
     "AVERAGE_MOVES": "Average moves per game: %1;",
     "TITLE_ABOUT": "About This Game",
     "ABOUT1": "15 Puzzle is an addictive sliding puzzle game where players rearrange numbered tiles to achieve a specific pattern. With smooth gameplay and intuitive controls, players can enjoy a challenging yet relaxing experience.",
-    "ABOUT2": "Developed using Angular and optimized with CapacitorJS technology for seamless performance on mobile devices, 15 Puzzle offers minutes of brain-teasing entertainment.",
+    "ABOUT2": "Developed and optimized for seamless performance on mobile devices, 15 Puzzle offers minutes of brain-teasing entertainment.",
     "ABOUT3": "Available on the stores for mobile devices, this game promises endless fun for puzzle enthusiasts of all ages.",
     "ABOUT4": "Developed by Emanuel Boboiu and Florin Andrei Mischie.",
     "TITLE_ABOUT_PLAY": "Game Play",

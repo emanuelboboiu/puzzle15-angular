@@ -5,11 +5,10 @@ import { SettingsService } from '../settings.service';
 import { PlayerService } from '../player.service';
 
 @Component({
-  selector: 'app-settings',
-  standalone: true,
-  imports: [FormsModule, NgFor, NgIf, NgClass],
-  templateUrl: './settings.component.html',
-  styleUrl: './settings.component.css'
+    selector: 'app-settings',
+    imports: [FormsModule, NgFor, NgIf, NgClass],
+    templateUrl: './settings.component.html',
+    styleUrl: './settings.component.css'
 })
 export class SettingsComponent implements OnInit {
   tempSelectedLanguage: string;

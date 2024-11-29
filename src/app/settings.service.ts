@@ -3,29 +3,30 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SettingsService {
   isDev = false; // not to have many stats when developing.
-  os: number = 2; // 0 means web, 1 means iOS, 2 means Android.
-  language: string = "en"; // this is only to have something declared, never used this value.
+  os: number = 0; // 0 means web, 1 means iOS, 2 means Android.
+  language: string = 'en'; // this is only to have something declared, never used this value.
   acceptedLanguages: string[] = ['en', 'ro']; // Array of accepted languages
   languageData: any;
   preferredLangKey: string = 'preferredLang';
   isSound: boolean = true;
-  lsIsSoundKey: string = "lsSettingsSound";
+  lsIsSoundKey: string = 'lsSettingsSound';
   isAccessibility: boolean = false;
-  lsIsAccessibilityKey: string = "lsSettingsAccessibility";
+  lsIsAccessibilityKey: string = 'lsSettingsAccessibility';
   // For autosaving a not abandoned game:
-  isSavedGameKey: string = "isSavedGame";
-  savedBoardSizeKey: string = "savedBoardSize";
-  savedMovesKey: string = "savedMoves"; // for the number of moves.
-  savedSecondsKey: string = "savedSeconds"; // for duration in seconds.
-  savedBoardNumbersKey: string = "savedBoardNumbers"; // for the array of number stringiffied.
+  isSavedGameKey: string = 'isSavedGame';
+  savedBoardSizeKey: string = 'savedBoardSize';
+  savedMovesKey: string = 'savedMoves'; // for the number of moves.
+  savedSecondsKey: string = 'savedSeconds'; // for duration in seconds.
+  savedBoardNumbersKey: string = 'savedBoardNumbers'; // for the array of number stringiffied.
 
-
-  constructor(private http: HttpClient,
-    @Inject(LOCALE_ID) private localeId: string) {
+  constructor(
+    private http: HttpClient,
+    @Inject(LOCALE_ID) private localeId: string
+  ) {
     this.loadSettingsFromLocalStorage();
   } // end constructor.
 
@@ -44,7 +45,7 @@ export class SettingsService {
     }
     // Load language data from xx.json files found in assets/i18n:
     this.languageData = null;
-    this.loadLanguage(this.language).subscribe(data => {
+    this.loadLanguage(this.language).subscribe((data) => {
       this.languageData = data;
     });
     //end load language file.
@@ -86,11 +87,11 @@ export class SettingsService {
 
   // Some methods to convert values and save and get them from localStorage:
   convertBooleanToString(value: boolean): string {
-    return value == true ? "1" : "0";
+    return value == true ? '1' : '0';
   } // end convertBooleanToString() method.
 
   convertStringToBoolean(value: string): boolean {
-    return value == "1" ? true : false;
+    return value == '1' ? true : false;
   } // end convertStringToBoolean() method.
 
   // Methods for translation:
@@ -119,7 +120,7 @@ export class SettingsService {
     if (htmlElement) {
       htmlElement.setAttribute('lang', preferredLang);
     }
-  }//  // end detectChosenLanguage() method.
+  } //  // end detectChosenLanguage() method.
 
   getString(key: string): string {
     if (this.languageData && this.languageData[key]) {
@@ -148,12 +149,14 @@ export class SettingsService {
       weekday: 'long',
       hour: 'numeric',
       minute: 'numeric',
-      hour12: false
+      hour12: false,
     };
 
     // Format the date into a friendly string
-    let friendlyDateString = currentDate.toLocaleDateString(this.language, options);
+    let friendlyDateString = currentDate.toLocaleDateString(
+      this.language,
+      options
+    );
     return friendlyDateString;
   } // end getFriendlyDate() method.
-
 } // end of settings service class.

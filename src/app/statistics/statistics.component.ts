@@ -5,11 +5,10 @@ import { StatisticsService } from '../statistics.service';
 import { RequestsService } from '../requests.service';
 
 @Component({
-  selector: 'app-statistics',
-  standalone: true,
-  imports: [NgIf, NgFor, KeyValuePipe],
-  templateUrl: './statistics.component.html',
-  styleUrl: './statistics.component.css'
+    selector: 'app-statistics',
+    imports: [NgIf, NgFor, KeyValuePipe],
+    templateUrl: './statistics.component.html',
+    styleUrl: './statistics.component.css'
 })
 export class StatisticsComponent implements OnInit {
   quizzApiFileName: string = "get_stats.php";

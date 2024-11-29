@@ -18,11 +18,10 @@ import { PlayerService } from './player.service';
 import { SettingsService } from './settings.service';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [NgIf, NgFor, NgClass, SettingsComponent, StatisticsComponent, AboutComponent],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+    selector: 'app-root',
+    imports: [NgIf, NgFor, NgClass, SettingsComponent, StatisticsComponent, AboutComponent],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = '15 Puzzle';

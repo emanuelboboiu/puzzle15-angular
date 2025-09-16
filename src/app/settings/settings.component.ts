@@ -1,12 +1,12 @@
 import { Component, OnInit, NgModule } from '@angular/core';
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { SettingsService } from '../settings.service';
 import { PlayerService } from '../player.service';
 
 @Component({
     selector: 'app-settings',
-    imports: [FormsModule, NgFor, NgIf, NgClass],
+    imports: [FormsModule, NgFor],
     templateUrl: './settings.component.html',
     styleUrl: './settings.component.css'
 })
@@ -14,6 +14,7 @@ export class SettingsComponent implements OnInit {
   tempSelectedLanguage: string;
   isSound: boolean = true;
   isAccessibility: boolean = false;
+  isGestures: boolean = true;
 
   constructor(public settings: SettingsService,
     private player: PlayerService) {
@@ -23,6 +24,7 @@ export class SettingsComponent implements OnInit {
   ngOnInit(): void {
     this.isSound = this.settings.isSound;
     this.isAccessibility = this.settings.isAccessibility;
+    this.isGestures = this.settings.isGestures;
   } // end of NgOnInit() method.
 
   saveSoundsChoice(): void {
@@ -39,6 +41,12 @@ export class SettingsComponent implements OnInit {
     this.settings.isAccessibility = this.isAccessibility;
     this.settings.saveBooleanSetting(this.settings.lsIsAccessibilityKey, this.settings.isAccessibility)
   } // end of saveAccessibilityChoice() method.
+
+  saveGesturesChoice(): void {
+    this.player.play('click');
+    this.settings.isGestures = this.isGestures;
+    this.settings.saveBooleanSetting(this.settings.lsIsGesturesKey, this.settings.isGestures)
+  } // end of saveGesturesChoice() method.
 
   saveLanguage(): void {
     this.player.play('action');

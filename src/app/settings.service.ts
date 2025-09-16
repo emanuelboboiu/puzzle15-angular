@@ -16,6 +16,8 @@ export class SettingsService {
   lsIsSoundKey: string = 'lsSettingsSound';
   isAccessibility: boolean = false;
   lsIsAccessibilityKey: string = 'lsSettingsAccessibility';
+  isGestures: boolean = true;
+  lsIsGesturesKey: string = 'lsSettingsGestures';
   // For autosaving a not abandoned game:
   isSavedGameKey: string = 'isSavedGame';
   savedBoardSizeKey: string = 'savedBoardSize';
@@ -42,6 +44,11 @@ export class SettingsService {
       this.isAccessibility = this.getBooleanSetting(this.lsIsAccessibilityKey);
     } else {
       this.isAccessibility = false;
+    }
+    if (this.lsExists(this.lsIsGesturesKey)) {
+      this.isGestures = this.getBooleanSetting(this.lsIsGesturesKey);
+    } else {
+      this.isGestures = true;
     }
     // Load language data from xx.json files found in assets/i18n:
     this.languageData = null;
@@ -159,4 +166,10 @@ export class SettingsService {
     );
     return friendlyDateString;
   } // end getFriendlyDate() method.
+
+  isMobile(): boolean {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+           ('ontouchstart' in window) ||
+           (navigator.maxTouchPoints > 0);
+  } // end isMobile() method.
 } // end of settings service class.

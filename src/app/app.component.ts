@@ -16,6 +16,7 @@ import { timer, Subscription } from 'rxjs';
 import party from 'party-js';
 import { PlayerService } from './player.service';
 import { SettingsService } from './settings.service';
+import { GestureService, SwipeEvent } from './gesture.service';
 
 @Component({
     selector: 'app-root',
@@ -51,7 +52,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private player: PlayerService,
     public settings: SettingsService,
     private statistics: StatisticsService,
-    private rqs: RequestsService
+    private rqs: RequestsService,
+    private gestureService: GestureService
   ) {
     this.screenWidth = window.innerWidth;
   } // end constructor.
@@ -491,5 +493,79 @@ export class AppComponent implements OnInit, OnDestroy {
       return (inversions + rowWithBlank) % 2 === 0;
     }
   } // end isSolvablePuzzle() method.
+
+  // Touch event handlers for gesture support
+  onTouchStart(event: TouchEvent): void {
+    if (this.settings.isGestures && this.settings.isMobile() && this.gameStarted) {
+      this.gestureService.onTouchStart(event);
+    }
+  } // end onTouchStart() method.
+
+  onTouchEnd(event: TouchEvent): void {
+    if (this.settings.isGestures && this.settings.isMobile() && this.gameStarted) {
+      const swipeEvent = this.gestureService.onTouchEnd(event);
+      if (swipeEvent) {
+        event.preventDefault(); // Only prevent default if we detected a swipe
+        this.handleSwipe(swipeEvent);
+      }
+      // If no swipe detected, allow normal click behavior
+    }
+  } // end onTouchEnd() method.
+
+  onTouchMove(event: TouchEvent): void {
+    if (this.settings.isGestures && this.settings.isMobile() && this.gameStarted) {
+      // Prevent pull-to-refresh by preventing default on any movement
+      event.preventDefault();
+    }
+  } // end onTouchMove() method.
+
+  // Handle swipe gestures and move pieces accordingly
+  handleSwipe(swipeEvent: SwipeEvent): void {
+    const moveablePiece = this.findMoveablePieceForDirection(swipeEvent.direction);
+    if (moveablePiece) {
+      this.move(moveablePiece);
+    }
+  } // end handleSwipe() method.
+
+  // Find which piece can move in the given direction
+  findMoveablePieceForDirection(direction: 'up' | 'down' | 'left' | 'right'): piece | null {
+    const zeroIndex = this.findPieceIndexByNumber(0);
+    if (zeroIndex === -1) return null;
+
+    const zeroPiece = this.pieces[zeroIndex];
+    let targetX = zeroPiece.x;
+    let targetY = zeroPiece.y;
+
+    // Calculate the position of the piece that should move into the empty space
+    // Note: x = row (increases downward), y = column (increases rightward)
+    switch (direction) {
+      case 'up':
+        targetX = zeroPiece.x + 1; // Piece below empty space (higher x) moves up
+        break;
+      case 'down':
+        targetX = zeroPiece.x - 1; // Piece above empty space (lower x) moves down
+        break;
+      case 'left':
+        targetY = zeroPiece.y + 1; // Piece to the right of empty space (higher y) moves left
+        break;
+      case 'right':
+        targetY = zeroPiece.y - 1; // Piece to the left of empty space (lower y) moves right
+        break;
+    }
+
+    // Check if the target position is within bounds
+    if (targetX < 1 || targetX > this.boardSize || targetY < 1 || targetY > this.boardSize) {
+      return null;
+    }
+
+    // Find the piece at the target position
+    for (let piece of this.pieces) {
+      if (piece.x === targetX && piece.y === targetY && piece.number !== 0) {
+        return piece;
+      }
+    }
+
+    return null;
+  } // end findMoveablePieceForDirection() method.
 
 } // end class.

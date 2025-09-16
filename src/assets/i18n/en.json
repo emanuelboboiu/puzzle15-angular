@@ -17,6 +17,7 @@
     "MSG_GAME_SAVED2": "The game will resume from this position the next time you launch it.",
     "TITLE_GENERAL_SETTINGS": "General Settings",
     "LABEL_ENABLE_SOUNDS": "Enable Sounds",
+    "LABEL_ENABLE_GESTURES": "Enable Swipe Gestures",
     "TITLE_ACCESSIBILITY_SETTINGS": "Accessibility Settings",
     "LABEL_ENABLE_LABELLING": "Enable Cell Coordinates Labeling",
     "LABEL_LANGUAGE": "Language:",

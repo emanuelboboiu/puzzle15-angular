@@ -69,6 +69,7 @@ body {
   background-repeat: no-repeat;
   box-shadow: inset 0 0 10px 10px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
+  touch-action: none; /* Prevent pull-to-refresh and other browser touch gestures */
 }
 
 .piece {

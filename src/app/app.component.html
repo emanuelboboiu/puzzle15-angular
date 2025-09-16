@@ -58,7 +58,7 @@
         grid3: boardSize == 3,
         grid4: boardSize == 4,
         grid5: boardSize == 5
-      }">
+      }" (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)" (touchend)="onTouchEnd($event)">
       <!-- pieces -->
       <div *ngFor="let piece of pieces; let i = index" class="piece" [ngClass]="{
           'invisible-piece': piece.number == 0

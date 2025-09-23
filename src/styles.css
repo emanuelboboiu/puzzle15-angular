@@ -75,7 +75,7 @@ body {
 .piece {
   aspect-ratio: 1;
   text-align: center;
-  font-weight: 500;
+  font-weight: 800;
   color: #4a2a16;
   background: url("./assets/piece.webp");
   background-size: cover;
@@ -90,15 +90,15 @@ body {
 }
 
 .piece3 {
-  font-size: 36px;
+  font-size: 42px;
 }
 
 .piece4 {
-  font-size: 30px;
+  font-size: 36px;
 }
 
 .piece5 {
-  font-size: 24px;
+  font-size: 30px;
 }
 
 p {

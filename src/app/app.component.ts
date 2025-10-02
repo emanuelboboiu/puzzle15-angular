@@ -523,7 +523,16 @@ export class AppComponent implements OnInit, OnDestroy {
   handleSwipe(swipeEvent: SwipeEvent): void {
     const moveablePiece = this.findMoveablePieceForDirection(swipeEvent.direction);
     if (moveablePiece) {
+      // Get the zero index before the swap (where the piece will end up)
+      const zeroIndex = this.findPieceIndexByNumber(0);
       this.move(moveablePiece);
+      // Focus on the moved piece's element after animation and label update completes
+      if (this.settings.isGestures && this.settings.isAccessibility) {
+        setTimeout(() => {
+          const pieceElement = document.getElementById('pos' + zeroIndex) as HTMLElement;
+          pieceElement?.focus();
+        }, 700);
+      }
     }
   } // end handleSwipe() method.
 

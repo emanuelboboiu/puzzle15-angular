@@ -16,6 +16,7 @@
     <input type="checkbox" [(ngModel)]="isSound" (change)="saveSoundsChoice()" class="custom-checkbox" />
     {{ settings.getString("LABEL_ENABLE_SOUNDS") }}
   </label>
+  <br/>
   <label>
     <input type="checkbox" [(ngModel)]="isGestures" (change)="saveGesturesChoice()" class="custom-checkbox" />
     {{ settings.getString("LABEL_ENABLE_GESTURES") }}

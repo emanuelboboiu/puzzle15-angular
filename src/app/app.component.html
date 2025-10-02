@@ -71,7 +71,8 @@
           'px)'
         ">
         <p [attr.role]="(settings.isAccessibility && settings.os !== 2) ? 'button' : null" [attr.id]="'pos' + i"
-          [attr.aria-labelledby]="settings.isAccessibility ? 'label' + i : null" [ngClass]="{
+          [attr.aria-labelledby]="settings.isAccessibility ? 'label' + i : null"
+          [attr.tabindex]="settings.isAccessibility ? '0' : null" [ngClass]="{
             piece3: boardSize == 3,
             piece4: boardSize == 4,
             piece5: boardSize == 5

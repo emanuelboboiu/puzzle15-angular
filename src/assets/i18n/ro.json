@@ -35,7 +35,7 @@
     "ABOUT1": "15 Puzzle este un joc captivant de puzzle în care jucătorii rearanjează piesele numerotate pentru a obține un anumit model. Cu un mod de joc fluid și controale intuitive, jucătorii se pot bucura de o experiență provocatoare, dar relaxantă.",
     "ABOUT2": "Dezvoltat și optimizat pentru dispozitivele mobile, 15 Puzzle oferă minute de divertisment captivant și stimulant pentru creier.",
     "ABOUT3": "Disponibil în magazinele de aplicații pentru dispozitivele mobile, acest joc oferă distracție pentru entuziaștii de puzzle de toate vârstele.",
-    "ABOUT4": "Dezvoltat de Emanuel Boboiu și Andrei Mischie.",
+    "ABOUT4": "Dezvoltat de Emanuel Boboiu, Andrei Mischie și Nelu Cîmpean.",
     "TITLE_ABOUT_PLAY": "Mod de joc",
     "ABOUT5": "15 Puzzle oferă grile cu 9, 16 sau 25 de celule, oferind niveluri variate de dificultate pentru toți jucătorii, indiferent de abilitățile acestora.",
     "ABOUT6": "Obiectivul tău este să aranjezi piesele numerotate în ordine crescătoare în interiorul grilei. De exemplu, într-o grilă de 4x4, va trebui să aranjezi numerele de la 1 la 15.",
@@ -43,5 +43,5 @@
     "ABOUT8": "Pentru a muta o piesă, apasă sau dă clic simplu pe ea. Dacă piesa este adiacentă celulei goale, aceasta va glisa în spațiul gol.",
     "ABOUT9": "Continuă să glisezi piesele strategic până când le-ai aranjat cu succes în ordinea corectă, asigurându-te că celula goală ajunge în colțul din dreapta jos.",
     "ABOUT10": "Acest joc a fost creat pentru a demonstra cum este posibilă dezvoltarea unui joc cu același cod pentru cele mai importante platforme, asigurând totodată și compatibilitatea cu cititoarele de ecran.",
-    "ABOUT11": "Versiunea 1.2, august 2024"
+    "ABOUT11": "Versiunea 2.0, octombrie 2025"
 }

@@ -35,7 +35,7 @@
     "ABOUT1": "15 Puzzle is an addictive sliding puzzle game where players rearrange numbered tiles to achieve a specific pattern. With smooth gameplay and intuitive controls, players can enjoy a challenging yet relaxing experience.",
     "ABOUT2": "Developed and optimized for seamless performance on mobile devices, 15 Puzzle offers minutes of brain-teasing entertainment.",
     "ABOUT3": "Available on the stores for mobile devices, this game promises endless fun for puzzle enthusiasts of all ages.",
-    "ABOUT4": "Developed by Emanuel Boboiu and Andrei Mischie.",
+    "ABOUT4": "Developed by Emanuel Boboiu, Andrei Mischie and Nelu Cîmpean.",
     "TITLE_ABOUT_PLAY": "Game Play",
     "ABOUT5": "15 Puzzle features grids with 9, 16, or 25 cells, offering varying levels of difficulty to suit players of all skill levels.",
     "ABOUT6": "Your objective is to arrange the numbered tiles in ascending order within the grid. For example, in a 4x4 grid, you'll need to arrange the numbers from 1 to 15.",
@@ -43,5 +43,5 @@
     "ABOUT8": "To move a tile, simply tap or click on it. If the tile is adjacent to the empty cell, it will slide into the empty space.",
     "ABOUT9": "Continue sliding the tiles strategically until you've successfully arranged them in the correct order, ensuring that the empty cell ends up in the bottom right corner.",
     "ABOUT10": "This game was created to demonstrate how it is possible to develop a game using the same code for the most important platforms, ensuring compatibility with screen readers.",
-    "ABOUT11": "Version 1.2, August 2024"
+    "ABOUT11": "Version 2.0, October 2025"
 }

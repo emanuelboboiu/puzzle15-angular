@@ -14,8 +14,10 @@ export class PlayerService {
   // This method plays the sounds in general:
   play(soundFileName: string): void {
     if (this.settings.isSound) {
-      const soundFilePath = `assets/sounds/${soundFileName}.mp3`;
+      const soundScheme = this.settings.soundScheme;
+      const soundFilePath = `assets/sounds/${soundScheme}/${soundFileName}.mp3`;
       this.audioPlayer.src = soundFilePath;
+      this.audioPlayer.volume = this.settings.soundVolume;
       this.audioPlayer.load();
       this.audioPlayer.play();
     } // end if sound are enabled in settings.

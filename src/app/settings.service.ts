@@ -14,6 +14,11 @@ export class SettingsService {
   preferredLangKey: string = 'preferredLang';
   isSound: boolean = true;
   lsIsSoundKey: string = 'lsSettingsSound';
+  soundScheme: string = 'wooden'; // Default sound scheme
+  lsSoundSchemeKey: string = 'lsSettingsSoundScheme';
+  acceptedSoundSchemes: string[] = ['wooden', 'metal']; // Array of accepted sound schemes
+  soundVolume: number = 0.7; // Default volume (0.0 to 1.0)
+  lsSoundVolumeKey: string = 'lsSettingsSoundVolume';
   isAccessibility: boolean = false;
   lsIsAccessibilityKey: string = 'lsSettingsAccessibility';
   isGestures: boolean = true;
@@ -39,6 +44,26 @@ export class SettingsService {
       this.isSound = this.getBooleanSetting(this.lsIsSoundKey);
     } else {
       this.isSound = true;
+    }
+    if (this.lsExists(this.lsSoundSchemeKey)) {
+      const savedScheme = this.getStringSetting(this.lsSoundSchemeKey);
+      if (this.acceptedSoundSchemes.includes(savedScheme)) {
+        this.soundScheme = savedScheme;
+      } else {
+        this.soundScheme = 'wooden';
+      }
+    } else {
+      this.soundScheme = 'wooden';
+    }
+    if (this.lsExists(this.lsSoundVolumeKey)) {
+      const savedVolume = this.getNumberSetting(this.lsSoundVolumeKey);
+      if (savedVolume >= 0 && savedVolume <= 1) {
+        this.soundVolume = savedVolume;
+      } else {
+        this.soundVolume = 0.7;
+      }
+    } else {
+      this.soundVolume = 0.7;
     }
     if (this.lsExists(this.lsIsAccessibilityKey)) {
       this.isAccessibility = this.getBooleanSetting(this.lsIsAccessibilityKey);

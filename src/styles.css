@@ -206,6 +206,11 @@ p {
   left: 1rem;
 }
 
+.back-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .savedMessageDiv > span {
   margin-bottom: 5rem;
   color: #4a2a16;

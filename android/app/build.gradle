@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
   namespace "ro.pontes.puzzlex"
-  compileSdkVersion rootProject.ext.compileSdkVersion
+  compileSdk rootProject.ext.compileSdkVersion
   defaultConfig {
     applicationId "ro.pontes.puzzlex"
     minSdkVersion rootProject.ext.minSdkVersion
     targetSdkVersion rootProject.ext.targetSdkVersion
-    versionCode 6
+    versionCode 7
     versionName "2.0"
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     aaptOptions {

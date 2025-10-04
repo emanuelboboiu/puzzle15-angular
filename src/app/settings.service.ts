@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 export class SettingsService {
   isDev = false; // not to have many stats when developing.
   os: number = 0; // 0 means web, 1 means iOS, 2 means Android.
+  deviceNames = ['Web', 'iOS', 'Android'];
   language: string = 'en'; // this is only to have something declared, never used this value.
   acceptedLanguages: string[] = ['en', 'ro']; // Array of accepted languages
   languageData: any;
@@ -193,8 +194,12 @@ export class SettingsService {
   } // end getFriendlyDate() method.
 
   isMobile(): boolean {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-           ('ontouchstart' in window) ||
-           (navigator.maxTouchPoints > 0);
+    return (
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      ) ||
+      'ontouchstart' in window ||
+      navigator.maxTouchPoints > 0
+    );
   } // end isMobile() method.
 } // end of settings service class.

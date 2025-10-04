@@ -19,10 +19,17 @@ import { SettingsService } from './settings.service';
 import { GestureService, SwipeEvent } from './gesture.service';
 
 @Component({
-    selector: 'app-root',
-    imports: [NgIf, NgFor, NgClass, SettingsComponent, StatisticsComponent, AboutComponent],
-    templateUrl: './app.component.html',
-    styleUrl: './app.component.css'
+  selector: 'app-root',
+  imports: [
+    NgIf,
+    NgFor,
+    NgClass,
+    SettingsComponent,
+    StatisticsComponent,
+    AboutComponent,
+  ],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = '15 Puzzle';
@@ -156,10 +163,14 @@ export class AppComponent implements OnInit, OnDestroy {
         if (this.pieces[i].number !== i + 1) {
           ok = false;
           break;
-        }  // end if no number in succession.
+        } // end if no number in succession.
       } // end for.
       if (ok === true) {
-        this.finalScore = this.statistics.calculateFinalScore(this.boardSize, this.nrMoves, this.timerValueSec);
+        this.finalScore = this.statistics.calculateFinalScore(
+          this.boardSize,
+          this.nrMoves,
+          this.timerValueSec
+        );
         this.insertStats('2'); // 1 means a start, 2 means finish/won, 3 means abandon, 4 means saved.
         this.settings.saveBooleanSetting(this.settings.isSavedGameKey, false);
         this.isSavedGame = false;
@@ -379,7 +390,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
     const initialValue = this.timerValueSec || 0; // Set initial value to timerValueSec if available, otherwise 0
     // Calculate the initial delay based on the difference between the initial value and 0
-    const initialDelay = initialValue > 0 ? (1000 - (initialValue * 1000) % 1000) : 1000;
+    const initialDelay =
+      initialValue > 0 ? 1000 - ((initialValue * 1000) % 1000) : 1000;
     const source = timer(initialDelay, 1000); // Start after calculated initial delay, emit every 1 second.
     this.timerSubscription = source.subscribe((val) => {
       this.timerValueSec = initialValue + val; // Update timer value
@@ -444,19 +456,19 @@ export class AppComponent implements OnInit, OnDestroy {
         .getDataGet(
           this.apiFileName,
           '?act=insStats&status=' +
-          status +
-          '&boardSize=' +
-          this.boardSize +
-          '&score=' +
-          this.finalScore +
-          '&duration=' +
-          this.timerValueSec +
-          '&moves=' +
-          this.nrMoves +
-          '&os=' +
-          this.settings.os +
-          '&language=' +
-          this.settings.language
+            status +
+            '&boardSize=' +
+            this.boardSize +
+            '&score=' +
+            this.finalScore +
+            '&duration=' +
+            this.timerValueSec +
+            '&moves=' +
+            this.nrMoves +
+            '&os=' +
+            this.settings.os +
+            '&language=' +
+            this.settings.language
         )
         .subscribe((json) => {
           // do nothing in lambda yet.
@@ -496,13 +508,21 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // Touch event handlers for gesture support
   onTouchStart(event: TouchEvent): void {
-    if (this.settings.isGestures && this.settings.isMobile() && this.gameStarted) {
+    if (
+      this.settings.isGestures &&
+      this.settings.isMobile() &&
+      this.gameStarted
+    ) {
       this.gestureService.onTouchStart(event);
     }
   } // end onTouchStart() method.
 
   onTouchEnd(event: TouchEvent): void {
-    if (this.settings.isGestures && this.settings.isMobile() && this.gameStarted) {
+    if (
+      this.settings.isGestures &&
+      this.settings.isMobile() &&
+      this.gameStarted
+    ) {
       const swipeEvent = this.gestureService.onTouchEnd(event);
       if (swipeEvent) {
         event.preventDefault(); // Only prevent default if we detected a swipe
@@ -513,7 +533,11 @@ export class AppComponent implements OnInit, OnDestroy {
   } // end onTouchEnd() method.
 
   onTouchMove(event: TouchEvent): void {
-    if (this.settings.isGestures && this.settings.isMobile() && this.gameStarted) {
+    if (
+      this.settings.isGestures &&
+      this.settings.isMobile() &&
+      this.gameStarted
+    ) {
       // Prevent pull-to-refresh by preventing default on any movement
       event.preventDefault();
     }
@@ -521,7 +545,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // Handle swipe gestures and move pieces accordingly
   handleSwipe(swipeEvent: SwipeEvent): void {
-    const moveablePiece = this.findMoveablePieceForDirection(swipeEvent.direction);
+    const moveablePiece = this.findMoveablePieceForDirection(
+      swipeEvent.direction
+    );
     if (moveablePiece) {
       // Get the zero index before the swap (where the piece will end up)
       const zeroIndex = this.findPieceIndexByNumber(0);
@@ -529,7 +555,9 @@ export class AppComponent implements OnInit, OnDestroy {
       // Focus on the moved piece's element after animation and label update completes
       if (this.settings.isGestures && this.settings.isAccessibility) {
         setTimeout(() => {
-          const pieceElement = document.getElementById('pos' + zeroIndex) as HTMLElement;
+          const pieceElement = document.getElementById(
+            'pos' + zeroIndex
+          ) as HTMLElement;
           pieceElement?.focus();
         }, 700);
       }
@@ -537,7 +565,9 @@ export class AppComponent implements OnInit, OnDestroy {
   } // end handleSwipe() method.
 
   // Find which piece can move in the given direction
-  findMoveablePieceForDirection(direction: 'up' | 'down' | 'left' | 'right'): piece | null {
+  findMoveablePieceForDirection(
+    direction: 'up' | 'down' | 'left' | 'right'
+  ): piece | null {
     const zeroIndex = this.findPieceIndexByNumber(0);
     if (zeroIndex === -1) return null;
 
@@ -563,7 +593,12 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     // Check if the target position is within bounds
-    if (targetX < 1 || targetX > this.boardSize || targetY < 1 || targetY > this.boardSize) {
+    if (
+      targetX < 1 ||
+      targetX > this.boardSize ||
+      targetY < 1 ||
+      targetY > this.boardSize
+    ) {
       return null;
     }
 
@@ -576,5 +611,4 @@ export class AppComponent implements OnInit, OnDestroy {
 
     return null;
   } // end findMoveablePieceForDirection() method.
-
 } // end class.

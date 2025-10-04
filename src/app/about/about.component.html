@@ -1,40 +1,40 @@
 <div class="about-page">
-  <h1>{{ settings.getString('TITLE_ABOUT') }}</h1>
+  <h1>{{ settings.getString("TITLE_ABOUT") }}</h1>
   <p>
-    {{ settings.getString('ABOUT1') }}
+    {{ settings.getString("ABOUT1") }}
   </p>
   <p>
-    {{ settings.getString('ABOUT2') }}
+    {{ settings.getString("ABOUT2") }}
   </p>
   <p>
-    {{ settings.getString('ABOUT3') }}
+    {{ settings.getString("ABOUT3") }}
   </p>
   <p>
-    {{ settings.getString('ABOUT4') }}
-  </p>
-  <br />
-  <h2>{{ settings.getString('TITLE_ABOUT_PLAY') }}</h2>
-  <p>
-    {{ settings.getString('ABOUT5') }}
-  </p>
-  <p>
-    {{ settings.getString('ABOUT6') }}
-  </p>
-  <p>
-    {{ settings.getString('ABOUT7') }}
-  </p>
-  <p>
-    {{ settings.getString('ABOUT8') }}
-  </p>
-  <p>
-    {{ settings.getString('ABOUT9') }}
+    {{ settings.getString("ABOUT4") }}
   </p>
   <br />
+  <h2>{{ settings.getString("TITLE_ABOUT_PLAY") }}</h2>
   <p>
-    {{ settings.getString('ABOUT10') }}
+    {{ settings.getString("ABOUT5") }}
+  </p>
+  <p>
+    {{ settings.getString("ABOUT6") }}
+  </p>
+  <p>
+    {{ settings.getString("ABOUT7") }}
+  </p>
+  <p>
+    {{ settings.getString("ABOUT8") }}
+  </p>
+  <p>
+    {{ settings.getString("ABOUT9") }}
   </p>
   <br />
   <p>
-    {{ settings.getString('ABOUT11') }}
+    {{ settings.getString("ABOUT10") }}
+  </p>
+  <br />
+  <p>
+    {{ settings.formatString("ABOUT11", settings.deviceNames[settings.os]) }}
   </p>
 </div>

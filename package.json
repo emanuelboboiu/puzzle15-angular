@@ -21,6 +21,7 @@
     "@angular/router": "^20.3.3",
     "@capacitor/android": "^7.4.3",
     "@capacitor/core": "^7.4.3",
+    "@capacitor/device": "^7.0.2",
     "@capacitor/ios": "^7.4.3",
     "party-js": "^2.2.0",
     "rxjs": "~7.8.0",

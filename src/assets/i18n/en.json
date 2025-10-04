@@ -18,6 +18,8 @@
   "TITLE_GENERAL_SETTINGS": "General Settings",
   "LABEL_ENABLE_SOUNDS": "Enable Sounds",
   "LABEL_SOUND_SCHEME": "Sound Scheme:",
+  "wooden": "Wooden",
+  "metal": "Metal",
   "LABEL_SOUND_VOLUME": "Sound Volume:",
   "LABEL_ENABLE_GESTURES": "Enable Swipe Gestures",
   "TITLE_ACCESSIBILITY_SETTINGS": "Accessibility Settings",

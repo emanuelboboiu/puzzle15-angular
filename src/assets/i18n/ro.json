@@ -18,6 +18,8 @@
   "TITLE_GENERAL_SETTINGS": "Setări generale",
   "LABEL_ENABLE_SOUNDS": "Activare sunete",
   "LABEL_SOUND_SCHEME": "Temă sunete:",
+  "wooden": "Lemn",
+  "metal": "Metal",
   "LABEL_SOUND_VOLUME": "Volum sunete:",
   "LABEL_ENABLE_GESTURES": "Activare gesturi glisare",
   "TITLE_ACCESSIBILITY_SETTINGS": "Setări de accesibilitate",

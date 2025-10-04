@@ -5,7 +5,7 @@ import {
   HostListener,
   NgModule,
 } from '@angular/core';
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { A11yModule } from '@angular/cdk/a11y';
 import { SettingsComponent } from './settings/settings.component';
 import { StatisticsComponent } from './statistics/statistics.component';
@@ -22,8 +22,6 @@ import { GestureService, SwipeEvent } from './gesture.service';
 @Component({
   selector: 'app-root',
   imports: [
-    NgIf,
-    NgFor,
     NgClass,
     A11yModule,
     SettingsComponent,

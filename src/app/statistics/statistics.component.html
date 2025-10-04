@@ -4,7 +4,7 @@
   <!-- The general record: -->
   <p>
     {{
-    settings.formatString("MSG_BEST_SCORE", generalRecord, generalRecordDate)
+      settings.formatString("MSG_BEST_SCORE", generalRecord, generalRecordDate)
     }}
   </p>
 
@@ -12,18 +12,22 @@
   <p>
     {{ settings.formatString("STARTED_PUZZLES", generalTotalStarted) }}
     <br />
-    <ng-container *ngFor="let s of generalStartedGames | keyvalue">
+    @for(s of generalStartedGames | keyvalue; track $index) {
+    <ng-container>
       {{ s.key }}X{{ s.key }} – {{ s.value }};<br />
     </ng-container>
+    }
   </p>
 
   <!-- Next paragraph is for solved puzzles: -->
   <p>
     {{ settings.formatString("SOLVED_PUZZLES", generalTotalSolved) }}
     <br />
-    <ng-container *ngFor="let f of generalFinishedGames | keyvalue">
+    @for(f of generalFinishedGames | keyvalue; track $index) {
+    <ng-container>
       {{ f.key }}X{{ f.key }} – {{ f.value }}; <br />
     </ng-container>
+    }
   </p>
 
   <!-- Now the average duration and moves: -->
@@ -36,7 +40,8 @@
 
   <!-- Here personal statistics: -->
   <h1>{{ settings.getString("TITLE_PERSONAL_STATISTICS") }}</h1>
-  <ng-container *ngIf="showPersonalStatistics">
+  @if(showPersonalStatistics) {
+  <ng-container>
     <p role="alert">
       {{ settings.formatString("MSG_BEST_SCORE", recordScore, recordDate) }}
     </p>
@@ -45,20 +50,18 @@
     <p>
       {{ settings.formatString("STARTED_PUZZLES", personalTotalStarted) }}
       <br />
-      -
-      <ng-container *ngFor="let s of personalStartedGames | keyvalue">
-        {{ s.key }}X{{ s.key }} – {{ s.value }};
-      </ng-container>
+      - @for(s of personalStartedGames | keyvalue; track $index) {
+      <ng-container> {{ s.key }}X{{ s.key }} – {{ s.value }}; </ng-container>
+      }
     </p>
 
     <!-- Next paragraph is for solved puzzles on this device: -->
     <p>
       {{ settings.formatString("SOLVED_PUZZLES", personalTotalSolved) }}
       <br />
-      -
-      <ng-container *ngFor="let f of personalFinishedGames | keyvalue">
-        {{ f.key }}X{{ f.key }} – {{ f.value }};
-      </ng-container>
+      - @for(f of personalFinishedGames | keyvalue; track $index) {
+      <ng-container> {{ f.key }}X{{ f.key }} – {{ f.value }}; </ng-container>
+      }
     </p>
 
     <!-- Now the average duration and moves on this device: -->
@@ -69,11 +72,14 @@
       {{ settings.formatString("AVERAGE_MOVES", personalAverageMoves) }}
     </p>
   </ng-container>
+  }
   <!-- end if show personal stats. -->
 
-  <ng-container *ngIf="!showPersonalStatistics">
+  @if(!showPersonalStatistics) {
+  <ng-container>
     <p>
       {{ settings.getString("MSG_PERSONAL_STATS_NOT_AVAILABLE") }}
     </p>
   </ng-container>
+  }
 </div>

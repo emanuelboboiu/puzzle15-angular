@@ -1,6 +1,7 @@
 import { Injectable, LOCALE_ID, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Device } from '@capacitor/device';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +10,7 @@ export class SettingsService {
   isDev = true; // not to have many stats when developing.
   os: number = 0; // 0 means web, 1 means iOS, 2 means Android.
   deviceNames = ['Web', 'iOS', 'Android'];
+  detectedLang: string = 'hu'; // this will be set in main.ts before app is bootstrapped.
   language: string = 'en'; // this is only to have something declared, never used this value.
   acceptedLanguages: string[] = ['en', 'ro']; // Array of accepted languages
   languageData: any;
@@ -76,6 +78,7 @@ export class SettingsService {
     } else {
       this.isGestures = true;
     }
+
     // Load language data from xx.json files found in assets/i18n:
     this.languageData = null;
     this.loadLanguage(this.language).subscribe((data) => {

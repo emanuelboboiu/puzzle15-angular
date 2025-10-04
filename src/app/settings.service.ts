@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class SettingsService {
-  isDev = false; // not to have many stats when developing.
+  isDev = true; // not to have many stats when developing.
   os: number = 0; // 0 means web, 1 means iOS, 2 means Android.
   deviceNames = ['Web', 'iOS', 'Android'];
   language: string = 'en'; // this is only to have something declared, never used this value.

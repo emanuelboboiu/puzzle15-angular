@@ -117,17 +117,25 @@
   <!-- end of board sides div -->
 
   <!-- This div appears when abandon is clicked, to ask if sure, we do it as modal: -->
-  <div *ngIf="askIfAbandon" class="askIfAbandon" aria-modal="true">
+  @if(askIfAbandon) {
+  <div
+    class="askIfAbandon"
+    role="dialog"
+    aria-modal="true"
+    cdkTrapFocus
+    [cdkTrapFocusAutoCapture]="true"
+  >
     <span role="alert">
       {{ settings.getString("MSG_ARE_SURE") }}
     </span>
-    <button (click)="abandonEffectively()" class="btn">
+    <button id="btnYes" (click)="abandonEffectively()" class="btn">
       {{ settings.getString("BT_YES") }}
     </button>
-    <button (click)="dontAbandon()" class="btn">
+    <button id="btnNo" (click)="dontAbandon()" class="btn">
       {{ settings.getString("BT_NO") }}
     </button>
   </div>
+  }
 
   <!-- The bottom buttons: -->
   <button

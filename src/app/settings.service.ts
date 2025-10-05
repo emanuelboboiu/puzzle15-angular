@@ -8,9 +8,9 @@ import { Device } from '@capacitor/device';
 })
 export class SettingsService {
   isDev = true; // not to have many stats when developing.
-  os: number = 0; // 0 means web, 1 means iOS, 2 means Android.
+  os: number = 2; // 0 means web, 1 means iOS, 2 means Android.
   deviceNames = ['Web', 'iOS', 'Android'];
-  detectedLang: string = 'hu'; // this will be set in main.ts before app is bootstrapped.
+  detectedLang: string = 'en'; // this will be set in main.ts before app is bootstrapped.
   language: string = 'en'; // this is only to have something declared, never used this value.
   acceptedLanguages: string[] = ['en', 'ro']; // Array of accepted languages
   languageData: any;
@@ -71,7 +71,7 @@ export class SettingsService {
     if (this.lsExists(this.lsIsAccessibilityKey)) {
       this.isAccessibility = this.getBooleanSetting(this.lsIsAccessibilityKey);
     } else {
-      this.isAccessibility = false;
+      this.isAccessibility = true;
     }
     if (this.lsExists(this.lsIsGesturesKey)) {
       this.isGestures = this.getBooleanSetting(this.lsIsGesturesKey);
@@ -137,11 +137,16 @@ export class SettingsService {
 
   // A method to charge the chosen language:
   detectChosenLanguage(): void {
+    // First of all we check if we have a detected language:
+    if (this.lsExists('detectedLang')) {
+      this.detectedLang = localStorage.getItem('detectedLang') || 'en';
+    }
+
     // Check if user's preferred language is saved in local settings
     let preferredLang = localStorage.getItem(this.preferredLangKey);
     if (!preferredLang) {
-      // If not saved, use browser's default language
-      preferredLang = this.localeId.substring(0, 2);
+      // If not saved, use the detected language in main.ts:
+      preferredLang = this.detectedLang;
       // Now this default language must exists in the accepted languages:
       if (!this.acceptedLanguages.includes(preferredLang)) {
         preferredLang = 'en'; // this is by default if not in localStorage and the browsers language isn't accepted.

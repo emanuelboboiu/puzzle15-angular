@@ -12,7 +12,21 @@ export class SettingsService {
   deviceNames = ['Web', 'iOS', 'Android'];
   detectedLang: string = 'en'; // this will be set in main.ts before app is bootstrapped.
   language: string = 'en'; // this is only to have something declared, never used this value.
-  acceptedLanguages: string[] = ['en', 'ro']; // Array of accepted languages
+  acceptedLanguages: string[] = [
+    'de',
+    'en',
+    'es',
+    'fr',
+    'it',
+    'ja',
+    'pl',
+    'pt',
+    'ro',
+    'ru',
+    'tr',
+    'vi',
+    'zh',
+  ]; // Array of accepted languages
   languageData: any;
   preferredLangKey: string = 'preferredLang';
   isSound: boolean = true;

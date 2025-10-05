@@ -49,5 +49,6 @@
   "ABOUT8": "Pentru a muta o piesă, apasă sau dă clic simplu pe ea. Dacă piesa este adiacentă celulei goale, aceasta va glisa în spațiul gol.",
   "ABOUT9": "Continuă să glisezi piesele strategic până când le-ai aranjat cu succes în ordinea corectă, asigurându-te că celula goală ajunge în colțul din dreapta jos.",
   "ABOUT10": "Acest joc a fost creat pentru a demonstra cum este posibilă dezvoltarea unui joc cu același cod pentru cele mai importante platforme, asigurând totodată și compatibilitatea cu cititoarele de ecran.",
-  "ABOUT11": "Versiune 2.0 pentru %1, octombrie 2025"
+  "ABOUT11": "Versiune 2.0 pentru %1, octombrie 2025",
+  "btnCopyURL": "Copiază linkul jocului"
 }

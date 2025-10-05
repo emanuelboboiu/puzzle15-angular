@@ -5,7 +5,7 @@ import {
   HostListener,
   NgModule,
 } from '@angular/core';
-import { NgClass } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { A11yModule } from '@angular/cdk/a11y';
 import { SettingsComponent } from './settings/settings.component';
 import { StatisticsComponent } from './statistics/statistics.component';
@@ -22,6 +22,8 @@ import { GestureService, SwipeEvent } from './gesture.service';
 @Component({
   selector: 'app-root',
   imports: [
+    NgIf,
+    NgFor,
     NgClass,
     A11yModule,
     SettingsComponent,
@@ -116,7 +118,9 @@ export class AppComponent implements OnInit, OnDestroy {
       let y = this.pieces[zeroIndex].y - piece.y;
       //here I check if the distance on just one of the axis is 1.
       if (Math.abs(x) + Math.abs(y) == 1) {
-        this.player.play('move');
+        const direction = this.detectDirection(x, y);
+        this.player.playSoundInDirection('move', direction);
+        // this.player.play('move');
         this.nrMoves++; // we increment the number of moves.
 
         const pieceIndex = this.findPieceIndexByNumber(piece.number);
@@ -154,6 +158,17 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     }
   } //end of move() method.
+
+  private detectDirection(
+    xDiff: number,
+    yDiff: number
+  ): 'up' | 'down' | 'left' | 'right' {
+    if (xDiff === 1) return 'down'; // empty is below piece → piece moves down
+    if (xDiff === -1) return 'up'; // empty is above piece → piece moves up
+    if (yDiff === 1) return 'right'; // empty is right of piece → piece moves right
+    if (yDiff === -1) return 'left'; // empty is left of piece → piece moves left
+    throw new Error('Invalid move direction');
+  } // end of detectDirection() method.
 
   //a method to verify if the game is won.
   verifyWin(): void {
@@ -525,7 +540,7 @@ export class AppComponent implements OnInit, OnDestroy {
     ) {
       const swipeEvent = this.gestureService.onTouchEnd(event);
       if (swipeEvent) {
-        event.preventDefault(); // Only prevent default if we detected a swipe
+        event.preventDefault(); // Only prevent default if we detected a swipe.
         this.handleSwipe(swipeEvent);
       }
       // If no swipe detected, allow normal click behavior
@@ -561,6 +576,9 @@ export class AppComponent implements OnInit, OnDestroy {
           pieceElement?.focus();
         }, 700);
       }
+    } else {
+      // if no piece can move in that direction, play blocked sound:
+      this.player.play('blocked');
     }
   } // end handleSwipe() method.
 

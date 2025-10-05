@@ -9,14 +9,13 @@ async function detectAndCacheLanguage(): Promise<void> {
   const platform = (window as any).Capacitor?.getPlatform?.() || 'web';
 
   if (platform === 'web') {
-    lang = (navigator.language || navigator.languages[0] || 'en').substring(
-      0,
-      2
-    );
+    lang = (navigator.language || navigator.languages[0] || 'en')
+      .substring(0, 2)
+      .toLowerCase();
   } else {
     try {
       const info = await Device.getLanguageCode();
-      lang = info.value?.substring(0, 2) || 'en';
+      lang = info.value?.substring(0, 2).toLowerCase() || 'en';
     } catch {
       lang = 'en';
     }

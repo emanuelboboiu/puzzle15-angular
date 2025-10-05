@@ -12,3 +12,20 @@
 p {
   text-indent: 1rem;
 }
+
+.btnCopy {
+  width: 50vw;
+  max-width: 500px;
+  height: 2.5rem;
+  font-size: 18px;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.4rem;
+  color: #d9c8b4;
+  background: url("/assets/btn.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: none;
+  box-shadow: 0 0 6px 6px rgba(0, 0, 0, 0.15);
+}

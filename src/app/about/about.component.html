@@ -37,4 +37,9 @@
   <p>
     {{ settings.formatString("ABOUT11", settings.deviceNames[settings.os]) }}
   </p>
+  <p>
+    <button type="button" class="btnCopy" (click)="copyDistributionURL()">
+      {{ settings.getString("btnCopyURL") }}
+    </button>
+  </p>
 </div>

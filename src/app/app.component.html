@@ -1,6 +1,5 @@
 <!-- The main page of the application, currSection = 0: -->
-@if(currSection == 0) {
-<div class="container">
+<div *ngIf="currSection == 0" class="container">
   <img
     class="logo"
     src="../assets/logo.png"
@@ -19,12 +18,9 @@
     {{ settings.getString("BT_ABOUT") }}
   </button>
 </div>
-}
 <!-- end main page of the application. -->
 
-<!-- The level choosing zone: -->
-@if(currSection == 1) {
-<div class="container">
+<div class="container" *ngIf="currSection == 1">
   <button
     (click)="goBackToMain()"
     class="back-btn"
@@ -37,12 +33,9 @@
   <button (click)="goToGame(4)" class="btn">4X4</button>
   <button (click)="goToGame(5)" class="btn">5X5</button>
 </div>
-}
-<!-- end level page of the application. -->
 
 <!-- The game zone, third page of the application, currSection = 2: -->
-@if(currSection == 2) {
-<div class="container" id="confetti">
+<div *ngIf="currSection == 2" class="container" id="confetti">
   <button
     (click)="goBackToMain()"
     class="back-btn"
@@ -65,13 +58,11 @@
     </div>
   </div>
   <!-- end timer div. -->
-  @if(gameWon) {
-  <p class="gameWon" role="alert">
+  <p *ngIf="gameWon" class="gameWon" role="alert">
     {{ settings.getString("MSG_CONGRATS") }}
     <br />
     {{ settings.formatString("MSG_YOU_WON", "" + finalScore) }}
   </p>
-  }
   <!-- div for making the board look 3d -->
   <div class="board-sides">
     <!-- board div  -->
@@ -86,9 +77,9 @@
       (touchmove)="onTouchMove($event)"
       (touchend)="onTouchEnd($event)"
     >
-      <!-- A for for pieces: -->
-      @for(piece of pieces; track $index; let i = $index) {
+      <!-- pieces -->
       <div
+        *ngFor="let piece of pieces; let i = index"
         class="piece"
         [ngClass]="{
           'invisible-piece': piece.number == 0
@@ -119,7 +110,6 @@
           {{ piece.number }}
         </p>
       </div>
-      }
       <!-- end of pieces div -->
     </div>
     <!-- end of board div -->
@@ -148,57 +138,51 @@
   }
 
   <!-- The bottom buttons: -->
-  @if(!gameStarted) {
-  <button (click)="startGame()" class="btn" [disabled]="gameStarted">
+  <button
+    *ngIf="!gameStarted"
+    (click)="startGame()"
+    class="btn"
+    [disabled]="gameStarted"
+  >
     {{ settings.getString("BT_START") }}
   </button>
-  } @if(!(!gameStarted || askIfAbandon)) {
   <button
+    *ngIf="!(!gameStarted || askIfAbandon)"
     (click)="askForAbandon()"
     class="btn"
     [disabled]="!gameStarted || askIfAbandon"
   >
     {{ settings.getString("BT_ABANDON") }}
   </button>
-  } @if(!(!gameStarted || askIfAbandon)) {
   <button
+    *ngIf="!(!gameStarted || askIfAbandon)"
     (click)="saveCurrentGame()"
     class="btn"
     [disabled]="!gameStarted || askIfAbandon || initialNrMoves == nrMoves"
   >
     {{ settings.getString("BT_SAVE") }}
   </button>
-  }
-
   <!-- This div appears when the game is saved, as a notification: -->
-  @if(showMessageSavedGame) {
-  <div class="savedMessageDiv">
+  <div *ngIf="showMessageSavedGame" class="savedMessageDiv">
     <span role="alert">
       {{ settings.getString("MSG_GAME_SAVED1") }}
       <br />
       {{ settings.getString("MSG_GAME_SAVED2") }}
     </span>
   </div>
-  }
 
   <!-- Here a div for aria labels, only if is enabled in settings: -->
-  @if(settings.isAccessibility) {
-  <div style="display: none">
-    @for(label of ariaLabels; track $index; let i = $index) {
-    <p [attr.id]="'label' + i">
+  <div *ngIf="settings.isAccessibility" style="display: none">
+    <p *ngFor="let label of ariaLabels; let i = index" [attr.id]="'label' + i">
       {{ label }}
     </p>
-    }
   </div>
-  }
   <!-- end aria labels div. -->
 </div>
-}
 <!-- end game zone, second page of the application. -->
 
 <!-- The settings zone, fourth page of the application, currSection = 3: -->
-@if(currSection == 3) {
-<div class="container">
+<div *ngIf="currSection == 3" class="container">
   <button
     (click)="goBackToMain()"
     class="back-btn"
@@ -208,12 +192,10 @@
   </button>
   <app-settings></app-settings>
 </div>
-}
 <!-- end settings zone, fourth page of the application. -->
 
 <!-- The about zone, fifth page of the application, currSection = 4: -->
-@if(currSection == 4) {
-<div class="container about-container">
+<div *ngIf="currSection == 4" class="container about-container">
   <button
     (click)="goBackToMain()"
     class="back-btn"
@@ -223,12 +205,10 @@
   </button>
   <app-about></app-about>
 </div>
-}
 <!-- end about zone, fifth page of the application. -->
 
-<!-- The statistics zone, sixth page of the application, currSection = 5: -->
-@if(currSection == 5) {
-<div class="container stats-container">
+<!-- The about zone, sixth page of the application, currSection = 5: -->
+<div *ngIf="currSection == 5" class="container stats-container">
   <button
     (click)="goBackToMain()"
     class="back-btn"
@@ -238,5 +218,4 @@
   </button>
   <app-statistics></app-statistics>
 </div>
-}
 <!-- end statistics zone, sixth page of the application. -->

@@ -1,4 +1,4 @@
-import { Injectable, LOCALE_ID, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Device } from '@capacitor/device';
@@ -7,8 +7,8 @@ import { Device } from '@capacitor/device';
   providedIn: 'root',
 })
 export class SettingsService {
-  isDev = true; // not to have many stats when developing.
-  os: number = 2; // 0 means web, 1 means iOS, 2 means Android.
+  isDev = false; // not to have many stats when developing.
+  os: number = 0; // 0 means web, 1 means iOS, 2 means Android.
   deviceNames = ['Web', 'iOS', 'Android'];
   detectedLang: string = 'en'; // this will be set in main.ts before app is bootstrapped.
   language: string = 'en'; // this is only to have something declared, never used this value.
@@ -33,10 +33,7 @@ export class SettingsService {
   savedSecondsKey: string = 'savedSeconds'; // for duration in seconds.
   savedBoardNumbersKey: string = 'savedBoardNumbers'; // for the array of number stringiffied.
 
-  constructor(
-    private http: HttpClient,
-    @Inject(LOCALE_ID) private localeId: string
-  ) {
+  constructor(private http: HttpClient) {
     this.loadSettingsFromLocalStorage();
   } // end constructor.
 

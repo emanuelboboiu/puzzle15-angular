@@ -5,10 +5,10 @@ import { SettingsService } from '../settings.service';
 import { PlayerService } from '../player.service';
 
 @Component({
-    selector: 'app-settings',
-    imports: [FormsModule, NgFor, DecimalPipe],
-    templateUrl: './settings.component.html',
-    styleUrl: './settings.component.css'
+  selector: 'app-settings',
+  imports: [FormsModule, DecimalPipe],
+  templateUrl: './settings.component.html',
+  styleUrl: './settings.component.css',
 })
 export class SettingsComponent implements OnInit {
   tempSelectedLanguage: string;
@@ -18,8 +18,7 @@ export class SettingsComponent implements OnInit {
   isAccessibility: boolean = false;
   isGestures: boolean = true;
 
-  constructor(public settings: SettingsService,
-    private player: PlayerService) {
+  constructor(public settings: SettingsService, private player: PlayerService) {
     this.tempSelectedLanguage = this.settings.language;
     this.tempSelectedSoundScheme = this.settings.soundScheme;
   } // end constructor.
@@ -38,25 +37,37 @@ export class SettingsComponent implements OnInit {
       this.player.play('click');
     }, 300);
     this.settings.isSound = this.isSound;
-    this.settings.saveBooleanSetting(this.settings.lsIsSoundKey, this.settings.isSound)
+    this.settings.saveBooleanSetting(
+      this.settings.lsIsSoundKey,
+      this.settings.isSound
+    );
   } // end of saveSoundsChoice() method.
 
   saveAccessibilityChoice(): void {
     this.player.play('click');
     this.settings.isAccessibility = this.isAccessibility;
-    this.settings.saveBooleanSetting(this.settings.lsIsAccessibilityKey, this.settings.isAccessibility)
+    this.settings.saveBooleanSetting(
+      this.settings.lsIsAccessibilityKey,
+      this.settings.isAccessibility
+    );
   } // end of saveAccessibilityChoice() method.
 
   saveGesturesChoice(): void {
     this.player.play('click');
     this.settings.isGestures = this.isGestures;
-    this.settings.saveBooleanSetting(this.settings.lsIsGesturesKey, this.settings.isGestures)
+    this.settings.saveBooleanSetting(
+      this.settings.lsIsGesturesKey,
+      this.settings.isGestures
+    );
   } // end of saveGesturesChoice() method.
 
   saveLanguage(): void {
     this.player.play('action');
     this.settings.language = this.tempSelectedLanguage;
-    this.settings.saveStringSetting(this.settings.preferredLangKey, this.tempSelectedLanguage);
+    this.settings.saveStringSetting(
+      this.settings.preferredLangKey,
+      this.tempSelectedLanguage
+    );
     // Reload the component after a short while, to have time the sound to be played:
     setTimeout(() => {
       window.location.reload();
@@ -65,14 +76,19 @@ export class SettingsComponent implements OnInit {
 
   saveSoundScheme(): void {
     this.settings.soundScheme = this.tempSelectedSoundScheme;
-    this.settings.saveStringSetting(this.settings.lsSoundSchemeKey, this.tempSelectedSoundScheme);
+    this.settings.saveStringSetting(
+      this.settings.lsSoundSchemeKey,
+      this.tempSelectedSoundScheme
+    );
     this.player.play('action');
   } // end saveSoundScheme() method.
 
   saveVolumeChoice(): void {
     this.settings.soundVolume = this.soundVolume;
-    this.settings.saveNumberSetting(this.settings.lsSoundVolumeKey, this.soundVolume);
+    this.settings.saveNumberSetting(
+      this.settings.lsSoundVolumeKey,
+      this.soundVolume
+    );
     this.player.play('click');
   } // end of saveVolumeChoice() method.
-
 } // end settings component class.

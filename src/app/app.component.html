@@ -37,9 +37,8 @@
 <!-- The game zone, third page of the application, currSection = 2: -->
 <div *ngIf="currSection == 2" class="container" id="confetti">
   <button
-    (click)="goBackToMain()"
+    (click)="gameStarted ? askForAbandon() : goBackToMain()"
     class="back-btn"
-    [disabled]="gameStarted"
     [attr.aria-label]="settings.getString('BT_BACK')"
   >
     <img src="../assets/arrow-left-solid.svg" alt="" />

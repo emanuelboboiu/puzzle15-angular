@@ -118,8 +118,8 @@ export class AppComponent implements OnInit, OnDestroy {
       let y = this.pieces[zeroIndex].y - piece.y;
       //here I check if the distance on just one of the axis is 1.
       if (Math.abs(x) + Math.abs(y) == 1) {
-        const direction = this.detectDirection(x, y);
-        this.player.playSoundInDirection('move', direction);
+        // const direction = this.detectDirection(x, y); // this would be good for playing directional sound in the future.
+        this.player.play('move');
         // this.player.play('move');
         this.nrMoves++; // we increment the number of moves.
 

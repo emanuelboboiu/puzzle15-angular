@@ -49,6 +49,6 @@
   "ABOUT8": "Um eine Kachel zu bewegen, tippe oder klicke einfach darauf. Wenn sie an das leere Feld angrenzt, wird sie hineingeschoben.",
   "ABOUT9": "Schiebe die Kacheln strategisch weiter, bis sie in der richtigen Reihenfolge angeordnet sind und das leere Feld unten rechts liegt.",
   "ABOUT10": "Dieses Spiel wurde entwickelt, um zu zeigen, dass ein Spiel mit demselben Code für alle wichtigen Plattformen erstellt werden kann, wobei auch Screenreader-Kompatibilität berücksichtigt wird.",
-  "ABOUT11": "Version 2.0 für %1, Oktober 2025",
+  "ABOUT11": "Version %1 für %2, Oktober 2025",
   "btnCopyURL": "Spiel-Link kopieren"
 }

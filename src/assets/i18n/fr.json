@@ -49,6 +49,6 @@
   "ABOUT8": "Pour déplacer une tuile, il suffit de taper ou de cliquer dessus. Si elle est adjacente à la case vide, elle glissera à l’intérieur.",
   "ABOUT9": "Continue à faire glisser les tuiles stratégiquement jusqu’à ce qu’elles soient dans le bon ordre, avec la case vide en bas à droite.",
   "ABOUT10": "Ce jeu a été créé pour démontrer qu’il est possible de développer un jeu avec le même code pour les principales plateformes tout en assurant la compatibilité avec les lecteurs d’écran.",
-  "ABOUT11": "Version 2.0 pour %1, octobre 2025",
+  "ABOUT11": "Version %1 pour %2, octobre 2025",
   "btnCopyURL": "Copier le lien du jeu"
 }

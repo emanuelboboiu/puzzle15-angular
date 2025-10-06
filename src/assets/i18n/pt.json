@@ -49,6 +49,6 @@
   "ABOUT8": "Para mover uma peça, toque ou clique nela. Se estiver ao lado da célula vazia, ela deslizará para dentro.",
   "ABOUT9": "Continue deslizando as peças estrategicamente até que estejam na ordem correta, com a célula vazia no canto inferior direito.",
   "ABOUT10": "Este jogo foi criado para demonstrar que é possível desenvolver um jogo com o mesmo código para as principais plataformas, garantindo compatibilidade com leitores de tela.",
-  "ABOUT11": "Versão 2.0 para %1, outubro de 2025",
+  "ABOUT11": "Versão %1 para %2, outubro de 2025",
   "btnCopyURL": "Copiar link do jogo"
 }

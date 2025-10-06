@@ -457,7 +457,9 @@ export class AppComponent implements OnInit, OnDestroy {
           if (Number(currNum) == 0) {
             currNum = this.settings.getString('LABEL_EMPTY');
           }
-          this.ariaLabels.push('' + currNum + ', ' + this.getAriaLabel(i));
+          this.ariaLabels.push(
+            currNum?.toString().trim() + ', ' + this.getAriaLabel(i)
+          );
         } // end for.
       }, 350);
     } // end if isAccessibility enabled.
@@ -574,7 +576,7 @@ export class AppComponent implements OnInit, OnDestroy {
             'pos' + zeroIndex
           ) as HTMLElement;
           pieceElement?.focus();
-        }, 700);
+        }, 500);
       }
     } else {
       // if no piece can move in that direction, play blocked sound:

@@ -35,7 +35,13 @@
   </p>
   <br />
   <p>
-    {{ settings.formatString("ABOUT11", settings.deviceNames[settings.os]) }}
+    {{
+      settings.formatString(
+        "ABOUT11",
+        settings.currVersion,
+        settings.deviceNames[settings.os]
+      )
+    }}
   </p>
   <p>
     <button type="button" class="btnCopy" (click)="copyDistributionURL()">

@@ -49,6 +49,6 @@
   "ABOUT8": "Para mover una ficha, simplemente tócala o haz clic en ella. Si está junto a la casilla vacía, se deslizará hacia dentro.",
   "ABOUT9": "Sigue deslizando las fichas estratégicamente hasta que estén en el orden correcto, con la casilla vacía en la esquina inferior derecha.",
   "ABOUT10": "Este juego fue creado para demostrar que es posible desarrollar un juego con el mismo código para las principales plataformas, garantizando compatibilidad con lectores de pantalla.",
-  "ABOUT11": "Versión 2.0 para %1, octubre de 2025",
+  "ABOUT11": "Versión %1 para %2, octubre de 2025",
   "btnCopyURL": "Copiar enlace del juego"
 }

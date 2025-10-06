@@ -49,6 +49,6 @@
   "ABOUT8": "Per muovere una tessera, toccala o fai clic su di essa. Se è adiacente alla cella vuota, scivolerà al suo interno.",
   "ABOUT9": "Continua a far scorrere le tessere in modo strategico finché non saranno nell’ordine corretto, con la cella vuota nell’angolo in basso a destra.",
   "ABOUT10": "Questo gioco è stato creato per dimostrare che è possibile sviluppare un gioco con lo stesso codice per le principali piattaforme, garantendo la compatibilità con i lettori di schermo.",
-  "ABOUT11": "Versione 2.0 per %1, ottobre 2025",
+  "ABOUT11": "Versione %1 per %2, ottobre 2025",
   "btnCopyURL": "Copia link del gioco"
 }

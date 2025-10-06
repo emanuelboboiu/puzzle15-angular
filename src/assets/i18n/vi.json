@@ -49,6 +49,6 @@
   "ABOUT8": "Để di chuyển một ô, chỉ cần chạm hoặc nhấp vào nó. Nếu nó ở cạnh ô trống, nó sẽ trượt vào đó.",
   "ABOUT9": "Tiếp tục trượt các ô một cách chiến lược cho đến khi chúng vào đúng vị trí, với ô trống ở góc dưới bên phải.",
   "ABOUT10": "Trò chơi này được tạo ra để chứng minh rằng có thể phát triển cùng một mã cho tất cả các nền tảng chính, đồng thời hỗ trợ trình đọc màn hình.",
-  "ABOUT11": "Phiên bản 2.0 cho %1, tháng 10 năm 2025",
+  "ABOUT11": "Phiên bản %1 cho %2, tháng 10 năm 2025",
   "btnCopyURL": "Sao chép liên kết trò chơi"
 }

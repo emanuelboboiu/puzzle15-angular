@@ -525,21 +525,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // Touch event handlers for gesture support
   onTouchStart(event: TouchEvent): void {
-    if (
-      this.settings.isGestures &&
-      this.settings.isMobile() &&
-      this.gameStarted
-    ) {
+    if (this.settings.isGestures && this.gameStarted) {
       this.gestureService.onTouchStart(event);
     }
   } // end onTouchStart() method.
 
   onTouchEnd(event: TouchEvent): void {
-    if (
-      this.settings.isGestures &&
-      this.settings.isMobile() &&
-      this.gameStarted
-    ) {
+    if (this.settings.isGestures && this.gameStarted) {
       const swipeEvent = this.gestureService.onTouchEnd(event);
       if (swipeEvent) {
         event.preventDefault(); // Only prevent default if we detected a swipe.
@@ -550,11 +542,7 @@ export class AppComponent implements OnInit, OnDestroy {
   } // end onTouchEnd() method.
 
   onTouchMove(event: TouchEvent): void {
-    if (
-      this.settings.isGestures &&
-      this.settings.isMobile() &&
-      this.gameStarted
-    ) {
+    if (this.settings.isGestures && this.gameStarted) {
       // Prevent pull-to-refresh by preventing default on any movement
       event.preventDefault();
     }

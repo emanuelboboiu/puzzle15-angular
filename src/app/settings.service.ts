@@ -88,7 +88,7 @@ export class SettingsService {
     if (this.lsExists(this.lsIsGesturesKey)) {
       this.isGestures = this.getBooleanSetting(this.lsIsGesturesKey);
     } else {
-      this.isGestures = true;
+      this.isGestures = this.isMobile();
     }
 
     // Load language data from xx.json files found in assets/i18n:

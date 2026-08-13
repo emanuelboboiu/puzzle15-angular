@@ -55,5 +55,11 @@
   "MSG_COPY_FAILED": "A játék hivatkozását nem sikerült másolni.",
   "BT_SHARE_GAME": "Játék megosztása",
   "MSG_SHARE_TEXT": "Játssz a 15 Puzzle akadálymentes csúszókirakóval.",
-  "MSG_SHARE_DIALOG_TITLE": "15 Puzzle megosztása"
+  "MSG_SHARE_DIALOG_TITLE": "15 Puzzle megosztása",
+  "BT_RATE_GAME": "Játék értékelése",
+  "TITLE_RATE_GAME": "Tetszik a 15 Puzzle?",
+  "MSG_RATE_GAME": "Ha szeretsz a 15 Puzzle játékkal játszani, örömmel fogadnánk az értékelésedet a(z) %1 áruházban.",
+  "BT_RATE_IN_STORE": "Értékelés itt: %1",
+  "BT_NOT_NOW": "Most nem",
+  "MSG_RATE_FAILED": "Az áruházat nem sikerült megnyitni. Próbáld újra később."
 }

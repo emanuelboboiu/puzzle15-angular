@@ -55,5 +55,11 @@
   "MSG_COPY_FAILED": "게임 링크를 복사하지 못했습니다.",
   "BT_SHARE_GAME": "게임 공유",
   "MSG_SHARE_TEXT": "접근 가능한 슬라이딩 퍼즐 게임 15 Puzzle을 플레이하세요.",
-  "MSG_SHARE_DIALOG_TITLE": "15 Puzzle 공유"
+  "MSG_SHARE_DIALOG_TITLE": "15 Puzzle 공유",
+  "BT_RATE_GAME": "게임 평가",
+  "TITLE_RATE_GAME": "15 Puzzle을 즐기고 계신가요?",
+  "MSG_RATE_GAME": "15 Puzzle을 재미있게 플레이하고 계시다면 %1에 평가를 남겨 주세요.",
+  "BT_RATE_IN_STORE": "%1에서 평가",
+  "BT_NOT_NOW": "나중에",
+  "MSG_RATE_FAILED": "스토어를 열 수 없습니다. 나중에 다시 시도해 주세요."
 }

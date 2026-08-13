@@ -55,5 +55,11 @@
   "MSG_COPY_FAILED": "The game link could not be copied.",
   "BT_SHARE_GAME": "Share game",
   "MSG_SHARE_TEXT": "Play 15 Puzzle, an accessible sliding puzzle game.",
-  "MSG_SHARE_DIALOG_TITLE": "Share 15 Puzzle"
+  "MSG_SHARE_DIALOG_TITLE": "Share 15 Puzzle",
+  "BT_RATE_GAME": "Rate game",
+  "TITLE_RATE_GAME": "Enjoying 15 Puzzle?",
+  "MSG_RATE_GAME": "If you enjoy playing 15 Puzzle, we would appreciate your rating on %1.",
+  "BT_RATE_IN_STORE": "Rate on %1",
+  "BT_NOT_NOW": "Not now",
+  "MSG_RATE_FAILED": "The store could not be opened. Please try again later."
 }

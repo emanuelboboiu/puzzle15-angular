@@ -1,26 +1,42 @@
 import {
   Component,
   ChangeDetectionStrategy,
+  ElementRef,
+  ViewChild,
 } from '@angular/core';
 import { SettingsService } from '../settings.service';
 import { PlayerService } from '../player.service';
 import { ShareService } from '../share.service';
+import { RatingComponent } from '../rating/rating.component';
 
 @Component({
   selector: 'app-about',
-  imports: [],
+  imports: [RatingComponent],
   templateUrl: './about.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './about.component.css',
 })
 export class AboutComponent {
+  @ViewChild('rateButton') rateButton?: ElementRef<HTMLButtonElement>;
+
   shareStatus = '';
+  showRating = false;
 
   constructor(
     public settings: SettingsService,
     private player: PlayerService,
     private shareService: ShareService
   ) {}
+
+  openRating(): void {
+    this.showRating = true;
+    this.player.play('action');
+  }
+
+  closeRating(): void {
+    this.showRating = false;
+    setTimeout(() => this.rateButton?.nativeElement.focus());
+  }
 
   async shareGame(): Promise<void> {
     this.shareStatus = '';

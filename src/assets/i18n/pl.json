@@ -55,5 +55,11 @@
   "MSG_COPY_FAILED": "Nie udało się skopiować linku do gry.",
   "BT_SHARE_GAME": "Udostępnij grę",
   "MSG_SHARE_TEXT": "Zagraj w 15 Puzzle, dostępną przesuwaną układankę.",
-  "MSG_SHARE_DIALOG_TITLE": "Udostępnij 15 Puzzle"
+  "MSG_SHARE_DIALOG_TITLE": "Udostępnij 15 Puzzle",
+  "BT_RATE_GAME": "Oceń grę",
+  "TITLE_RATE_GAME": "Podoba Ci się 15 Puzzle?",
+  "MSG_RATE_GAME": "Jeśli lubisz grać w 15 Puzzle, będziemy wdzięczni za Twoją ocenę w %1.",
+  "BT_RATE_IN_STORE": "Oceń w %1",
+  "BT_NOT_NOW": "Nie teraz",
+  "MSG_RATE_FAILED": "Nie udało się otworzyć sklepu. Spróbuj ponownie później."
 }

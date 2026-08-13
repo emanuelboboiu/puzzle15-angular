@@ -55,5 +55,11 @@
   "MSG_COPY_FAILED": "Impossibile copiare il link del gioco.",
   "BT_SHARE_GAME": "Condividi gioco",
   "MSG_SHARE_TEXT": "Gioca a 15 Puzzle, un rompicapo scorrevole accessibile.",
-  "MSG_SHARE_DIALOG_TITLE": "Condividi 15 Puzzle"
+  "MSG_SHARE_DIALOG_TITLE": "Condividi 15 Puzzle",
+  "BT_RATE_GAME": "Valuta il gioco",
+  "TITLE_RATE_GAME": "Ti piace 15 Puzzle?",
+  "MSG_RATE_GAME": "Se ti piace giocare a 15 Puzzle, apprezzeremmo la tua valutazione su %1.",
+  "BT_RATE_IN_STORE": "Valuta su %1",
+  "BT_NOT_NOW": "Non ora",
+  "MSG_RATE_FAILED": "Impossibile aprire lo store. Riprova più tardi."
 }

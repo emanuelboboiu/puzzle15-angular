@@ -55,5 +55,11 @@
   "MSG_COPY_FAILED": "Impossible de copier le lien du jeu.",
   "BT_SHARE_GAME": "Partager le jeu",
   "MSG_SHARE_TEXT": "Jouez à 15 Puzzle, un jeu de taquin accessible.",
-  "MSG_SHARE_DIALOG_TITLE": "Partager 15 Puzzle"
+  "MSG_SHARE_DIALOG_TITLE": "Partager 15 Puzzle",
+  "BT_RATE_GAME": "Évaluer le jeu",
+  "TITLE_RATE_GAME": "Vous aimez 15 Puzzle ?",
+  "MSG_RATE_GAME": "Si vous aimez jouer à 15 Puzzle, nous apprécierions votre évaluation sur %1.",
+  "BT_RATE_IN_STORE": "Évaluer sur %1",
+  "BT_NOT_NOW": "Pas maintenant",
+  "MSG_RATE_FAILED": "Impossible d’ouvrir la boutique. Veuillez réessayer plus tard."
 }

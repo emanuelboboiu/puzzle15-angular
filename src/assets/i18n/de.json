@@ -55,5 +55,11 @@
   "MSG_COPY_FAILED": "Der Spiel-Link konnte nicht kopiert werden.",
   "BT_SHARE_GAME": "Spiel teilen",
   "MSG_SHARE_TEXT": "Spiele 15 Puzzle, ein barrierefreies Schiebepuzzle.",
-  "MSG_SHARE_DIALOG_TITLE": "15 Puzzle teilen"
+  "MSG_SHARE_DIALOG_TITLE": "15 Puzzle teilen",
+  "BT_RATE_GAME": "Spiel bewerten",
+  "TITLE_RATE_GAME": "Gefällt dir 15 Puzzle?",
+  "MSG_RATE_GAME": "Wenn du gerne 15 Puzzle spielst, würden wir uns über deine Bewertung bei %1 freuen.",
+  "BT_RATE_IN_STORE": "Bei %1 bewerten",
+  "BT_NOT_NOW": "Nicht jetzt",
+  "MSG_RATE_FAILED": "Der Store konnte nicht geöffnet werden. Bitte versuche es später erneut."
 }

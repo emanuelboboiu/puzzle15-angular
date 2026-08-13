@@ -1,0 +1,32 @@
+.rating-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.55);
+}
+
+.rating-dialog {
+  width: min(90vw, 32rem);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  color: #4a2a16;
+  background-color: #d9c8b4;
+  box-shadow: 0 0 8px 4px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.rating-button {
+  width: min(80vw, 24rem);
+  min-height: 2.5rem;
+  margin: 0.5rem;
+  border: none;
+  border-radius: 0.4rem;
+  color: #d9c8b4;
+  background: url('/assets/btn.webp') center / cover no-repeat;
+  box-shadow: 0 0 6px 6px rgba(0, 0, 0, 0.15);
+  font-size: 18px;
+}

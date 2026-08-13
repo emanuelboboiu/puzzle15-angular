@@ -55,5 +55,11 @@
   "MSG_COPY_FAILED": "No se pudo copiar el enlace del juego.",
   "BT_SHARE_GAME": "Compartir juego",
   "MSG_SHARE_TEXT": "Juega a 15 Puzzle, un rompecabezas deslizante accesible.",
-  "MSG_SHARE_DIALOG_TITLE": "Compartir 15 Puzzle"
+  "MSG_SHARE_DIALOG_TITLE": "Compartir 15 Puzzle",
+  "BT_RATE_GAME": "Valorar el juego",
+  "TITLE_RATE_GAME": "¿Te gusta 15 Puzzle?",
+  "MSG_RATE_GAME": "Si disfrutas jugando a 15 Puzzle, agradeceríamos tu valoración en %1.",
+  "BT_RATE_IN_STORE": "Valorar en %1",
+  "BT_NOT_NOW": "Ahora no",
+  "MSG_RATE_FAILED": "No se pudo abrir la tienda. Inténtalo de nuevo más tarde."
 }

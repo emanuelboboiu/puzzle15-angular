@@ -55,5 +55,11 @@
   "MSG_COPY_FAILED": "Oyun bağlantısı kopyalanamadı.",
   "BT_SHARE_GAME": "Oyunu paylaş",
   "MSG_SHARE_TEXT": "Erişilebilir bir kaydırmalı bulmaca olan 15 Puzzle'ı oynayın.",
-  "MSG_SHARE_DIALOG_TITLE": "15 Puzzle'ı paylaş"
+  "MSG_SHARE_DIALOG_TITLE": "15 Puzzle'ı paylaş",
+  "BT_RATE_GAME": "Oyunu değerlendir",
+  "TITLE_RATE_GAME": "15 Puzzle'ı beğendiniz mi?",
+  "MSG_RATE_GAME": "15 Puzzle oynamaktan keyif alıyorsanız %1 üzerindeki değerlendirmeniz bizi mutlu eder.",
+  "BT_RATE_IN_STORE": "%1 üzerinde değerlendir",
+  "BT_NOT_NOW": "Şimdi değil",
+  "MSG_RATE_FAILED": "Mağaza açılamadı. Lütfen daha sonra tekrar deneyin."
 }

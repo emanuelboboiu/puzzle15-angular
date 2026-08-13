@@ -55,5 +55,11 @@
   "MSG_COPY_FAILED": "Не удалось скопировать ссылку на игру.",
   "BT_SHARE_GAME": "Поделиться игрой",
   "MSG_SHARE_TEXT": "Играйте в доступную игру-пятнашки 15 Puzzle.",
-  "MSG_SHARE_DIALOG_TITLE": "Поделиться 15 Puzzle"
+  "MSG_SHARE_DIALOG_TITLE": "Поделиться 15 Puzzle",
+  "BT_RATE_GAME": "Оценить игру",
+  "TITLE_RATE_GAME": "Вам нравится 15 Puzzle?",
+  "MSG_RATE_GAME": "Если вам нравится играть в 15 Puzzle, мы будем благодарны за вашу оценку в %1.",
+  "BT_RATE_IN_STORE": "Оценить в %1",
+  "BT_NOT_NOW": "Не сейчас",
+  "MSG_RATE_FAILED": "Не удалось открыть магазин. Повторите попытку позже."
 }

@@ -55,5 +55,11 @@
   "MSG_COPY_FAILED": "Linkul jocului nu a putut fi copiat.",
   "BT_SHARE_GAME": "Distribuie jocul",
   "MSG_SHARE_TEXT": "Joacă 15 Puzzle, un joc puzzle glisant accesibil.",
-  "MSG_SHARE_DIALOG_TITLE": "Distribuie 15 Puzzle"
+  "MSG_SHARE_DIALOG_TITLE": "Distribuie 15 Puzzle",
+  "BT_RATE_GAME": "Evaluează jocul",
+  "TITLE_RATE_GAME": "Îți place 15 Puzzle?",
+  "MSG_RATE_GAME": "Dacă îți place să joci 15 Puzzle, am aprecia evaluarea ta pe %1.",
+  "BT_RATE_IN_STORE": "Evaluează pe %1",
+  "BT_NOT_NOW": "Nu acum",
+  "MSG_RATE_FAILED": "Magazinul nu a putut fi deschis. Te rugăm să încerci din nou mai târziu."
 }

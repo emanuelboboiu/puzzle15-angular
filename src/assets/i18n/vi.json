@@ -55,5 +55,11 @@
   "MSG_COPY_FAILED": "Không thể sao chép liên kết trò chơi.",
   "BT_SHARE_GAME": "Chia sẻ trò chơi",
   "MSG_SHARE_TEXT": "Chơi 15 Puzzle, trò chơi xếp hình trượt dễ tiếp cận.",
-  "MSG_SHARE_DIALOG_TITLE": "Chia sẻ 15 Puzzle"
+  "MSG_SHARE_DIALOG_TITLE": "Chia sẻ 15 Puzzle",
+  "BT_RATE_GAME": "Đánh giá trò chơi",
+  "TITLE_RATE_GAME": "Bạn có thích 15 Puzzle không?",
+  "MSG_RATE_GAME": "Nếu bạn thích chơi 15 Puzzle, chúng tôi rất mong nhận được đánh giá của bạn trên %1.",
+  "BT_RATE_IN_STORE": "Đánh giá trên %1",
+  "BT_NOT_NOW": "Để sau",
+  "MSG_RATE_FAILED": "Không thể mở cửa hàng. Vui lòng thử lại sau."
 }

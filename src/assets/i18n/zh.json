@@ -55,5 +55,11 @@
   "MSG_COPY_FAILED": "无法复制游戏链接。",
   "BT_SHARE_GAME": "分享游戏",
   "MSG_SHARE_TEXT": "来玩无障碍滑块拼图游戏 15 Puzzle。",
-  "MSG_SHARE_DIALOG_TITLE": "分享 15 Puzzle"
+  "MSG_SHARE_DIALOG_TITLE": "分享 15 Puzzle",
+  "BT_RATE_GAME": "评价游戏",
+  "TITLE_RATE_GAME": "喜欢 15 Puzzle 吗？",
+  "MSG_RATE_GAME": "如果您喜欢玩 15 Puzzle，欢迎在 %1 为我们评分。",
+  "BT_RATE_IN_STORE": "在 %1 评分",
+  "BT_NOT_NOW": "暂不",
+  "MSG_RATE_FAILED": "无法打开应用商店，请稍后重试。"
 }

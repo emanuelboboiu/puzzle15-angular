@@ -55,5 +55,11 @@
   "MSG_COPY_FAILED": "ゲームリンクをコピーできませんでした。",
   "BT_SHARE_GAME": "ゲームを共有",
   "MSG_SHARE_TEXT": "アクセシブルなスライドパズル、15 Puzzleで遊びましょう。",
-  "MSG_SHARE_DIALOG_TITLE": "15 Puzzleを共有"
+  "MSG_SHARE_DIALOG_TITLE": "15 Puzzleを共有",
+  "BT_RATE_GAME": "ゲームを評価",
+  "TITLE_RATE_GAME": "15 Puzzleを楽しんでいますか？",
+  "MSG_RATE_GAME": "15 Puzzleを楽しんでいただけましたら、%1で評価していただけると幸いです。",
+  "BT_RATE_IN_STORE": "%1で評価",
+  "BT_NOT_NOW": "今はしない",
+  "MSG_RATE_FAILED": "ストアを開けませんでした。後でもう一度お試しください。"
 }

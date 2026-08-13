@@ -1,0 +1,35 @@
+<div class="rating-backdrop">
+  <section
+    class="rating-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="rating-title"
+    aria-describedby="rating-message"
+    cdkTrapFocus
+    [cdkTrapFocusAutoCapture]="true"
+  >
+    <h2 id="rating-title">{{ settings.getString("TITLE_RATE_GAME") }}</h2>
+    <p id="rating-message">
+      {{
+        settings.formatString(
+          "MSG_RATE_GAME",
+          ratingService.getStoreName(settings.os)
+        )
+      }}
+    </p>
+    <button type="button" class="rating-button" (click)="rateGame()">
+      {{
+        settings.formatString(
+          "BT_RATE_IN_STORE",
+          ratingService.getStoreName(settings.os)
+        )
+      }}
+    </button>
+    <button type="button" class="rating-button" (click)="close()">
+      {{ settings.getString("BT_NOT_NOW") }}
+    </button>
+    @if (status) {
+      <p role="alert">{{ status }}</p>
+    }
+  </section>
+</div>

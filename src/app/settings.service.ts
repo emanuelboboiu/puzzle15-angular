@@ -9,7 +9,7 @@ import { Device } from '@capacitor/device';
 export class SettingsService {
   isDev = false; // not to have many stats when developing.
   os: number = 0; // 0 means web, 1 means iOS, 2 means Android.
-  currVersion = '2.2';
+  currVersion = '3.0';
   deviceNames = ['Web', 'iOS', 'Android'];
   detectedLang: string = 'en'; // this will be set in main.ts before app is bootstrapped.
   language: string = 'en'; // this is only to have something declared, never used this value.

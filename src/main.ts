@@ -1,5 +1,5 @@
-import { HttpClientModule } from '@angular/common/http';
-import { importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
+import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideZoneChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
 import { Device } from '@capacitor/device';
@@ -31,7 +31,7 @@ async function initApp() {
   await bootstrapApplication(AppComponent, {
     providers: [
       provideZoneChangeDetection(),
-      importProvidersFrom(HttpClientModule),
+      provideHttpClient(withFetch()),
     ],
   });
 }

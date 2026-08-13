@@ -202,7 +202,8 @@ export class AppComponent implements OnInit, OnDestroy {
         this.isSavedGame = false;
         this.timerSubscription.unsubscribe(); //stop the timer.
         this.gameWon = true;
-        this.ratingPendingAfterWin = !this.ratingService.hasRated();
+        this.ratingPendingAfterWin =
+          this.settings.os !== 0 && !this.ratingService.hasRated();
         this.player.play('winner');
         this.gameStarted = false;
         this.askIfAbandon = false;
@@ -309,6 +310,10 @@ export class AppComponent implements OnInit, OnDestroy {
   } // end of goBackToMain() method.
 
   openRating(source: 'about' | 'win'): void {
+    if (this.settings.os === 0) {
+      return;
+    }
+
     this.ratingSource = source;
     this.showRating = true;
   }

@@ -43,16 +43,18 @@
       )
     }}
   </p>
-  <p>
-    <button
-      #rateButton
-      type="button"
-      class="btnCopy"
-      (click)="openRating()"
-    >
-      {{ settings.getString("BT_RATE_GAME") }}
-    </button>
-  </p>
+  @if (settings.os !== 0) {
+    <p>
+      <button
+        #rateButton
+        type="button"
+        class="btnCopy"
+        (click)="openRating()"
+      >
+        {{ settings.getString("BT_RATE_GAME") }}
+      </button>
+    </p>
+  }
   <p>
     <button type="button" class="btnCopy" (click)="shareGame()">
       {{ settings.getString("BT_SHARE_GAME") }}

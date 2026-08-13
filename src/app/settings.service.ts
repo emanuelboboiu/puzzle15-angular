@@ -211,7 +211,7 @@ export class SettingsService {
     // Format the date into a friendly string
     let friendlyDateString = currentDate.toLocaleDateString(
       this.language,
-      options
+      options,
     );
     return friendlyDateString;
   } // end getFriendlyDate() method.
@@ -219,7 +219,7 @@ export class SettingsService {
   isMobile(): boolean {
     return (
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
+        navigator.userAgent,
       ) ||
       'ontouchstart' in window ||
       navigator.maxTouchPoints > 0

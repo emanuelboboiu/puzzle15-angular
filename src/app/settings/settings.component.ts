@@ -1,5 +1,5 @@
 import { Component, OnInit, NgModule } from '@angular/core';
-import { NgFor, DecimalPipe } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { SettingsService } from '../settings.service';
 import { PlayerService } from '../player.service';

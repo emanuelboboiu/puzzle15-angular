@@ -17,7 +17,6 @@ import { RequestsService } from '../requests.service';
 })
 export class StatisticsComponent implements OnInit {
   quizzApiFileName: string = 'get_stats.php';
-  statisticsStatus = '';
 
   // For general statistics:
   generalRecord: string = '0';
@@ -28,6 +27,18 @@ export class StatisticsComponent implements OnInit {
   generalTotalStarted: string = '0';
   generalAverageDuration: string = '0';
   generalAverageMoves: string = '0';
+
+  // Global statistics from the rolling last 28 days:
+  hasLast28DaysData: boolean = false;
+  showLast28DaysStatistics: boolean = false;
+  last28DaysRecord: string = '0';
+  last28DaysRecordDate: string = '';
+  last28DaysFinishedGames: any = { 3: 0, 4: 0, 5: 0 };
+  last28DaysTotalSolved: string = '0';
+  last28DaysStartedGames: any = { 3: 0, 4: 0, 5: 0 };
+  last28DaysTotalStarted: string = '0';
+  last28DaysAverageDuration: string = '00:00';
+  last28DaysAverageMoves: string = '0';
 
   // Personal statistics:
   showPersonalStatistics: boolean = false;
@@ -80,20 +91,49 @@ export class StatisticsComponent implements OnInit {
         );
         this.generalAverageMoves = json.generalAverageMoves;
 
-        this.statisticsStatus =
-          this.settings.formatString(
-            'STARTED_PUZZLES',
-            this.generalTotalStarted
-          ) +
-          ' ' +
-          this.settings.formatString('SOLVED_PUZZLES', this.generalTotalSolved);
+        if (json.last28Days) {
+          this.setLast28DaysStatistics(json.last28Days);
+        }
+
       });
   } // end getGeneralStatisticsJSon() method.
+
+  private setLast28DaysStatistics(last28Days: any): void {
+    this.hasLast28DaysData = true;
+    this.last28DaysStartedGames = last28Days.startedGames || {
+      3: 0,
+      4: 0,
+      5: 0,
+    };
+    this.last28DaysFinishedGames = last28Days.finishedGames || {
+      3: 0,
+      4: 0,
+      5: 0,
+    };
+    this.last28DaysTotalStarted = String(
+      this.calculateTotalSumOfValues(this.last28DaysStartedGames)
+    );
+    this.last28DaysTotalSolved = String(
+      this.calculateTotalSumOfValues(this.last28DaysFinishedGames)
+    );
+    this.showLast28DaysStatistics = Number(this.last28DaysTotalSolved) > 0;
+
+    if (this.showLast28DaysStatistics) {
+      this.last28DaysRecord = String(last28Days.record ?? 0);
+      this.last28DaysRecordDate = this.settings.getFriendlyDate(
+        new Date(last28Days.recordDate)
+      );
+      this.last28DaysAverageDuration = this.secondsToMinutesSeconds(
+        Number(last28Days.averageDuration ?? 0)
+      );
+      this.last28DaysAverageMoves = String(last28Days.averageMoves ?? 0);
+    }
+  }
 
   // This method calculates the total sum of the values in an array:
   calculateTotalSumOfValues(tempArr: any): number {
     let total = 0;
-    Object.values(tempArr).forEach((value) => {
+    Object.values(tempArr || {}).forEach((value) => {
       total += Number(value);
     });
     return total;

@@ -1,8 +1,5 @@
 <div class="statistics-page">
-  <div class="sr-only" role="status" aria-live="polite" aria-atomic="true">
-    {{ statisticsStatus }}
-  </div>
-  <h1>{{ settings.getString("TITLE_GENERAL_STATISTICS") }}</h1>
+  <h1>{{ settings.getString("TITLE_ALL_TIME_STATISTICS") }}</h1>
 
   <!-- The general record: -->
   <p>
@@ -40,6 +37,57 @@
   <p>
     {{ settings.formatString("AVERAGE_MOVES", generalAverageMoves) }}
   </p>
+
+  @if (hasLast28DaysData) {
+    <h1>{{ settings.getString("TITLE_LAST_28_DAYS_STATISTICS") }}</h1>
+
+    @if (showLast28DaysStatistics) {
+      <p>
+        {{
+          settings.formatString(
+            "MSG_BEST_SCORE",
+            last28DaysRecord,
+            last28DaysRecordDate
+          )
+        }}
+      </p>
+    }
+
+    <p>
+      {{ settings.formatString("STARTED_PUZZLES", last28DaysTotalStarted) }}
+      <br />
+      @for(s of last28DaysStartedGames | keyvalue; track $index) {
+        <ng-container>
+          {{ s.key }}X{{ s.key }} – {{ s.value }};<br />
+        </ng-container>
+      }
+    </p>
+
+    @if (showLast28DaysStatistics) {
+      <p>
+        {{ settings.formatString("SOLVED_PUZZLES", last28DaysTotalSolved) }}
+        <br />
+        @for(f of last28DaysFinishedGames | keyvalue; track $index) {
+          <ng-container>
+            {{ f.key }}X{{ f.key }} – {{ f.value }};<br />
+          </ng-container>
+        }
+      </p>
+      <p>
+        {{
+          settings.formatString(
+            "AVERAGE_DURATION",
+            last28DaysAverageDuration
+          )
+        }}
+      </p>
+      <p>
+        {{ settings.formatString("AVERAGE_MOVES", last28DaysAverageMoves) }}
+      </p>
+    } @else {
+      <p>{{ settings.getString("MSG_NO_SOLVED_LAST_28_DAYS") }}</p>
+    }
+  }
 
   <!-- Here personal statistics: -->
   <h1>{{ settings.getString("TITLE_PERSONAL_STATISTICS") }}</h1>

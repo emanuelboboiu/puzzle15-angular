@@ -1,6 +1,5 @@
 import {
   Component,
-  NgModule,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { SettingsService } from '../settings.service';

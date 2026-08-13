@@ -3,7 +3,6 @@ import {
   OnInit,
   OnDestroy,
   HostListener,
-  NgModule,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { NgClass } from '@angular/common';

@@ -1,7 +1,6 @@
 import {
   Component,
   OnInit,
-  NgModule,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { KeyValuePipe } from '@angular/common';

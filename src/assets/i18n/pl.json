@@ -52,5 +52,8 @@
   "ABOUT11": "Wersja %1 dla %2, sierpień 2026",
   "btnCopyURL": "Kopiuj link do gry",
   "MSG_COPY_SUCCESS": "Link do gry został skopiowany.",
-  "MSG_COPY_FAILED": "Nie udało się skopiować linku do gry."
+  "MSG_COPY_FAILED": "Nie udało się skopiować linku do gry.",
+  "BT_SHARE_GAME": "Udostępnij grę",
+  "MSG_SHARE_TEXT": "Zagraj w 15 Puzzle, dostępną przesuwaną układankę.",
+  "MSG_SHARE_DIALOG_TITLE": "Udostępnij 15 Puzzle"
 }

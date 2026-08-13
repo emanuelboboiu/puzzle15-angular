@@ -52,5 +52,8 @@
   "ABOUT11": "%2 için Sürüm %1, Ağustos 2026",
   "btnCopyURL": "Oyun bağlantısını kopyala",
   "MSG_COPY_SUCCESS": "Oyun bağlantısı kopyalandı.",
-  "MSG_COPY_FAILED": "Oyun bağlantısı kopyalanamadı."
+  "MSG_COPY_FAILED": "Oyun bağlantısı kopyalanamadı.",
+  "BT_SHARE_GAME": "Oyunu paylaş",
+  "MSG_SHARE_TEXT": "Erişilebilir bir kaydırmalı bulmaca olan 15 Puzzle'ı oynayın.",
+  "MSG_SHARE_DIALOG_TITLE": "15 Puzzle'ı paylaş"
 }

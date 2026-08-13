@@ -52,5 +52,8 @@
   "ABOUT11": "Versiune %1 pentru %2, august 2026",
   "btnCopyURL": "Copiază linkul jocului",
   "MSG_COPY_SUCCESS": "Linkul jocului a fost copiat.",
-  "MSG_COPY_FAILED": "Linkul jocului nu a putut fi copiat."
+  "MSG_COPY_FAILED": "Linkul jocului nu a putut fi copiat.",
+  "BT_SHARE_GAME": "Distribuie jocul",
+  "MSG_SHARE_TEXT": "Joacă 15 Puzzle, un joc puzzle glisant accesibil.",
+  "MSG_SHARE_DIALOG_TITLE": "Distribuie 15 Puzzle"
 }

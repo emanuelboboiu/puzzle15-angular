@@ -52,5 +52,8 @@
   "ABOUT11": "Version %1 pour %2, août 2026",
   "btnCopyURL": "Copier le lien du jeu",
   "MSG_COPY_SUCCESS": "Lien du jeu copié.",
-  "MSG_COPY_FAILED": "Impossible de copier le lien du jeu."
+  "MSG_COPY_FAILED": "Impossible de copier le lien du jeu.",
+  "BT_SHARE_GAME": "Partager le jeu",
+  "MSG_SHARE_TEXT": "Jouez à 15 Puzzle, un jeu de taquin accessible.",
+  "MSG_SHARE_DIALOG_TITLE": "Partager 15 Puzzle"
 }

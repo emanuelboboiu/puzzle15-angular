@@ -19,6 +19,7 @@
     "@capacitor/core": "^8.5.0",
     "@capacitor/device": "^8.0.3",
     "@capacitor/ios": "^8.5.0",
+    "@capacitor/share": "^8.0.1",
     "party-js": "^2.2.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

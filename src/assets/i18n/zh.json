@@ -52,5 +52,8 @@
   "ABOUT11": "版本 %1，适用于 %2，2026年8月",
   "btnCopyURL": "复制游戏链接",
   "MSG_COPY_SUCCESS": "游戏链接已复制。",
-  "MSG_COPY_FAILED": "无法复制游戏链接。"
+  "MSG_COPY_FAILED": "无法复制游戏链接。",
+  "BT_SHARE_GAME": "分享游戏",
+  "MSG_SHARE_TEXT": "来玩无障碍滑块拼图游戏 15 Puzzle。",
+  "MSG_SHARE_DIALOG_TITLE": "分享 15 Puzzle"
 }

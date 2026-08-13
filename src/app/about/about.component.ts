@@ -3,8 +3,8 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { SettingsService } from '../settings.service';
-import { Clipboard } from '@angular/cdk/clipboard';
 import { PlayerService } from '../player.service';
+import { ShareService } from '../share.service';
 
 @Component({
   selector: 'app-about',
@@ -14,23 +14,27 @@ import { PlayerService } from '../player.service';
   styleUrl: './about.component.css',
 })
 export class AboutComponent {
-  copyStatus = '';
+  shareStatus = '';
 
   constructor(
     public settings: SettingsService,
-    private clipboard: Clipboard,
-    private player: PlayerService
+    private player: PlayerService,
+    private shareService: ShareService
   ) {}
 
-  copyDistributionURL() {
-    const url = 'https://pontes.ro/puzzlex';
-    const isCopied = this.clipboard.copy(url);
-    if (isCopied) {
-      this.copyStatus = this.settings.getString('MSG_COPY_SUCCESS');
+  async shareGame(): Promise<void> {
+    this.shareStatus = '';
+    const result = await this.shareService.shareGame(
+      this.settings.getString('MSG_SHARE_TEXT'),
+      this.settings.getString('MSG_SHARE_DIALOG_TITLE')
+    );
+
+    if (result === 'copied') {
+      this.shareStatus = this.settings.getString('MSG_COPY_SUCCESS');
       this.player.play('move');
-    } else {
-      this.copyStatus = this.settings.getString('MSG_COPY_FAILED');
+    } else if (result === 'failed') {
+      this.shareStatus = this.settings.getString('MSG_COPY_FAILED');
       this.player.play('blocked');
     }
-  } // end copyDistributionURL() method.
+  }
 } // end AboutComponent class.

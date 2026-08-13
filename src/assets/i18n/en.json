@@ -52,5 +52,8 @@
   "ABOUT11": "Version %1 for %2, August 2026",
   "btnCopyURL": "Copy game link",
   "MSG_COPY_SUCCESS": "Game link copied.",
-  "MSG_COPY_FAILED": "The game link could not be copied."
+  "MSG_COPY_FAILED": "The game link could not be copied.",
+  "BT_SHARE_GAME": "Share game",
+  "MSG_SHARE_TEXT": "Play 15 Puzzle, an accessible sliding puzzle game.",
+  "MSG_SHARE_DIALOG_TITLE": "Share 15 Puzzle"
 }

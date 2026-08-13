@@ -52,5 +52,8 @@
   "ABOUT11": "%2용 버전 %1, 2026년 8월",
   "btnCopyURL": "게임 링크 복사",
   "MSG_COPY_SUCCESS": "게임 링크를 복사했습니다.",
-  "MSG_COPY_FAILED": "게임 링크를 복사하지 못했습니다."
+  "MSG_COPY_FAILED": "게임 링크를 복사하지 못했습니다.",
+  "BT_SHARE_GAME": "게임 공유",
+  "MSG_SHARE_TEXT": "접근 가능한 슬라이딩 퍼즐 게임 15 Puzzle을 플레이하세요.",
+  "MSG_SHARE_DIALOG_TITLE": "15 Puzzle 공유"
 }

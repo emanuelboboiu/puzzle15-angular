@@ -52,5 +52,8 @@
   "ABOUT11": "Phiên bản %1 cho %2, tháng 8 năm 2026",
   "btnCopyURL": "Sao chép liên kết trò chơi",
   "MSG_COPY_SUCCESS": "Đã sao chép liên kết trò chơi.",
-  "MSG_COPY_FAILED": "Không thể sao chép liên kết trò chơi."
+  "MSG_COPY_FAILED": "Không thể sao chép liên kết trò chơi.",
+  "BT_SHARE_GAME": "Chia sẻ trò chơi",
+  "MSG_SHARE_TEXT": "Chơi 15 Puzzle, trò chơi xếp hình trượt dễ tiếp cận.",
+  "MSG_SHARE_DIALOG_TITLE": "Chia sẻ 15 Puzzle"
 }

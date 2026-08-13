@@ -52,5 +52,8 @@
   "ABOUT11": "Version %1 für %2, August 2026",
   "btnCopyURL": "Spiel-Link kopieren",
   "MSG_COPY_SUCCESS": "Spiel-Link kopiert.",
-  "MSG_COPY_FAILED": "Der Spiel-Link konnte nicht kopiert werden."
+  "MSG_COPY_FAILED": "Der Spiel-Link konnte nicht kopiert werden.",
+  "BT_SHARE_GAME": "Spiel teilen",
+  "MSG_SHARE_TEXT": "Spiele 15 Puzzle, ein barrierefreies Schiebepuzzle.",
+  "MSG_SHARE_DIALOG_TITLE": "15 Puzzle teilen"
 }

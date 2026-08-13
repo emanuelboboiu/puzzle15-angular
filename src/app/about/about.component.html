@@ -44,11 +44,11 @@
     }}
   </p>
   <p>
-    <button type="button" class="btnCopy" (click)="copyDistributionURL()">
-      {{ settings.getString("btnCopyURL") }}
+    <button type="button" class="btnCopy" (click)="shareGame()">
+      {{ settings.getString("BT_SHARE_GAME") }}
     </button>
   </p>
   <div class="sr-only" role="status" aria-live="polite" aria-atomic="true">
-    {{ copyStatus }}
+    {{ shareStatus }}
   </div>
 </div>

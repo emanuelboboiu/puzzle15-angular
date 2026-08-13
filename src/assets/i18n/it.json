@@ -52,5 +52,8 @@
   "ABOUT11": "Versione %1 per %2, agosto 2026",
   "btnCopyURL": "Copia link del gioco",
   "MSG_COPY_SUCCESS": "Link del gioco copiato.",
-  "MSG_COPY_FAILED": "Impossibile copiare il link del gioco."
+  "MSG_COPY_FAILED": "Impossibile copiare il link del gioco.",
+  "BT_SHARE_GAME": "Condividi gioco",
+  "MSG_SHARE_TEXT": "Gioca a 15 Puzzle, un rompicapo scorrevole accessibile.",
+  "MSG_SHARE_DIALOG_TITLE": "Condividi 15 Puzzle"
 }

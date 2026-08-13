@@ -52,5 +52,8 @@
   "ABOUT11": "Verzió %1 – %2 számára, 2026. augusztus",
   "btnCopyURL": "Játék link másolása",
   "MSG_COPY_SUCCESS": "A játék hivatkozása másolva.",
-  "MSG_COPY_FAILED": "A játék hivatkozását nem sikerült másolni."
+  "MSG_COPY_FAILED": "A játék hivatkozását nem sikerült másolni.",
+  "BT_SHARE_GAME": "Játék megosztása",
+  "MSG_SHARE_TEXT": "Játssz a 15 Puzzle akadálymentes csúszókirakóval.",
+  "MSG_SHARE_DIALOG_TITLE": "15 Puzzle megosztása"
 }

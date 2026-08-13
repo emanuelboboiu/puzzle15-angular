@@ -1,12 +1,40 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   OnInit,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { KeyValuePipe } from '@angular/common';
 import { SettingsService } from '../settings.service';
 import { StatisticsService } from '../statistics.service';
 import { RequestsService } from '../requests.service';
+import { PlayerService } from '../player.service';
+
+type StatisticsSectionId =
+  | 'allTime'
+  | 'last28Days'
+  | 'last7Days'
+  | 'last24Hours'
+  | 'personal';
+
+interface PeriodStatistics {
+  available: boolean;
+  hasSolvedGames: boolean;
+  record: string;
+  recordDate: string;
+  startedGames: Record<string, string | number>;
+  totalStarted: string;
+  finishedGames: Record<string, string | number>;
+  totalSolved: string;
+  averageDuration: string;
+  averageMoves: string;
+}
+
+interface StatisticsSection {
+  id: StatisticsSectionId;
+  titleKey: string;
+  emptyMessageKey: string;
+  statistics: PeriodStatistics;
+}
 
 @Component({
   selector: 'app-statistics',
@@ -16,198 +44,186 @@ import { RequestsService } from '../requests.service';
   styleUrl: './statistics.component.css',
 })
 export class StatisticsComponent implements OnInit {
-  quizzApiFileName: string = 'get_stats.php';
+  private readonly apiFileName = 'get_stats.php';
 
-  // For general statistics:
-  generalRecord: string = '0';
-  generalRecordDate: string = '...';
-  generalFinishedGames: any;
-  generalTotalSolved: string = '0';
-  generalStartedGames: any;
-  generalTotalStarted: string = '0';
-  generalAverageDuration: string = '0';
-  generalAverageMoves: string = '0';
-
-  // Global statistics from the rolling last 28 days:
-  hasLast28DaysData: boolean = false;
-  showLast28DaysStatistics: boolean = false;
-  last28DaysRecord: string = '0';
-  last28DaysRecordDate: string = '';
-  last28DaysFinishedGames: any = { 3: 0, 4: 0, 5: 0 };
-  last28DaysTotalSolved: string = '0';
-  last28DaysStartedGames: any = { 3: 0, 4: 0, 5: 0 };
-  last28DaysTotalStarted: string = '0';
-  last28DaysAverageDuration: string = '00:00';
-  last28DaysAverageMoves: string = '0';
-
-  // Personal statistics:
-  showPersonalStatistics: boolean = false;
-  recordScore: string = '';
-  recordDate: string = '';
-  personalStartedGames: any;
-  personalTotalStarted: string = '0';
-  personalFinishedGames: any;
-  personalTotalSolved: string = '0';
-  personalAverageDuration: string = '0';
-  personalAverageMoves: string = '0';
+  allTime = this.createEmptyPeriod();
+  last28Days = this.createEmptyPeriod(false);
+  last7Days = this.createEmptyPeriod(false);
+  last24Hours = this.createEmptyPeriod(false);
+  personal = this.createEmptyPeriod();
 
   constructor(
     public settings: SettingsService,
     private statistics: StatisticsService,
-    private rqs: RequestsService
-  ) {} // end constructor.
+    private requests: RequestsService,
+    private player: PlayerService,
+  ) {}
 
   ngOnInit(): void {
-    this.getGeneralStatisticsJSon();
-    this.getLocalStatistics();
-  } // end ngOnInit.
-
-  // Get the general statistics JSON:
-  getGeneralStatisticsJSon(): void {
-    this.rqs
-      .getDataGet(this.quizzApiFileName, '?act=getStats')
-      .subscribe((json) => {
-        // Set the general records and its date:
-        this.generalRecord = json.generalRecord;
-        this.generalRecordDate = this.settings.getFriendlyDate(
-          new Date(json.generalRecordDate)
-        );
-
-        // Now the started puzzles:
-        this.generalStartedGames = json.startedGames;
-        // Calculate the total started games:
-        this.generalTotalStarted =
-          '' + this.calculateTotalSumOfValues(this.generalStartedGames);
-
-        // Now the solved puzzles, finished games:
-        this.generalFinishedGames = json.finishedGames;
-        // Calculate the total finished games:
-        this.generalTotalSolved =
-          '' + this.calculateTotalSumOfValues(this.generalFinishedGames);
-
-        // Now the average duration and number of moves:
-        this.generalAverageDuration = this.secondsToMinutesSeconds(
-          Number(json.generalAverageDuration)
-        );
-        this.generalAverageMoves = json.generalAverageMoves;
-
-        if (json.last28Days) {
-          this.setLast28DaysStatistics(json.last28Days);
-        }
-
-      });
-  } // end getGeneralStatisticsJSon() method.
-
-  private setLast28DaysStatistics(last28Days: any): void {
-    this.hasLast28DaysData = true;
-    this.last28DaysStartedGames = last28Days.startedGames || {
-      3: 0,
-      4: 0,
-      5: 0,
-    };
-    this.last28DaysFinishedGames = last28Days.finishedGames || {
-      3: 0,
-      4: 0,
-      5: 0,
-    };
-    this.last28DaysTotalStarted = String(
-      this.calculateTotalSumOfValues(this.last28DaysStartedGames)
-    );
-    this.last28DaysTotalSolved = String(
-      this.calculateTotalSumOfValues(this.last28DaysFinishedGames)
-    );
-    this.showLast28DaysStatistics = Number(this.last28DaysTotalSolved) > 0;
-
-    if (this.showLast28DaysStatistics) {
-      this.last28DaysRecord = String(last28Days.record ?? 0);
-      this.last28DaysRecordDate = this.settings.getFriendlyDate(
-        new Date(last28Days.recordDate)
-      );
-      this.last28DaysAverageDuration = this.secondsToMinutesSeconds(
-        Number(last28Days.averageDuration ?? 0)
-      );
-      this.last28DaysAverageMoves = String(last28Days.averageMoves ?? 0);
-    }
+    this.loadGlobalStatistics();
+    this.loadPersonalStatistics();
   }
 
-  // This method calculates the total sum of the values in an array:
-  calculateTotalSumOfValues(tempArr: any): number {
-    let total = 0;
-    Object.values(tempArr || {}).forEach((value) => {
-      total += Number(value);
-    });
-    return total;
-  } // end calculateTotalSumOfValues() method.
-  secondsToMinutesSeconds(seconds: number): string {
-    const minutes: number = Math.floor(seconds / 60);
-    const remainingSeconds: number = seconds % 60;
-    const formattedMinutes: string =
-      minutes < 10 ? '0' + minutes : minutes.toString();
-    const formattedSeconds: string =
-      remainingSeconds < 10
-        ? '0' + remainingSeconds
-        : remainingSeconds.toString();
-    return formattedMinutes + ':' + formattedSeconds;
-  } // end secondsToMinutesSeconds() method.
+  get sections(): StatisticsSection[] {
+    return [
+      {
+        id: 'allTime',
+        titleKey: 'TITLE_ALL_TIME_STATISTICS',
+        emptyMessageKey: 'MSG_NO_SOLVED_ALL_TIME',
+        statistics: this.allTime,
+      },
+      {
+        id: 'last28Days',
+        titleKey: 'TITLE_LAST_28_DAYS_STATISTICS',
+        emptyMessageKey: 'MSG_NO_SOLVED_LAST_28_DAYS',
+        statistics: this.last28Days,
+      },
+      {
+        id: 'last7Days',
+        titleKey: 'TITLE_LAST_7_DAYS_STATISTICS',
+        emptyMessageKey: 'MSG_NO_SOLVED_LAST_7_DAYS',
+        statistics: this.last7Days,
+      },
+      {
+        id: 'last24Hours',
+        titleKey: 'TITLE_LAST_24_HOURS_STATISTICS',
+        emptyMessageKey: 'MSG_NO_SOLVED_LAST_24_HOURS',
+        statistics: this.last24Hours,
+      },
+      {
+        id: 'personal',
+        titleKey: 'TITLE_PERSONAL_STATISTICS',
+        emptyMessageKey: 'MSG_PERSONAL_STATS_NOT_AVAILABLE',
+        statistics: this.personal,
+      },
+    ];
+  }
 
-  // From here local statistics, personal:
-  // A method to getLocalStatistics:
-  getLocalStatistics(): void {
-    // We do these things only if there is at least one game saved, we check number of moves saved to be greater than 0:
-    this.showPersonalStatistics =
-      this.settings.getNumberSetting(this.statistics.lsTotalMovesKey) > 0
-        ? true
-        : false;
+  playSectionClick(): void {
+    this.player.play('click');
+  }
 
-    if (this.showPersonalStatistics) {
-      this.determineRecordScore();
-      this.personalStartedGames = this.statistics.getStartedGames();
-      // We need the total sum of the values:
-      this.personalTotalStarted = this.calculateTotalSumOfValues(
-        this.personalStartedGames
-      ).toString();
-      this.personalFinishedGames = this.statistics.getFinishedGames();
-      this.personalTotalSolved = this.calculateTotalSumOfValues(
-        this.personalFinishedGames
-      ).toString();
-      this.getPersonalAverages();
-    } // end if we need to show personal statistics.
-  } // end getLocalStatistics() method.
+  private loadGlobalStatistics(): void {
+    this.requests
+      .getDataGet(this.apiFileName, '?act=getStats')
+      .subscribe((json) => {
+        this.allTime = this.mapApiPeriod(
+          json.allTime || {
+            record: json.generalRecord,
+            recordDate: json.generalRecordDate,
+            startedGames: json.startedGames,
+            finishedGames: json.finishedGames,
+            averageDuration: json.generalAverageDuration,
+            averageMoves: json.generalAverageMoves,
+          },
+        );
 
-  // Get the record and the date:
-  determineRecordScore() {
-    // Retrieve the recordScore:
-    if (this.settings.lsExists(this.statistics.lsRecordKey)) {
-      this.recordScore = this.settings.getStringSetting(
-        this.statistics.lsRecordKey
-      );
+        if (json.last28Days) {
+          this.last28Days = this.mapApiPeriod(json.last28Days);
+        }
+        if (json.last7Days) {
+          this.last7Days = this.mapApiPeriod(json.last7Days);
+        }
+        if (json.last24Hours) {
+          this.last24Hours = this.mapApiPeriod(json.last24Hours);
+        }
+      });
+  }
+
+  private mapApiPeriod(period: any): PeriodStatistics {
+    const startedGames = period.startedGames || { 3: 0, 4: 0, 5: 0 };
+    const finishedGames = period.finishedGames || { 3: 0, 4: 0, 5: 0 };
+    const totalSolved = this.calculateTotalSumOfValues(finishedGames);
+    const hasSolvedGames = totalSolved > 0;
+
+    return {
+      available: true,
+      hasSolvedGames,
+      record: hasSolvedGames ? String(period.record ?? 0) : '0',
+      recordDate:
+        hasSolvedGames && period.recordDate
+          ? this.settings.getFriendlyDate(new Date(period.recordDate))
+          : '',
+      startedGames,
+      totalStarted: String(this.calculateTotalSumOfValues(startedGames)),
+      finishedGames,
+      totalSolved: String(totalSolved),
+      averageDuration: hasSolvedGames
+        ? this.secondsToMinutesSeconds(Number(period.averageDuration ?? 0))
+        : '00:00',
+      averageMoves: hasSolvedGames
+        ? String(period.averageMoves ?? 0)
+        : '0',
+    };
+  }
+
+  private loadPersonalStatistics(): void {
+    const totalMoves = this.settings.getNumberSetting(
+      this.statistics.lsTotalMovesKey,
+    );
+    if (totalMoves <= 0) {
+      return;
     }
 
-    // Retrieve the saved date from localStorage if it exists:
-    if (this.settings.lsExists(this.statistics.lsRecordDateKey)) {
-      const savedDate = this.settings.getStringSetting(
-        this.statistics.lsRecordDateKey
-      );
-      // Convert the date string back to a Date object
-      const dateObject = new Date(savedDate!);
-      this.recordDate = this.settings.getFriendlyDate(dateObject);
-    } // end if record date exists in localStorage.
-  } // end determineRecordScore() method.
+    const startedGames = this.statistics.getStartedGames();
+    const finishedGames = this.statistics.getFinishedGames();
+    const totalSolved = this.calculateTotalSumOfValues(finishedGames);
+    const totalDuration = this.settings.getNumberSetting(
+      this.statistics.lsTotalDurationKey,
+    );
+    const savedRecordDate = this.settings.lsExists(
+      this.statistics.lsRecordDateKey,
+    )
+      ? this.settings.getStringSetting(this.statistics.lsRecordDateKey)
+      : '';
 
-  // The method to detect the average duration and moves per game:
-  getPersonalAverages(): void {
-    let totalDuration: number = this.settings.getNumberSetting(
-      this.statistics.lsTotalDurationKey
+    this.personal = {
+      available: true,
+      hasSolvedGames: totalSolved > 0,
+      record: this.settings.getStringSetting(this.statistics.lsRecordKey),
+      recordDate: savedRecordDate
+        ? this.settings.getFriendlyDate(new Date(savedRecordDate))
+        : '',
+      startedGames,
+      totalStarted: String(this.calculateTotalSumOfValues(startedGames)),
+      finishedGames,
+      totalSolved: String(totalSolved),
+      averageDuration:
+        totalSolved > 0
+          ? this.secondsToMinutesSeconds(Math.round(totalDuration / totalSolved))
+          : '00:00',
+      averageMoves:
+        totalSolved > 0 ? String(Math.round(totalMoves / totalSolved)) : '0',
+    };
+  }
+
+  private createEmptyPeriod(available = true): PeriodStatistics {
+    return {
+      available,
+      hasSolvedGames: false,
+      record: '0',
+      recordDate: '',
+      startedGames: { 3: 0, 4: 0, 5: 0 },
+      totalStarted: '0',
+      finishedGames: { 3: 0, 4: 0, 5: 0 },
+      totalSolved: '0',
+      averageDuration: '00:00',
+      averageMoves: '0',
+    };
+  }
+
+  private calculateTotalSumOfValues(values: Record<string, unknown>): number {
+    return Object.values(values).reduce<number>(
+      (total, value) => total + Number(value),
+      0,
     );
-    let totalMoves: number = this.settings.getNumberSetting(
-      this.statistics.lsTotalMovesKey
-    );
-    // We have the total number of games already charged:
-    this.personalAverageDuration = this.secondsToMinutesSeconds(
-      Math.round(totalDuration / Number(this.personalTotalSolved))
-    );
-    this.personalAverageMoves = String(
-      Math.round(totalMoves / Number(this.personalTotalSolved))
-    );
-  } // end getPersonalAverages method.
-} // end class.
+  }
+
+  private secondsToMinutesSeconds(seconds: number): string {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${String(minutes).padStart(2, '0')}:${String(
+      remainingSeconds,
+    ).padStart(2, '0')}`;
+  }
+}

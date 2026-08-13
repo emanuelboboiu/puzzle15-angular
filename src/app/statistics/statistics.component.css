@@ -1,25 +1,66 @@
-h1 {
-  color: #4a2a16;
-}
-
-.page-content {
-  width: min-content;
-}
-
 .statistics-page {
   margin-top: 5rem;
   margin-left: 1rem;
+  margin-right: 1rem;
   color: #4a2a16;
   margin-bottom: 1rem;
 }
 
-.space {
-  width: 1rem;
+.statistics-section {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto 0.75rem;
+}
+
+.statistics-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 3rem;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 2px solid #4a2a16;
+  color: #4a2a16;
+  cursor: pointer;
+  list-style: none;
+}
+
+.statistics-summary::-webkit-details-marker {
+  display: none;
+}
+
+.statistics-summary h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.statistics-summary:focus-visible {
+  outline: 3px solid #4a2a16;
+  outline-offset: 2px;
+}
+
+.toggle-symbol {
+  flex: 0 0 auto;
+  margin-left: 1rem;
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.toggle-symbol::before {
+  content: "+";
+}
+
+.statistics-section[open] .toggle-symbol::before {
+  content: "−";
+}
+
+.statistics-content {
+  padding-top: 0.25rem;
 }
 
 p {
   font-size: 20px;
-  margin-left: 1rem;
-  margin-right: 1rem;
+  margin: 0.75rem 1rem;
   text-wrap: wrap;
 }

@@ -17,6 +17,7 @@ import { RatingService } from '../rating.service';
 })
 export class RatingComponent {
   readonly closed = output<void>();
+  readonly rated = output<void>();
   status = '';
 
   constructor(
@@ -34,7 +35,7 @@ export class RatingComponent {
     const opened = await this.ratingService.openStore(this.settings.os);
 
     if (opened) {
-      this.close();
+      this.rated.emit();
     } else {
       this.status = this.settings.getString('MSG_RATE_FAILED');
     }

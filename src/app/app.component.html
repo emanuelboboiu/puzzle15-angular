@@ -6,7 +6,7 @@
       src="../assets/logo.png"
       alt="{{ settings.getString('IMG_LOGO_ALT') }}"
       />
-    <button (click)="goToSelectBoardSize()" class="btn">
+    <button #mainPlayButton (click)="goToSelectBoardSize()" class="btn">
       {{ settings.getString("BT_PLAY") }}
     </button>
     <button (click)="goToStatistics()" class="btn">
@@ -217,7 +217,7 @@
       >
       <img src="../assets/arrow-left-solid.svg" alt="" />
     </button>
-    <app-about></app-about>
+    <app-about (ratingRequested)="openRating('about')"></app-about>
   </div>
 }
 <!-- end about zone, fifth page of the application. -->
@@ -236,3 +236,10 @@
   </div>
 }
 <!-- end statistics zone, sixth page of the application. -->
+
+@if (showRating) {
+  <app-rating
+    (closed)="closeRating()"
+    (rated)="ratingStoreOpened()"
+  />
+}

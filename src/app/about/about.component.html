@@ -53,9 +53,6 @@
       {{ settings.getString("BT_RATE_GAME") }}
     </button>
   </p>
-  @if (showRating) {
-    <app-rating (closed)="closeRating()" />
-  }
   <p>
     <button type="button" class="btnCopy" (click)="shareGame()">
       {{ settings.getString("BT_SHARE_GAME") }}

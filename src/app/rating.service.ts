@@ -5,6 +5,7 @@ import { AppLauncher } from '@capacitor/app-launcher';
   providedIn: 'root',
 })
 export class RatingService {
+  private readonly hasRatedKey = 'hasRatedPuzzle15';
   private readonly googlePlayUrl =
     'https://play.google.com/store/apps/details?id=ro.pontes.puzzlex';
   private readonly appStoreUrl =
@@ -12,6 +13,14 @@ export class RatingService {
 
   getStoreName(os: number): 'Google Play' | 'App Store' {
     return os === 1 ? 'App Store' : 'Google Play';
+  }
+
+  hasRated(): boolean {
+    return localStorage.getItem(this.hasRatedKey) === 'true';
+  }
+
+  markAsRated(): void {
+    localStorage.setItem(this.hasRatedKey, 'true');
   }
 
   async openStore(os: number): Promise<boolean> {

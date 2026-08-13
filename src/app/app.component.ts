@@ -4,6 +4,8 @@ import {
   OnDestroy,
   HostListener,
   ChangeDetectionStrategy,
+  ElementRef,
+  ViewChild,
 } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { A11yModule } from '@angular/cdk/a11y';
@@ -18,6 +20,8 @@ import party from 'party-js';
 import { PlayerService } from './player.service';
 import { SettingsService } from './settings.service';
 import { GestureService, SwipeEvent } from './gesture.service';
+import { RatingComponent } from './rating/rating.component';
+import { RatingService } from './rating.service';
 
 @Component({
   selector: 'app-root',
@@ -27,12 +31,16 @@ import { GestureService, SwipeEvent } from './gesture.service';
     SettingsComponent,
     StatisticsComponent,
     AboutComponent,
+    RatingComponent,
   ],
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit, OnDestroy {
+  @ViewChild('mainPlayButton') mainPlayButton?: ElementRef<HTMLButtonElement>;
+  @ViewChild(AboutComponent) aboutComponent?: AboutComponent;
+
   title = '15 Puzzle';
   apiFileName: string = 'insert_stats.php';
   currSection: number = 0; // 0 means main page, 1 means the game zone etc.
@@ -55,13 +63,17 @@ export class AppComponent implements OnInit, OnDestroy {
   ariaLabels: string[] = [];
   isSavedGame: boolean = false;
   finalScore: number = 0;
+  showRating = false;
+  private ratingSource: 'about' | 'win' | null = null;
+  private ratingPendingAfterWin = false;
 
   constructor(
     private player: PlayerService,
     public settings: SettingsService,
     private statistics: StatisticsService,
     private rqs: RequestsService,
-    private gestureService: GestureService
+    private gestureService: GestureService,
+    private ratingService: RatingService
   ) {
     this.screenWidth = window.innerWidth;
   } // end constructor.
@@ -190,6 +202,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.isSavedGame = false;
         this.timerSubscription.unsubscribe(); //stop the timer.
         this.gameWon = true;
+        this.ratingPendingAfterWin = !this.ratingService.hasRated();
         this.player.play('winner');
         this.gameStarted = false;
         this.askIfAbandon = false;
@@ -280,10 +293,45 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // A method used to go back to main page from settings or other sections excluding game zone:
   goBackToMain(): void {
+    const shouldOfferRating =
+      this.gameWon &&
+      this.ratingPendingAfterWin &&
+      !this.ratingService.hasRated();
+
     this.player.play('action');
     this.currSection = 0;
     this.gameWon = false; // after a game is won, to disappear for the next time the congrats message.
+
+    if (shouldOfferRating) {
+      this.ratingPendingAfterWin = false;
+      setTimeout(() => this.openRating('win'));
+    }
   } // end of goBackToMain() method.
+
+  openRating(source: 'about' | 'win'): void {
+    this.ratingSource = source;
+    this.showRating = true;
+  }
+
+  closeRating(): void {
+    const source = this.ratingSource;
+    this.showRating = false;
+    this.ratingSource = null;
+
+    setTimeout(() => {
+      if (source === 'about') {
+        this.aboutComponent?.focusRatingButton();
+      } else {
+        this.mainPlayButton?.nativeElement.focus();
+      }
+    });
+  }
+
+  ratingStoreOpened(): void {
+    this.ratingService.markAsRated();
+    this.ratingPendingAfterWin = false;
+    this.closeRating();
+  }
 
   // A method used to go to game board zone.
   goToGame(size: number): void {

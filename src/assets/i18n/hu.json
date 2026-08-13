@@ -50,5 +50,7 @@
   "ABOUT9": "Folytasd a csúsztatást, amíg a számok helyes sorrendbe nem kerülnek, és az üres mező a jobb alsó sarokba nem kerül.",
   "ABOUT10": "Ezt a játékot azért hoztuk létre, hogy bemutassuk: ugyanazzal a kóddal több platformra is lehet játékot fejleszteni, miközben biztosítjuk a képernyőolvasókkal való kompatibilitást.",
   "ABOUT11": "Verzió %1 – %2 számára, 2025. október",
-  "btnCopyURL": "Játék link másolása"
+  "btnCopyURL": "Játék link másolása",
+  "MSG_COPY_SUCCESS": "A játék hivatkozása másolva.",
+  "MSG_COPY_FAILED": "A játék hivatkozását nem sikerült másolni."
 }

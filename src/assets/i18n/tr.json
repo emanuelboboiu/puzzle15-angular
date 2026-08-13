@@ -50,5 +50,7 @@
   "ABOUT9": "Kareleri stratejik olarak kaydırmaya devam edin; doğru sıraya dizildiklerinde boş hücre sağ alt köşede olmalıdır.",
   "ABOUT10": "Bu oyun, ekran okuyucularıyla uyumluluğu da sağlayarak aynı kodla tüm büyük platformlar için oyun geliştirmenin mümkün olduğunu göstermek amacıyla oluşturulmuştur.",
   "ABOUT11": "%2 için Sürüm %1, Ekim 2025",
-  "btnCopyURL": "Oyun bağlantısını kopyala"
+  "btnCopyURL": "Oyun bağlantısını kopyala",
+  "MSG_COPY_SUCCESS": "Oyun bağlantısı kopyalandı.",
+  "MSG_COPY_FAILED": "Oyun bağlantısı kopyalanamadı."
 }

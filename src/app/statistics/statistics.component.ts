@@ -12,6 +12,7 @@ import { RequestsService } from '../requests.service';
 })
 export class StatisticsComponent implements OnInit {
   quizzApiFileName: string = 'get_stats.php';
+  statisticsStatus = '';
 
   // For general statistics:
   generalRecord: string = '0';
@@ -73,6 +74,14 @@ export class StatisticsComponent implements OnInit {
           Number(json.generalAverageDuration)
         );
         this.generalAverageMoves = json.generalAverageMoves;
+
+        this.statisticsStatus =
+          this.settings.formatString(
+            'STARTED_PUZZLES',
+            this.generalTotalStarted
+          ) +
+          ' ' +
+          this.settings.formatString('SOLVED_PUZZLES', this.generalTotalSolved);
       });
   } // end getGeneralStatisticsJSon() method.
 

@@ -50,5 +50,7 @@
   "ABOUT9": "Continue à faire glisser les tuiles stratégiquement jusqu’à ce qu’elles soient dans le bon ordre, avec la case vide en bas à droite.",
   "ABOUT10": "Ce jeu a été créé pour démontrer qu’il est possible de développer un jeu avec le même code pour les principales plateformes tout en assurant la compatibilité avec les lecteurs d’écran.",
   "ABOUT11": "Version %1 pour %2, octobre 2025",
-  "btnCopyURL": "Copier le lien du jeu"
+  "btnCopyURL": "Copier le lien du jeu",
+  "MSG_COPY_SUCCESS": "Lien du jeu copié.",
+  "MSG_COPY_FAILED": "Impossible de copier le lien du jeu."
 }

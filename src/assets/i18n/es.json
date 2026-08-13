@@ -50,5 +50,7 @@
   "ABOUT9": "Sigue deslizando las fichas estratégicamente hasta que estén en el orden correcto, con la casilla vacía en la esquina inferior derecha.",
   "ABOUT10": "Este juego fue creado para demostrar que es posible desarrollar un juego con el mismo código para las principales plataformas, garantizando compatibilidad con lectores de pantalla.",
   "ABOUT11": "Versión %1 para %2, octubre de 2025",
-  "btnCopyURL": "Copiar enlace del juego"
+  "btnCopyURL": "Copiar enlace del juego",
+  "MSG_COPY_SUCCESS": "Enlace del juego copiado.",
+  "MSG_COPY_FAILED": "No se pudo copiar el enlace del juego."
 }

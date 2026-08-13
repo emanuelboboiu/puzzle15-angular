@@ -451,12 +451,13 @@ export class AppComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         this.ariaLabels = [];
         for (let i = 0; i < this.boardSize * this.boardSize; i++) {
-          let currNum = document.getElementById('pos' + i)?.innerHTML;
-          if (Number(currNum) == 0) {
-            currNum = this.settings.getString('LABEL_EMPTY');
-          }
+          const pieceNumber = this.pieces[i].number;
+          const currNum =
+            pieceNumber === 0
+              ? this.settings.getString('LABEL_EMPTY')
+              : pieceNumber.toString();
           this.ariaLabels.push(
-            currNum?.toString().trim() + ', ' + this.getAriaLabel(i)
+            currNum + ', ' + this.getAriaLabel(i)
           );
         } // end for.
       }, 350);

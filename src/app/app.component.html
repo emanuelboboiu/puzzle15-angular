@@ -182,7 +182,7 @@
     <!-- Here a div for aria labels, only if is enabled in settings: -->
     @if (settings.isAccessibility) {
       <div style="display: none">
-        @for (label of ariaLabels; track $index; let i = $index) {
+        @for (label of ariaLabels; track label + '-' + $index; let i = $index) {
           <p [attr.id]="'label' + i">
             {{ label }}
           </p>

@@ -50,5 +50,7 @@
   "ABOUT9": "Continue sliding the tiles strategically until you've successfully arranged them in the correct order, ensuring that the empty cell ends up in the bottom right corner.",
   "ABOUT10": "This game was created to demonstrate how it is possible to develop a game using the same code for the most important platforms, ensuring compatibility with screen readers.",
   "ABOUT11": "Version %1 for %2, October 2025",
-  "btnCopyURL": "Copy game link"
+  "btnCopyURL": "Copy game link",
+  "MSG_COPY_SUCCESS": "Game link copied.",
+  "MSG_COPY_FAILED": "The game link could not be copied."
 }

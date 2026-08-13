@@ -10,6 +10,8 @@ import { PlayerService } from '../player.service';
   styleUrl: './about.component.css',
 })
 export class AboutComponent {
+  copyStatus = '';
+
   constructor(
     public settings: SettingsService,
     private clipboard: Clipboard,
@@ -20,8 +22,10 @@ export class AboutComponent {
     const url = 'https://pontes.ro/puzzlex';
     const isCopied = this.clipboard.copy(url);
     if (isCopied) {
+      this.copyStatus = this.settings.getString('MSG_COPY_SUCCESS');
       this.player.play('move');
     } else {
+      this.copyStatus = this.settings.getString('MSG_COPY_FAILED');
       this.player.play('blocked');
     }
   } // end copyDistributionURL() method.

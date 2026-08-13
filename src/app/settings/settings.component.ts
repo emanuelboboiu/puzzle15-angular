@@ -73,6 +73,10 @@ export class SettingsComponent implements OnInit {
       this.settings.preferredLangKey,
       this.tempSelectedLanguage
     );
+    this.settings.saveBooleanSetting(
+      this.settings.hasChosenLanguageKey,
+      true
+    );
     // Reload the component after a short while, to have time the sound to be played:
     setTimeout(() => {
       window.location.reload();

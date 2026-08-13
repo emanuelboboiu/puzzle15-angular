@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Device } from '@capacitor/device';
+import { catchError, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -33,6 +32,7 @@ export class SettingsService {
   ]; // Array of accepted languages
   languageData: any;
   preferredLangKey: string = 'preferredLang';
+  hasChosenLanguageKey: string = 'hasChosenLanguage';
   isSound: boolean = true;
   lsIsSoundKey: string = 'lsSettingsSound';
   soundScheme: string = 'wooden'; // Default sound scheme
@@ -96,7 +96,7 @@ export class SettingsService {
 
     // Load language data from xx.json files found in assets/i18n:
     this.languageData = null;
-    this.loadLanguage(this.language).subscribe((data) => {
+    this.loadLanguageWithFallback(this.language).subscribe((data) => {
       this.languageData = data;
     });
     //end load language file.
@@ -150,33 +150,62 @@ export class SettingsService {
     return this.http.get<any>(`/assets/i18n/${lang}.json`);
   } // end loadLanguage() method.
 
+  private loadLanguageWithFallback(lang: string): Observable<any> {
+    return this.loadLanguage(lang).pipe(
+      catchError(() => {
+        this.applyLanguage('en');
+        return this.loadLanguage('en');
+      }),
+    );
+  }
+
   // A method to charge the chosen language:
   detectChosenLanguage(): void {
-    // First of all we check if we have a detected language:
-    if (this.lsExists('detectedLang')) {
-      this.detectedLang = localStorage.getItem('detectedLang') || 'en';
+    this.detectedLang = this.normalizeLanguage(
+      localStorage.getItem('detectedLang'),
+    );
+
+    const savedLanguage = this.normalizeLanguage(
+      localStorage.getItem(this.preferredLangKey),
+    );
+    const hasExplicitChoice =
+      localStorage.getItem(this.hasChosenLanguageKey) === '1';
+
+    if (hasExplicitChoice && this.isSupportedLanguage(savedLanguage)) {
+      this.applyLanguage(savedLanguage);
+      return;
     }
 
-    // Check if user's preferred language is saved in local settings
-    let preferredLang = localStorage.getItem(this.preferredLangKey);
-    if (!preferredLang) {
-      // If not saved, use the detected language in main.ts:
-      preferredLang = this.detectedLang;
-      // Now this default language must exists in the accepted languages:
-      if (!this.acceptedLanguages.includes(preferredLang)) {
-        preferredLang = 'en'; // this is by default if not in localStorage and the browsers language isn't accepted.
-      }
-      // Save this language preference:
-      localStorage.setItem(this.preferredLangKey, preferredLang);
-    } // end if language was not saved.
-    this.language = preferredLang;
-
-    // Find the <html> element and set the lang attribute
-    var htmlElement = document.querySelector('html');
-    if (htmlElement) {
-      htmlElement.setAttribute('lang', preferredLang);
+    // Migration from versions that did not distinguish an automatically
+    // detected language from one selected explicitly by the user.
+    if (
+      !hasExplicitChoice &&
+      savedLanguage !== 'en' &&
+      this.isSupportedLanguage(savedLanguage)
+    ) {
+      localStorage.setItem(this.hasChosenLanguageKey, '1');
+      this.applyLanguage(savedLanguage);
+      return;
     }
+
+    localStorage.removeItem(this.preferredLangKey);
+    this.applyLanguage(
+      this.isSupportedLanguage(this.detectedLang) ? this.detectedLang : 'en',
+    );
   } //  // end detectChosenLanguage() method.
+
+  private normalizeLanguage(language: string | null): string {
+    return (language || 'en').split(/[-_]/)[0].toLowerCase();
+  }
+
+  private isSupportedLanguage(language: string): boolean {
+    return this.acceptedLanguages.includes(language);
+  }
+
+  private applyLanguage(language: string): void {
+    this.language = language;
+    document.documentElement.lang = language;
+  }
 
   getString(key: string): string {
     if (this.languageData && this.languageData[key]) {

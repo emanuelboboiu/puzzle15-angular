@@ -4,25 +4,24 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
 import { Device } from '@capacitor/device';
 
+function normalizeLanguage(language: string | undefined): string {
+  return (language || 'en').split(/[-_]/)[0].toLowerCase();
+}
+
 async function detectAndCacheLanguage(): Promise<void> {
-  let lang = 'en';
+  let lang = normalizeLanguage(
+    navigator.language || navigator.languages?.[0],
+  );
   const platform = (window as any).Capacitor?.getPlatform?.() || 'web';
 
-  if (platform === 'web') {
-    lang = (navigator.language || navigator.languages[0] || 'en')
-      .substring(0, 2)
-      .toLowerCase();
-  } else {
+  if (platform !== 'web') {
     try {
       const info = await Device.getLanguageCode();
-      lang = info.value?.substring(0, 2).toLowerCase() || 'en';
-    } catch {
-      lang = 'en';
-    }
+      lang = normalizeLanguage(info.value);
+    } catch {}
   }
 
   localStorage.setItem('detectedLang', lang);
-  document.documentElement.lang = lang;
 }
 
 async function initApp() {

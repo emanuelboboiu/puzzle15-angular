@@ -14,7 +14,35 @@ type StatisticsSectionId =
   | 'last28Days'
   | 'last7Days'
   | 'last24Hours'
-  | 'personal';
+  | 'personal'
+  | 'startedByLanguage'
+  | 'solvedByLanguage'
+  | 'startedByPlatform'
+  | 'solvedByPlatform';
+
+interface LanguageStatistic {
+  code: string;
+  name: string;
+  count: number;
+}
+
+interface LanguageStatisticsSection {
+  id: StatisticsSectionId;
+  titleKey: string;
+  statistics: LanguageStatistic[];
+}
+
+interface PlatformStatistic {
+  os: number;
+  name: string;
+  count: number;
+}
+
+interface PlatformStatisticsSection {
+  id: StatisticsSectionId;
+  titleKey: string;
+  statistics: PlatformStatistic[];
+}
 
 interface PeriodStatistics {
   available: boolean;
@@ -45,12 +73,19 @@ interface StatisticsSection {
 })
 export class StatisticsComponent implements OnInit {
   private readonly apiFileName = 'get_stats.php';
+  openSection: StatisticsSectionId | null = null;
 
   allTime = this.createEmptyPeriod();
   last28Days = this.createEmptyPeriod(false);
   last7Days = this.createEmptyPeriod(false);
   last24Hours = this.createEmptyPeriod(false);
   personal = this.createEmptyPeriod();
+  languageStatisticsAvailable = false;
+  startedGamesByLanguage: LanguageStatistic[] = [];
+  solvedGamesByLanguage: LanguageStatistic[] = [];
+  platformStatisticsAvailable = false;
+  startedGamesByPlatform: PlatformStatistic[] = [];
+  solvedGamesByPlatform: PlatformStatistic[] = [];
 
   constructor(
     public settings: SettingsService,
@@ -66,6 +101,12 @@ export class StatisticsComponent implements OnInit {
 
   get sections(): StatisticsSection[] {
     return [
+      {
+        id: 'personal',
+        titleKey: 'TITLE_PERSONAL_STATISTICS',
+        emptyMessageKey: 'MSG_PERSONAL_STATS_NOT_AVAILABLE',
+        statistics: this.personal,
+      },
       {
         id: 'allTime',
         titleKey: 'TITLE_ALL_TIME_STATISTICS',
@@ -90,17 +131,46 @@ export class StatisticsComponent implements OnInit {
         emptyMessageKey: 'MSG_NO_SOLVED_LAST_24_HOURS',
         statistics: this.last24Hours,
       },
+    ];
+  }
+
+  get languageSections(): LanguageStatisticsSection[] {
+    return [
       {
-        id: 'personal',
-        titleKey: 'TITLE_PERSONAL_STATISTICS',
-        emptyMessageKey: 'MSG_PERSONAL_STATS_NOT_AVAILABLE',
-        statistics: this.personal,
+        id: 'startedByLanguage',
+        titleKey: 'TITLE_STARTED_BY_LANGUAGE',
+        statistics: this.startedGamesByLanguage,
+      },
+      {
+        id: 'solvedByLanguage',
+        titleKey: 'TITLE_SOLVED_BY_LANGUAGE',
+        statistics: this.solvedGamesByLanguage,
       },
     ];
   }
 
-  playSectionClick(): void {
+  get platformSections(): PlatformStatisticsSection[] {
+    return [
+      {
+        id: 'startedByPlatform',
+        titleKey: 'TITLE_STARTED_BY_PLATFORM',
+        statistics: this.startedGamesByPlatform,
+      },
+      {
+        id: 'solvedByPlatform',
+        titleKey: 'TITLE_SOLVED_BY_PLATFORM',
+        statistics: this.solvedGamesByPlatform,
+      },
+    ];
+  }
+
+  toggleSection(
+    event: MouseEvent,
+    sectionId: StatisticsSectionId,
+  ): void {
+    event.preventDefault();
     this.player.play('click');
+    this.openSection = this.openSection === sectionId ? null : sectionId;
   }
 
   private loadGlobalStatistics(): void {
@@ -127,7 +197,73 @@ export class StatisticsComponent implements OnInit {
         if (json.last24Hours) {
           this.last24Hours = this.mapApiPeriod(json.last24Hours);
         }
+        if (json.startedGamesByLanguage && json.solvedGamesByLanguage) {
+          this.languageStatisticsAvailable = true;
+          this.startedGamesByLanguage = this.mapLanguageStatistics(
+            json.startedGamesByLanguage,
+          );
+          this.solvedGamesByLanguage = this.mapLanguageStatistics(
+            json.solvedGamesByLanguage,
+          );
+        }
+        if (
+          json.startedGamesByPlatform !== undefined &&
+          json.solvedGamesByPlatform !== undefined
+        ) {
+          this.platformStatisticsAvailable = true;
+          this.startedGamesByPlatform = this.mapPlatformStatistics(
+            json.startedGamesByPlatform,
+          );
+          this.solvedGamesByPlatform = this.mapPlatformStatistics(
+            json.solvedGamesByPlatform,
+          );
+        }
       });
+  }
+
+  private mapLanguageStatistics(
+    values: Record<string, string | number>,
+  ): LanguageStatistic[] {
+    const displayNames = new Intl.DisplayNames([this.settings.language], {
+      type: 'language',
+    });
+
+    return Object.entries(values)
+      .map(([code, count]) => ({
+        code,
+        name: displayNames.of(code) || code.toUpperCase(),
+        count: Number(count),
+      }))
+      .filter((item) => Number.isFinite(item.count) && item.count > 0)
+      .sort(
+        (first, second) =>
+          second.count - first.count ||
+          first.name.localeCompare(second.name, this.settings.language),
+      );
+  }
+
+  private mapPlatformStatistics(values: any[]): PlatformStatistic[] {
+    return (values || [])
+      .map((item) => {
+        const os = Number(item.os);
+        return {
+          os,
+          name:
+            this.settings.deviceNames[os] ||
+            `${this.settings.getString('LABEL_UNKNOWN_PLATFORM')} ${os}`,
+          count: Number(item.count),
+        };
+      })
+      .filter(
+        (item) =>
+          Number.isInteger(item.os) &&
+          Number.isFinite(item.count) &&
+          item.count > 0,
+      )
+      .sort(
+        (first, second) =>
+          second.count - first.count || first.name.localeCompare(second.name),
+      );
   }
 
   private mapApiPeriod(period: any): PeriodStatistics {

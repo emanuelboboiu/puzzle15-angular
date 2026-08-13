@@ -64,3 +64,13 @@ p {
   margin: 0.75rem 1rem;
   text-wrap: wrap;
 }
+
+.statistics-breakdown-list {
+  margin: 0.75rem 1rem;
+  padding-left: 1.5rem;
+  font-size: 20px;
+}
+
+.statistics-breakdown-list li {
+  margin-bottom: 0.35rem;
+}

@@ -4,6 +4,7 @@ import {
   OnDestroy,
   HostListener,
   NgModule,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { A11yModule } from '@angular/cdk/a11y';
@@ -29,6 +30,7 @@ import { GestureService, SwipeEvent } from './gesture.service';
     AboutComponent,
   ],
   templateUrl: './app.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit, OnDestroy {

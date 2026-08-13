@@ -1,4 +1,9 @@
-import { Component, OnInit, NgModule } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  NgModule,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { KeyValuePipe } from '@angular/common';
 import { SettingsService } from '../settings.service';
 import { StatisticsService } from '../statistics.service';
@@ -8,6 +13,7 @@ import { RequestsService } from '../requests.service';
   selector: 'app-statistics',
   imports: [KeyValuePipe],
   templateUrl: './statistics.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './statistics.component.css',
 })
 export class StatisticsComponent implements OnInit {

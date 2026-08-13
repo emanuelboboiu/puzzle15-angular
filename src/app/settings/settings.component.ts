@@ -1,4 +1,9 @@
-import { Component, OnInit, NgModule } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  NgModule,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { SettingsService } from '../settings.service';
@@ -8,6 +13,7 @@ import { PlayerService } from '../player.service';
   selector: 'app-settings',
   imports: [FormsModule, DecimalPipe],
   templateUrl: './settings.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './settings.component.css',
 })
 export class SettingsComponent implements OnInit {

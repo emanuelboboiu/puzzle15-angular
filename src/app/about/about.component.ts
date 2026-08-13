@@ -1,4 +1,8 @@
-import { Component, NgModule } from '@angular/core';
+import {
+  Component,
+  NgModule,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { SettingsService } from '../settings.service';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { PlayerService } from '../player.service';
@@ -7,6 +11,7 @@ import { PlayerService } from '../player.service';
   selector: 'app-about',
   imports: [],
   templateUrl: './about.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './about.component.css',
 })
 export class AboutComponent {

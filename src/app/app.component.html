@@ -100,9 +100,7 @@
         "
             >
             <p
-          [attr.role]="
-            settings.isAccessibility && settings.os !== 2 ? 'button' : null
-          "
+              [attr.role]="settings.isAccessibility ? 'button' : null"
               [attr.id]="'pos' + i"
               [attr.aria-labelledby]="settings.isAccessibility ? 'label' + i : null"
               [attr.tabindex]="settings.isAccessibility ? '0' : null"

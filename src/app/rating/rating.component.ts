@@ -1,7 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  AfterViewInit,
+  ElementRef,
   HostListener,
+  ViewChild,
   output,
 } from '@angular/core';
 import { A11yModule } from '@angular/cdk/a11y';
@@ -15,7 +18,8 @@ import { RatingService } from '../rating.service';
   styleUrl: './rating.component.css',
   changeDetection: ChangeDetectionStrategy.Eager,
 })
-export class RatingComponent {
+export class RatingComponent implements AfterViewInit {
+  @ViewChild('rateButton') rateButton?: ElementRef<HTMLButtonElement>;
   readonly closed = output<void>();
   readonly rated = output<void>();
   status = '';
@@ -24,6 +28,12 @@ export class RatingComponent {
     public settings: SettingsService,
     public ratingService: RatingService,
   ) {}
+
+  ngAfterViewInit(): void {
+    if (this.settings.os === 1) {
+      setTimeout(() => this.rateButton?.nativeElement.focus());
+    }
+  }
 
   @HostListener('document:keydown.escape')
   close(): void {

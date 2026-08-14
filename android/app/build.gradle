@@ -7,7 +7,7 @@ android {
     applicationId "ro.pontes.puzzlex"
     minSdkVersion rootProject.ext.minSdkVersion
     targetSdkVersion rootProject.ext.targetSdkVersion
-    versionCode 16
+    versionCode 17
     versionName "3.0"
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     aaptOptions {

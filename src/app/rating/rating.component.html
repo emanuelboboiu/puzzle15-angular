@@ -4,12 +4,11 @@
     role="dialog"
     aria-modal="true"
     aria-labelledby="rating-title"
-    aria-describedby="rating-message"
     cdkTrapFocus
-    [cdkTrapFocusAutoCapture]="true"
+    [cdkTrapFocusAutoCapture]="settings.os !== 1"
   >
     <h2 id="rating-title">{{ settings.getString("TITLE_RATE_GAME") }}</h2>
-    <p id="rating-message">
+    <p role="alert">
       {{
         settings.formatString(
           "MSG_RATE_GAME",
@@ -17,7 +16,12 @@
         )
       }}
     </p>
-    <button type="button" class="rating-button" (click)="rateGame()">
+    <button
+      #rateButton
+      type="button"
+      class="rating-button"
+      (click)="rateGame()"
+    >
       {{
         settings.formatString(
           "BT_RATE_IN_STORE",

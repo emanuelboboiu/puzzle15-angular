@@ -39,6 +39,9 @@ import { RatingService } from './rating.service';
 })
 export class AppComponent implements OnInit, OnDestroy {
   @ViewChild('mainPlayButton') mainPlayButton?: ElementRef<HTMLButtonElement>;
+  @ViewChild('startButton') startButton?: ElementRef<HTMLButtonElement>;
+  @ViewChild('enableLabellingButton')
+  enableLabellingButton?: ElementRef<HTMLButtonElement>;
   @ViewChild(AboutComponent) aboutComponent?: AboutComponent;
 
   title = '15 Puzzle';
@@ -64,6 +67,7 @@ export class AppComponent implements OnInit, OnDestroy {
   isSavedGame: boolean = false;
   finalScore: number = 0;
   showRating = false;
+  showLabellingPrompt = false;
   private ratingSource: 'about' | 'win' | null = null;
   private ratingPendingAfterWin = false;
 
@@ -156,6 +160,14 @@ export class AppComponent implements OnInit, OnDestroy {
           this.pieces[zeroIndex].number = aux;
           this.disable = false;
           this.refillAriaLabels();
+          if (this.settings.isAccessibility) {
+            setTimeout(() => {
+              const movedPieceElement = document.getElementById(
+                'pos' + zeroIndex
+              ) as HTMLElement;
+              movedPieceElement?.focus();
+            });
+          }
           this.verifyWin();
         }, 300);
         setTimeout(() => {
@@ -348,7 +360,35 @@ export class AppComponent implements OnInit, OnDestroy {
     this.createBoard();
     this.timerValueSec = 0;
     this.timerSubscription.unsubscribe();
+    this.showLabellingPrompt = !this.settings.lsExists(
+      this.settings.hasAnsweredLabellingPromptKey
+    );
+    if (this.showLabellingPrompt && this.settings.os === 1) {
+      setTimeout(() =>
+        this.enableLabellingButton?.nativeElement.focus()
+      );
+    }
   } // end of goToGame() method.
+
+  answerLabellingPrompt(enableLabelling: boolean): void {
+    this.player.play('click');
+    this.settings.isAccessibility = enableLabelling;
+    this.settings.saveBooleanSetting(
+      this.settings.lsIsAccessibilityKey,
+      enableLabelling
+    );
+    this.settings.saveBooleanSetting(
+      this.settings.hasAnsweredLabellingPromptKey,
+      true
+    );
+    this.showLabellingPrompt = false;
+
+    if (enableLabelling) {
+      this.refillAriaLabels();
+    }
+
+    setTimeout(() => this.startButton?.nativeElement.focus());
+  }
 
   // Here 3 methods for abandon the game:
   askForAbandon(): void {
@@ -502,19 +542,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
   refillAriaLabels(): void {
     if (this.settings.isAccessibility) {
-      setTimeout(() => {
-        this.ariaLabels = [];
-        for (let i = 0; i < this.boardSize * this.boardSize; i++) {
-          const pieceNumber = this.pieces[i].number;
-          const currNum =
-            pieceNumber === 0
-              ? this.settings.getString('LABEL_EMPTY')
-              : pieceNumber.toString();
-          this.ariaLabels.push(
-            currNum + ', ' + this.getAriaLabel(i)
-          );
-        } // end for.
-      }, 350);
+      this.ariaLabels = [];
+      for (let i = 0; i < this.boardSize * this.boardSize; i++) {
+        const pieceNumber = this.pieces[i].number;
+        const currNum =
+          pieceNumber === 0
+            ? this.settings.getString('LABEL_EMPTY')
+            : pieceNumber.toString();
+        this.ariaLabels.push(currNum + ', ' + this.getAriaLabel(i));
+      } // end for.
     } // end if isAccessibility enabled.
   } // end refillAriaLabels() method.
 
@@ -607,18 +643,7 @@ export class AppComponent implements OnInit, OnDestroy {
       swipeEvent.direction
     );
     if (moveablePiece) {
-      // Get the zero index before the swap (where the piece will end up)
-      const zeroIndex = this.findPieceIndexByNumber(0);
       this.move(moveablePiece);
-      // Focus on the moved piece's element after animation and label update completes
-      if (this.settings.isGestures && this.settings.isAccessibility) {
-        setTimeout(() => {
-          const pieceElement = document.getElementById(
-            'pos' + zeroIndex
-          ) as HTMLElement;
-          pieceElement?.focus();
-        }, 500);
-      }
     } else {
       // if no piece can move in that direction, play blocked sound:
       this.player.play('blocked');

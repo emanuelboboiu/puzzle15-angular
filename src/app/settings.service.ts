@@ -42,6 +42,7 @@ export class SettingsService {
   lsSoundVolumeKey: string = 'lsSettingsSoundVolume';
   isAccessibility: boolean = false;
   lsIsAccessibilityKey: string = 'lsSettingsAccessibility';
+  hasAnsweredLabellingPromptKey: string = 'hasAnsweredLabellingPrompt';
   isGestures: boolean = true;
   lsIsGesturesKey: string = 'lsSettingsGestures';
   // For autosaving a not abandoned game:
@@ -86,7 +87,7 @@ export class SettingsService {
     if (this.lsExists(this.lsIsAccessibilityKey)) {
       this.isAccessibility = this.getBooleanSetting(this.lsIsAccessibilityKey);
     } else {
-      this.isAccessibility = true;
+      this.isAccessibility = false;
     }
     if (this.lsExists(this.lsIsGesturesKey)) {
       this.isGestures = this.getBooleanSetting(this.lsIsGesturesKey);

@@ -102,7 +102,7 @@
             <p
               [attr.role]="settings.isAccessibility ? 'button' : null"
               [attr.id]="'pos' + i"
-              [attr.aria-labelledby]="settings.isAccessibility ? 'label' + i : null"
+              [attr.aria-label]="settings.isAccessibility ? ariaLabels[i] : null"
               [attr.tabindex]="settings.isAccessibility ? '0' : null"
           [ngClass]="{
             piece3: boardSize == 3,
@@ -142,6 +142,7 @@
     <!-- The bottom buttons: -->
     @if (!gameStarted) {
       <button
+        #startButton
         (click)="startGame()"
         class="btn"
         [disabled]="gameStarted"
@@ -177,17 +178,33 @@
         </span>
       </div>
     }
-    <!-- Here a div for aria labels, only if is enabled in settings: -->
-    @if (settings.isAccessibility) {
-      <div style="display: none">
-        @for (label of ariaLabels; track label + '-' + $index; let i = $index) {
-          <p [attr.id]="'label' + i">
-            {{ label }}
-          </p>
-        }
+    @if (showLabellingPrompt) {
+      <div
+        class="askIfAbandon labelling-prompt"
+        role="dialog"
+        aria-modal="true"
+        [attr.aria-label]="settings.getString('TITLE_LABELLING_PROMPT')"
+        cdkTrapFocus
+        [cdkTrapFocusAutoCapture]="settings.os !== 1"
+      >
+        <span role="alert">
+          {{ settings.getString("MSG_LABELLING_PROMPT") }}
+        </span>
+        <button
+          #enableLabellingButton
+          class="btn"
+          (click)="answerLabellingPrompt(true)"
+        >
+          {{ settings.getString("BT_ENABLE_LABELLING") }}
+        </button>
+        <button
+          class="btn"
+          (click)="answerLabellingPrompt(false)"
+        >
+          {{ settings.getString("BT_NO_THANKS") }}
+        </button>
       </div>
     }
-    <!-- end aria labels div. -->
   </div>
 }
 <!-- end game zone, second page of the application. -->

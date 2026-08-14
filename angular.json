@@ -94,7 +94,10 @@
     }
   },
   "cli": {
-    "analytics": "bdf29693-97ff-4443-850c-410a0a64b0be"
+    "analytics": "bdf29693-97ff-4443-850c-410a0a64b0be",
+    "cache": {
+      "enabled": false
+    }
   },
   "schematics": {
     "@schematics/angular:component": {

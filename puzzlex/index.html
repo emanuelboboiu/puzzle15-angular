@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>15 Puzzle – An Accessible Game</title>
+  <meta name="description" content="Play 15 Puzzle, an accessible sliding puzzle game for the web, Android, and iOS.">
+  <link rel="canonical" href="https://static.pontes.ro/puzzlex/">
+
+  <meta property="og:title" content="15 Puzzle – An Accessible Game">
+  <meta property="og:description" content="Play an accessible sliding puzzle game on the web, Android, or iOS.">
+  <meta property="og:image" content="https://static.pontes.ro/puzzlex/sigla.png">
+  <meta property="og:image:alt" content="Wooden puzzle game logo displaying the text 15 Puzzle.">
+  <meta property="og:url" content="https://static.pontes.ro/puzzlex/">
+  <meta property="og:type" content="website">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="15 Puzzle – An Accessible Game">
+  <meta name="twitter:description" content="Play an accessible sliding puzzle game on the web, Android, or iOS.">
+  <meta name="twitter:image" content="https://static.pontes.ro/puzzlex/sigla.png">
+  <meta name="twitter:image:alt" content="Wooden puzzle game logo displaying the text 15 Puzzle.">
+  <link rel="stylesheet" href="stil.css">
+</head>
+
+<body class="share-page">
+  <main>
+    <h1>15 Puzzle – An Accessible Game</h1>
+    <img src="sigla.png" alt="Wooden puzzle game logo displaying the text 15 Puzzle.">
+    <p id="redirect-status" role="status">Opening the appropriate version for your device…</p>
+
+    <nav aria-label="Choose a version manually">
+      <ul>
+        <li><a href="https://play.google.com/store/apps/details?id=ro.pontes.puzzlex">Google Play</a></li>
+        <li><a href="https://apps.apple.com/app/id6480232251">App Store</a></li>
+        <li><a href="https://puzzle.pontes.ro/">Play on the web</a></li>
+      </ul>
+    </nav>
+  </main>
+
+  <script>
+    (function () {
+      var userAgent = navigator.userAgent || navigator.vendor || '';
+      var isAndroid = /android/i.test(userAgent);
+      var isIOS = /iPad|iPhone|iPod/i.test(userAgent) ||
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      var destination = 'https://puzzle.pontes.ro/';
+
+      if (isAndroid) {
+        destination = 'https://play.google.com/store/apps/details?id=ro.pontes.puzzlex';
+      } else if (isIOS) {
+        destination = 'https://apps.apple.com/app/id6480232251';
+      }
+
+      window.location.replace(destination);
+    }());
+  </script>
+</body>
+</html>

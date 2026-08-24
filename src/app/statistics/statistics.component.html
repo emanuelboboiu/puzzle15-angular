@@ -1,4 +1,6 @@
 <div class="statistics-page">
+  <h1 class="statistics-title">{{ settings.getString("BT_STATISTICS") }}</h1>
+
   @for (section of sections; track section.id) {
     @if (section.statistics.available) {
       <details
@@ -9,7 +11,7 @@
           class="statistics-summary"
           (click)="toggleSection($event, section.id)"
         >
-          <h1>{{ settings.getString(section.titleKey) }}</h1>
+          <h2>{{ settings.getString(section.titleKey) }}</h2>
           <span class="toggle-symbol" aria-hidden="true"></span>
         </summary>
 
@@ -93,14 +95,16 @@
           class="statistics-summary"
           (click)="toggleSection($event, section.id)"
         >
-          <h1>{{ settings.getString(section.titleKey) }}</h1>
+          <h2>{{ settings.getString(section.titleKey) }}</h2>
           <span class="toggle-symbol" aria-hidden="true"></span>
         </summary>
 
         <div class="statistics-content">
           <ul class="statistics-breakdown-list">
             @for (item of section.statistics; track item.code) {
-              <li>{{ item.name }} – {{ item.count }}</li>
+              <li>
+                {{ item.name }} – {{ item.count }} ({{ item.percentage }})
+              </li>
             }
           </ul>
         </div>
@@ -119,14 +123,16 @@
           class="statistics-summary"
           (click)="toggleSection($event, section.id)"
         >
-          <h1>{{ settings.getString(section.titleKey) }}</h1>
+          <h2>{{ settings.getString(section.titleKey) }}</h2>
           <span class="toggle-symbol" aria-hidden="true"></span>
         </summary>
 
         <div class="statistics-content">
           <ul class="statistics-breakdown-list">
             @for (item of section.statistics; track item.os) {
-              <li>{{ item.name }} – {{ item.count }}</li>
+              <li>
+                {{ item.name }} – {{ item.count }} ({{ item.percentage }})
+              </li>
             }
           </ul>
         </div>

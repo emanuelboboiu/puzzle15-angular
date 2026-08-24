@@ -24,6 +24,7 @@ interface LanguageStatistic {
   code: string;
   name: string;
   count: number;
+  percentage: string;
 }
 
 interface LanguageStatisticsSection {
@@ -36,6 +37,7 @@ interface PlatformStatistic {
   os: number;
   name: string;
   count: number;
+  percentage: string;
 }
 
 interface PlatformStatisticsSection {
@@ -228,13 +230,20 @@ export class StatisticsComponent implements OnInit {
       type: 'language',
     });
 
-    return Object.entries(values)
+    const statistics = Object.entries(values)
       .map(([code, count]) => ({
         code,
         name: displayNames.of(code) || code.toUpperCase(),
         count: Number(count),
       }))
-      .filter((item) => Number.isFinite(item.count) && item.count > 0)
+      .filter((item) => Number.isFinite(item.count) && item.count > 0);
+    const total = statistics.reduce((sum, item) => sum + item.count, 0);
+
+    return statistics
+      .map((item) => ({
+        ...item,
+        percentage: this.formatPercentage(item.count, total),
+      }))
       .sort(
         (first, second) =>
           second.count - first.count ||
@@ -243,7 +252,7 @@ export class StatisticsComponent implements OnInit {
   }
 
   private mapPlatformStatistics(values: any[]): PlatformStatistic[] {
-    return (values || [])
+    const statistics = (values || [])
       .map((item) => {
         const os = Number(item.os);
         return {
@@ -259,11 +268,29 @@ export class StatisticsComponent implements OnInit {
           Number.isInteger(item.os) &&
           Number.isFinite(item.count) &&
           item.count > 0,
-      )
+      );
+    const total = statistics.reduce(
+      (sum: number, item: { count: number }) => sum + item.count,
+      0,
+    );
+
+    return statistics
+      .map((item: { os: number; name: string; count: number }) => ({
+        ...item,
+        percentage: this.formatPercentage(item.count, total),
+      }))
       .sort(
         (first, second) =>
           second.count - first.count || first.name.localeCompare(second.name),
       );
+  }
+
+  private formatPercentage(count: number, total: number): string {
+    return new Intl.NumberFormat(this.settings.language, {
+      style: 'percent',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(total > 0 ? count / total : 0);
   }
 
   private mapApiPeriod(period: any): PeriodStatistics {
